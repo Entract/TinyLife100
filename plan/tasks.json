@@ -95,7 +95,7 @@
       "id": "t-008",
       "title": "Specify D3 deterministic validation and rights gates",
       "description": "Define deterministic schema, referential-integrity, chronology, acquisition, graph, source-rights, hash, duplication, and export acceptance checks with explicit error classes and phase gates.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-007"
       ],
@@ -105,13 +105,14 @@
         "plan/docs/07_CURATION_AND_QA.md"
       ],
       "canParallelize": false,
-      "planDoc": "07_CURATION_AND_QA.md"
+      "planDoc": "07_CURATION_AND_QA.md",
+      "completedCommit": "15748d7b92924578edfec61cc254f2d7d289cca4"
     },
     {
       "id": "t-009",
       "title": "Specify D3 compilation and derive the implementation backlog",
       "description": "Define exact canonical-to-export compilation behavior, attention-boundary and update-order controls, reproducible manifests, and pipeline stage contracts, then create granular implementation tasks from the stabilized Design v3 specifications.",
-      "status": "pending",
+      "status": "in-progress",
       "dependsOn": [
         "t-008"
       ],
@@ -124,7 +125,216 @@
       ],
       "canParallelize": false,
       "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
+    },
+    {
+      "id": "t-010",
+      "title": "Complete the operational record and manifest schemas",
+      "description": "Add Design v3 schemas for artifacts, replacements, acceptance receipts, and release manifests; extend export manifests for exact packing, attention, position, loss-mask, batch, and schedule artifacts; and add positive and negative fixtures for the expanded contract.",
+      "status": "pending",
+      "dependsOn": [
+        "t-009"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "schemas/",
+        "examples/",
+        "plan/docs/05_EPISODE_SPECIFICATION.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "05_EPISODE_SPECIFICATION.md"
+    },
+    {
+      "id": "t-011",
+      "title": "Design the bounded pilot domain and evaluation protocol",
+      "description": "Choose one inspectable technical or investigative domain, define its acquisition and dependency graph, source envelope, required correction/callback/assessment/transfer chains, primary and external evaluations, leakage controls, stopping rules, and predeclared success criteria.",
+      "status": "pending",
+      "dependsOn": [
+        "t-009"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/02_CURRICULUM_ARCHITECTURE.md",
+        "plan/docs/09_EVALUATION_AND_EXPERIMENTS.md"
+      ],
+      "canParallelize": true,
+      "planDoc": "00_PROJECT_DESIGN.md"
+    },
+    {
+      "id": "t-012",
+      "title": "Implement offline schema and record-set validation",
+      "description": "Create the Python package and CLI that resolves the schema suite offline, rejects duplicate JSON keys, validates JSON and JSONL records, builds global ID indexes, resolves record kinds and references, and emits deterministic reports with stable error codes.",
+      "status": "pending",
+      "dependsOn": [
+        "t-010"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "pyproject.toml",
+        "src/tl100/cli.py",
+        "src/tl100/validation/",
+        "tests/validation/"
+      ],
+      "canParallelize": false,
+      "planDoc": "07_CURATION_AND_QA.md"
+    },
+    {
+      "id": "t-013",
+      "title": "Implement hashing and the append-only canonical store",
+      "description": "Implement normalization and domain-separated content identities, append-only JSONL registries, immutable payload addressing, atomic acceptance bundles, rebuilt indexes, acceptance receipts, replacement records, and release manifest construction.",
+      "status": "pending",
+      "dependsOn": [
+        "t-012"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/hashing.py",
+        "src/tl100/canonical/",
+        "tests/canonical/"
+      ],
+      "canParallelize": false,
+      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
+    },
+    {
+      "id": "t-014",
+      "title": "Implement graph, chronology, and acquisition-state validation",
+      "description": "Validate edge endpoint combinations and hard-order acyclicity, canonical stream order, legal state operations, evidence timing, acquisition-before-use, competence evidence, snapshot reconstruction, and deterministic state-hash chains.",
+      "status": "pending",
+      "dependsOn": [
+        "t-013"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/validation/graph.py",
+        "src/tl100/validation/chronology.py",
+        "src/tl100/validation/state.py",
+        "tests/validation/"
+      ],
+      "canParallelize": false,
+      "planDoc": "07_CURATION_AND_QA.md"
+    },
+    {
+      "id": "t-015",
+      "title": "Implement source registry and rights-storage enforcement",
+      "description": "Implement source and segment registration, authorized payload resolution, provenance and hash checks, fail-closed training and redistribution decisions, storage-boundary enforcement, and source-exposure accounting with adversarial fixtures.",
+      "status": "pending",
+      "dependsOn": [
+        "t-013"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/sources/",
+        "src/tl100/validation/rights.py",
+        "tests/sources/"
+      ],
+      "canParallelize": true,
+      "planDoc": "07_CURATION_AND_QA.md"
+    },
+    {
+      "id": "t-016",
+      "title": "Implement the deterministic four-condition compiler",
+      "description": "Compile accepted releases through one normalized/tokenized payload inventory and one condition-independent packing plan into relational-ordered, local-coherence-only, global-chronology-only, and fully-disrupted exports with exact layout, schedule, accounting, and manifests.",
+      "status": "pending",
+      "dependsOn": [
+        "t-014",
+        "t-015"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/compiler/",
+        "tests/compiler/",
+        "config/"
+      ],
+      "canParallelize": false,
+      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
+    },
+    {
+      "id": "t-017",
+      "title": "Implement matched-condition auditing and loader dry runs",
+      "description": "Compare the four compiler outputs for exact token, exposure, packing, position, padding, loss-mask, and training-configuration equality outside the two declared factors, and verify that a loader consumes the emitted batch schedule without hidden shuffle or repacking.",
+      "status": "pending",
+      "dependsOn": [
+        "t-016"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/audit/",
+        "src/tl100/training/loader.py",
+        "tests/audit/"
+      ],
+      "canParallelize": false,
+      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
+    },
+    {
+      "id": "t-018",
+      "title": "Construct and review the canonical pipeline pilot",
+      "description": "Build a 100k–250k-token canonical stream in the approved bounded domain, with complete registries, acquisition paths, source decisions, correction, delayed callback, assessment, and transfer chains; validate it end to end and complete full human review.",
+      "status": "pending",
+      "dependsOn": [
+        "t-011",
+        "t-014",
+        "t-015",
+        "t-017"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "data/registry/",
+        "data/payloads/",
+        "data/canon/",
+        "data/evals/"
+      ],
+      "canParallelize": false,
+      "planDoc": "06_GENERATION_PIPELINE.md"
+    },
+    {
+      "id": "t-019",
+      "title": "Implement the very-small-model training and evaluation harness",
+      "description": "Implement a conventional decoder-only diagnostic training harness with exact manifest-driven loading, multi-seed configuration, checkpoint and deviation logging, relational and epistemic evaluations, external-language checks, and aggregate reporting.",
+      "status": "pending",
+      "dependsOn": [
+        "t-011",
+        "t-016"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/training/",
+        "src/tl100/evaluation/",
+        "tests/training/",
+        "config/experiments/"
+      ],
+      "canParallelize": true,
+      "planDoc": "00_PROJECT_DESIGN.md"
+    },
+    {
+      "id": "t-020",
+      "title": "Run the primary 2x2 pilot and make the scale decision",
+      "description": "Train the four exact-token conditions across the predeclared seeds, run leakage-checked relational, transfer, temporal, epistemic, retention, and external-language evaluations, report aggregate uncertainty and failures, and make the evidence-based stop, revise, or scale decision.",
+      "status": "pending",
+      "dependsOn": [
+        "t-017",
+        "t-018",
+        "t-019"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "data/exports/",
+        "evals/",
+        "experiments/",
+        "reports/"
+      ],
+      "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md"
     }
   ],
-  "nextId": 10
+  "nextId": 21
 }
