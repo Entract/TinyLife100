@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://life100.local/schemas/reading_event.schema.json",
-  "title": "LIFE100 Reading Event",
+  "$id": "https://tl100.local/schemas/reading_event.schema.json",
+  "title": "TL100 Reading Event",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,5 +1,7 @@
-project: LIFE100
+project: TinyLife100
+short_name: TL100
 design_version: 2
+status: legacy_not_binding_design_v3
 target_model_parameters_approx: 100000000
 
 releases:

@@ -534,7 +534,7 @@ Use:
 - **canonical graph** for nodes and typed relationships;
 - **training export** for one exact compiled condition.
 
-Do not use LIFE100 as the current project name.
+Do not use the former all-caps project name as current terminology.
 
 ## 22. Immediate next design slices
 

@@ -2,11 +2,11 @@
 
 ## 1. Purpose
 
-The LIFE100 narrator should not learn everything from generated prose.
+The TL100 narrator should not learn everything from generated prose.
 
 A real technical life contains encounters with recorded human knowledge: books, textbooks, manuals, datasheets, papers, essays, literature, standards, code, documentation, notebooks, diagrams, and other artifacts.
 
-LIFE100 treats these encounters as **first-class events in the canonical life**.
+TL100 treats these encounters as **first-class events in the canonical life**.
 
 The central rule is:
 
@@ -264,7 +264,7 @@ Potential contributions:
 
 Do not force literature to become a technical lesson.
 
-Selection should remain bounded because LIFE100's model capacity is limited. A small number of carefully selected works encountered naturally is preferable to a random general-literature dump.
+Selection should remain bounded because TL100's model capacity is limited. A small number of carefully selected works encountered naturally is preferable to a random general-literature dump.
 
 ---
 
@@ -385,7 +385,7 @@ Do not optimize source volume yet.
 
 ## 17. Open research question
 
-LIFE100 does **not** assume that a particular percentage of human-authored data is optimal.
+TL100 does **not** assume that a particular percentage of human-authored data is optimal.
 
 The project should instead ask:
 

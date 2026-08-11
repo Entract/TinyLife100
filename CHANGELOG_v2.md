@@ -1,8 +1,10 @@
-# LIFE100 Design v2 — Change Summary
+# TinyLife100 Design v2 — Historical Change Summary
+
+> Historical record. Design v3 supersedes the fictional-life framing described here.
 
 ## Core conceptual change
 
-Design v1 treated LIFE100 primarily as one synthetic first-person corpus with external sources used backstage for factual grounding.
+Design v1 treated TL100 primarily as one synthetic first-person corpus with external sources used backstage for factual grounding.
 
 Design v2 defines the Life as the **organizing structure of the entire dataset**.
 
@@ -10,8 +12,8 @@ External human-authored books, textbooks, manuals, papers, literature, code, doc
 
 ## Added
 
-- `docs/15_LIBRARY_AND_READING_EVENTS.md`
-- `docs/16_CORPUS_MIXTURE_AND_COMPILATION.md`
+- `plan/docs/15_LIBRARY_AND_READING_EVENTS.md`
+- `plan/docs/16_CORPUS_MIXTURE_AND_COMPILATION.md`
 - `schemas/source.schema.json`
 - `schemas/reading_event.schema.json`
 - `schemas/stream_item.schema.json`

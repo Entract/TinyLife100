@@ -82,7 +82,7 @@ The writer must not invent the curriculum/world/source structure while composing
 
 ## 5. Canonical record types
 
-LIFE100 v2 uses separate records:
+TL100 v2 uses separate records:
 
 - `episode` — narrator-authored prose;
 - `source` — external source metadata and segments;

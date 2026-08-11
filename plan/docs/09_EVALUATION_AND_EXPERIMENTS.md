@@ -2,7 +2,7 @@
 
 ## 1. Evaluation philosophy
 
-LIFE100 should be judged as a **data-structure experiment**, not by whether a few generations sound charming.
+TL100 should be judged as a **data-structure experiment**, not by whether a few generations sound charming.
 
 Evaluate:
 

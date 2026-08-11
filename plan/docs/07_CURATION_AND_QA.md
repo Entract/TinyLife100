@@ -184,7 +184,7 @@ For pilot data, a human should inspect every explicit reading.
 
 ## 7. Voice diversity paradox
 
-LIFE100 wants both:
+TL100 wants both:
 
 - a stable narrator voice;
 - broader linguistic exposure.

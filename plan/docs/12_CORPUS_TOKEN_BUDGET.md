@@ -12,7 +12,7 @@ This is a target for a future ~100M-parameter model experiment, not a requiremen
 
 ## 2. Two orthogonal budgets
 
-LIFE100 must budget data along **two independent axes**.
+TL100 must budget data along **two independent axes**.
 
 ### Axis A — developmental/curriculum era
 

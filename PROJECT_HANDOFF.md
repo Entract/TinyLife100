@@ -1,125 +1,107 @@
-# LIFE100 — Project Handoff (Design v2)
+# TinyLife100 (TL100) — Project Handoff (Design v3)
 
 ## What this repository is
 
-LIFE100 is a dataset-first experiment targeting a conventional ~100M-parameter decoder-only language model.
+TinyLife100 is a dataset-first scientific investigation into relational pretraining for small language models.
 
-The model is intentionally ordinary. The unusual object is the corpus.
+It asks whether preserving causal, temporal, referential, epistemic, and prerequisite relationships in a training stream changes learning relative to matched disruption.
 
-The corpus is organized as one deliberately constructed life: chronological, internally consistent, curriculum-aware, recurrent, and epistemically tracked. The same people, places, machines, projects, mistakes, concepts, preferences, questions, discoveries, vocabulary, and memories recur over time.
+The architecture is intentionally conventional. The experimental object is the data structure, compiler, manifests, and controlled training views.
 
-### Critical v2 definition
+## Foundational Design v3 decision
 
-**The Life is the organizing structure of the dataset, not a claim that every training token is synthetic first-person prose.**
+TL100 does not construct a fake human life.
 
-The narrator can encounter human-authored books, textbook sections, manuals, papers, essays, literature, code, and technical artifacts at specific moments for specific reasons. These materials retain their own authorship and voice. The life records why they were encountered, what the narrator knew beforehand, what was understood, what was misunderstood, how the knowledge was applied, and when it recurred later.
+It uses one **situated learner** as an acquisition reference point. Records track:
 
-The central research question remains:
+- what information became available;
+- why and how it became available;
+- what prior information existed;
+- what was believed, uncertain, or misunderstood;
+- which later items reused, tested, contradicted, or corrected it.
 
-> **What happens when essentially everything a small language model has ever seen belongs to one intentionally constructed, internally consistent stream of experience?**
+The learner is not a claim of personhood, consciousness, human cognition, or psychological realism.
 
-But “seen” now includes both lived/generated experience and deliberately situated external knowledge.
+## Read first
 
-## Read in this order
+1. plan/docs/00_PROJECT_DESIGN.md
+2. plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md
+3. AGENTS.md
 
-1. `docs/00_PROJECT_DESIGN.md`
-2. `docs/15_LIBRARY_AND_READING_EVENTS.md`
-3. `docs/16_CORPUS_MIXTURE_AND_COMPILATION.md`
-4. `docs/11_WORLD_V0_AND_NARRATOR.md`
-5. `docs/02_CURRICULUM_ARCHITECTURE.md`
-6. `docs/03_CHRONOLOGY_AND_LIFE_ARCS.md`
-7. `docs/04_VOICE_AND_PERSPECTIVE.md`
-8. `docs/13_FIRST_30_PROJECT_ARCS.md`
-9. `docs/14_FIRST_100_EPISODES.md`
-10. `docs/01_WORLD_AND_CONTINUITY.md`
-11. `docs/05_EPISODE_SPECIFICATION.md`
-12. `docs/06_GENERATION_PIPELINE.md`
-13. `docs/07_CURATION_AND_QA.md`
-14. `docs/08_CORPUS_FORMAT_AND_VERSIONING.md`
-15. `docs/09_EVALUATION_AND_EXPERIMENTS.md`
-16. `docs/12_CORPUS_TOKEN_BUDGET.md`
-17. `docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md`
-18. `docs/10_BUILD_PHASES.md`
-19. `AGENTS.md`
+Then read only the Design v3 document attached to the task being implemented.
 
-## Most important implementation instruction
+Documents 01 through 16 remain legacy Design v2 inputs until their migration is explicit. Do not implement a legacy assumption merely because it appears detailed.
 
-**Do not start bulk generation or bulk book ingestion.**
+## Current scientific design
 
-First build the machine-readable substrate:
+The canonical object is a directed graph plus one immutable stream order.
 
-- world/entity ledgers;
-- concept dependency graph;
-- narrator knowledge/belief state;
-- source registry with provenance and rights status;
-- reading-event records;
-- canonical stream-item store;
-- state transition validation;
-- deterministic linter;
-- corpus compiler;
-- export manifests.
+Important edge classes include:
 
-The first corpus goal remains only 50k–250k tokens, and the entire pilot should be read in chronological order by a human before scaling.
+- temporal;
+- causal;
+- prerequisite;
+- entity recurrence;
+- project continuation;
+- acquisition;
+- belief support or conflict;
+- correction;
+- source application;
+- callback;
+- analogy or transfer.
 
-## What changed from design v1
+The first experiment uses identical text and exposure counts while independently varying:
 
-Design v1 treated external source material primarily as factual substrate used backstage to generate one-voice Life prose.
+- whether related items share an attention context;
+- whether training windows are presented in canonical or shuffled update order.
 
-Design v2 keeps that mode but adds a second, crucial mode:
+A later content-matched experiment can remove recurring identities, callbacks, belief history, and source-to-application bridges.
 
-> **Some external works may themselves enter the training stream as explicit reading experiences.**
+## Current migration state
 
-Therefore:
+Design v3:
 
-- narrator-authored Life prose remains first-person and voice-controlled;
-- external readings retain their native voice;
-- the canonical life timeline contains typed stream items, not only episodes;
-- reading events have before/after knowledge state and later callbacks;
-- source mixture becomes an experimental variable;
-- the same compiled token set can be compared in contextualized-life order versus shuffled/decontextualized forms.
+- plan/docs/00_PROJECT_DESIGN.md
+- plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md
+- README.md
+- PROJECT_HANDOFF.md
+- AGENTS.md
 
-## Design choices that are proposals, not locked canon
+Awaiting D3 migration:
 
-Current v0 proposes:
+- canonical graph and acquisition-state specification;
+- record schemas and examples;
+- deterministic QA and rights gates;
+- compiler, export, and manifest specification;
+- pipeline stage contracts;
+- evaluation protocol;
+- micro-life content plan;
+- implementation.
 
-- narrator working name: Alex;
-- start at age 15 with fluent ordinary English but little formal technical competence;
-- fictional contemporary town: Rookfield;
-- recurring makerspace: The Foundry;
-- initial cast: Mara, Ben, Dr. Imani, Tomas, Leila, Priya, Hana;
-- development from making/measurement through electronics, software, systems, ML, LLMs, and deployment;
-- mature compiled-corpus target: ~250M unique accepted tokens.
+## Immediate sequence
 
-No final Life-vs-reading mixture is locked.
+1. Normalize naming and plan/docs references.
+2. Specify the canonical graph and acquisition state.
+3. Redesign schemas and examples.
+4. Specify deterministic validation and rights gates.
+5. Specify compilation and exact export manifests.
+6. Derive granular implementation tasks.
 
-## First code milestone
+No bulk data generation occurs during this sequence.
 
-Create:
+## Non-negotiable engineering rules
 
-1. entity ledger schemas;
-2. concept graph schema;
-3. episode-plan schema;
-4. `source.schema.json` support;
-5. `reading_event.schema.json` support;
-6. `stream_item.schema.json` support;
-7. state transition engine;
-8. deterministic corpus/source linter;
-9. canonical chronological store;
-10. corpus compiler supporting multiple material classes;
-11. export generator for chronological, local-shuffle, global-shuffle, and decontextualized views.
+- Canon is append-oriented and immutable within a release.
+- Canon and training exports are separate.
+- Same-token comparisons require exact exposure manifests.
+- World or task truth and learner state are separate.
+- Source provenance and rights status are hard gates.
+- Model critics never replace deterministic checks.
+- Small matched experiments precede scale.
+- Null and negative results are retained.
 
-Only then implement model-backed planner/writer/critic stages.
+## Naming
 
-## Core scientific controls
+Use **TinyLife100** or **TL100** for the current project.
 
-Never store only a shuffled corpus. The canonical life remains ordered forever.
-
-At minimum preserve the ability to compare:
-
-- **LIFE-ORDERED:** life-native material and readings encountered in designed chronology;
-- **LIFE-LOCAL-SHUFFLE:** broad developmental phase retained, local order randomized;
-- **GLOBAL-SHUFFLE:** exactly the same selected material globally randomized;
-- **DECONTEXTUALIZED:** same Life prose and readings but contextual bridges/reading rationale removed where possible;
-- **MIXTURE A/B/C:** matched total-token runs with different material-class proportions.
-
-These controls let us test whether chronology, contextual placement, recurrence, voice concentration, and human-written input each contribute independently.
+Use **situated learner**, **relational stream**, **acquisition state**, **canonical graph**, and **training export** for the main technical abstractions.

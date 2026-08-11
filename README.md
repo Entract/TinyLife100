@@ -1,84 +1,91 @@
-# LIFE100 — A Coherent Life-Structured Corpus for a ~100M-Parameter Language Model
+# TinyLife100 (TL100)
 
-LIFE100 is a dataset-first language-model research project.
+**Life-Structured Relational Pretraining for Small Language Models**
+
+TinyLife100 is a dataset-first research project studying whether a small, conventional language model learns differently when its training data preserves explicit relationships among information encounters.
 
 The central question is:
 
-> **What happens when essentially everything a small language model has ever seen belongs to one intentionally constructed, internally consistent stream of experience?**
+> Holding content, token exposure, architecture, tokenizer, and optimization as constant as possible, does preserving causal, temporal, referential, epistemic, and prerequisite structure change what a small language model learns?
 
-The important refinement is that **the Life is the organizing structure of the dataset, not a requirement that every token be synthetic first-person prose**.
+## What “life” means
 
-The canonical life has one persistent narrator, one world, one chronology, one accumulating knowledge state, recurring people/places/machines/projects/mistakes/memories, and a prerequisite-aware curriculum. But the narrator also encounters external human knowledge at meaningful times: books, textbook chapters, manuals, papers, essays, literature, code, technical artifacts, and documents.
+TL100 does not simulate a human biography.
 
-Those external works retain their own authorship and voice. They become experiences *inside* the life: encountered for a reason, at a time, against a prior knowledge state, followed by reflection, application, misunderstanding, correction, or later recall.
+It organizes data around one **situated learner**: an epistemic reference point whose information has a traceable acquisition path. Canon records what became available, how it became available, what prior information existed, what was believed or misunderstood, and which later items apply or correct it.
 
-The model architecture is intentionally conventional. The primary research artifact is the **data and its structure**.
+The canonical scientific object is:
 
-## Core principles
+- a graph of corpus items and typed relationships;
+- one reviewed canonical stream order;
+- exact training exports that preserve or disrupt selected relationships.
 
-1. **One persistent first-person narrator, but not one universal authorial voice.**
-2. **One canonical world with explicit continuity.**
-3. **One immutable chronological life stream.**
-4. **Knowledge enters through identifiable acquisition events: experience, people, reading, artifacts, experimentation, and inference.**
-5. **Human-authored sources can appear as first-class experiences rather than random corpus filler.**
-6. **Concepts are introduced in prerequisite-aware order and recur across different contexts.**
-7. **Mistakes, uncertainty, revision, delayed understanding, and conflicting evidence are part of the life.**
-8. **The same people, places, machines, projects, questions, discoveries, vocabulary, and memories recur over time.**
-9. **Every external source has provenance and rights/licensing metadata before it can enter a compiled corpus.**
-10. **Canonical order is preserved forever; training order and mixture are experimental variables.**
-11. **Frontier models are authoring/critic tools, never authorities.**
-12. **No fixed natural/synthetic percentage is assumed in advance. Mixture composition is measured experimentally.**
-13. **No attempt is made to imitate frontier-model breadth. Density, coherence, transfer, and learnability per parameter are the objective.**
+“Experience” is an operational data property, not a claim of consciousness, personhood, or human cognition.
+
+## Primary experiment
+
+The first exact-token experiment separates two mechanisms:
+
+1. whether related items share an attention context;
+2. whether training windows reach the optimizer in canonical acquisition order.
+
+This produces four matched conditions:
+
+| Condition | Related items share context | Update order |
+|---|---:|---|
+| relational ordered | yes | canonical |
+| local coherence only | yes | shuffled |
+| global chronology only | no | canonical |
+| fully disrupted | no | shuffled |
+
+Content, token exposure, architecture, optimizer, and evaluation cadence must remain matched.
+
+## Research stance
+
+TL100 is designed to distinguish:
+
+- local relational context from global chronology;
+- relational construction from ordinary curriculum learning;
+- transfer from recurring-world memorization;
+- useful bounded specialization from damaging narrowness;
+- unique accepted tokens from repeated training exposures.
+
+A null result, a local-only effect, or a curriculum-only explanation is scientifically valid.
 
 ## Repository map
 
-- `docs/00_PROJECT_DESIGN.md` — overall research design and revised definition of “Life”
-- `docs/01_WORLD_AND_CONTINUITY.md` — persistent entities, knowledge state, source/read-state continuity
-- `docs/02_CURRICULUM_ARCHITECTURE.md` — concept graph and acquisition modes
-- `docs/03_CHRONOLOGY_AND_LIFE_ARCS.md` — chronology, arcs, reading encounters, recurrence
-- `docs/04_VOICE_AND_PERSPECTIVE.md` — narrator voice and boundaries around external authorship
-- `docs/05_EPISODE_SPECIFICATION.md` — episode records and their relation to timeline items
-- `docs/06_GENERATION_PIPELINE.md` — planning/writing/criticism plus source-selection workflow
-- `docs/07_CURATION_AND_QA.md` — technical, continuity, source, mixture, and stylistic QA
-- `docs/08_CORPUS_FORMAT_AND_VERSIONING.md` — canonical stream, source store, compilation, manifests
-- `docs/09_EVALUATION_AND_EXPERIMENTS.md` — chronology, mixture, contextualization, and ablation experiments
-- `docs/10_BUILD_PHASES.md` — staged path from pilot to 250M-token target
-- `docs/11_WORLD_V0_AND_NARRATOR.md` — concrete narrator, town, cast, places, recurring objects
-- `docs/12_CORPUS_TOKEN_BUDGET.md` — total-token target plus material-class mixture strategy
-- `docs/13_FIRST_30_PROJECT_ARCS.md` — concrete project backbone
-- `docs/14_FIRST_100_EPISODES.md` — pilot chronology plus deliberately placed reading encounters
-- `docs/15_LIBRARY_AND_READING_EVENTS.md` — source selection, reading-event lifecycle, provenance and rights
-- `docs/16_CORPUS_MIXTURE_AND_COMPILATION.md` — content classes, mixture experiments, compilation views
-- `docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md` — prior-work rationale, caveats, and falsifiable questions
-- `schemas/episode.schema.json` — narrator-authored episode record
-- `schemas/source.schema.json` — external source registry record
-- `schemas/reading_event.schema.json` — encounter with an external source
-- `schemas/stream_item.schema.json` — canonical timeline item envelope
-- `examples/` — example plans and records
-- `AGENTS.md` — implementation handoff rules
+Current Design v3 foundations:
 
-## Recommended target
+- plan/docs/00_PROJECT_DESIGN.md — canonical project definition, hypotheses, experimental factors, and scale gates
+- plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md — primary-source evidence map, counterevidence, threats, and open questions
+- AGENTS.md — implementation constraints and migration rules
+- PROJECT_HANDOFF.md — concise continuity for contributors
 
-The target model is a conventional ~100M-parameter decoder-only transformer.
+Design v3 migration targets:
 
-The provisional mature-corpus target remains **~250M unique accepted training tokens**, but that total now means the compiled corpus, not 250M tokens of synthetic autobiography.
+- plan/docs/01_WORLD_AND_CONTINUITY.md — canonical graph and acquisition state
+- plan/docs/05_EPISODE_SPECIFICATION.md — canonical record and schema specification
+- plan/docs/07_CURATION_AND_QA.md — deterministic validation and acceptance gates
+- plan/docs/08_CORPUS_FORMAT_AND_VERSIONING.md — compilation, exports, and manifests
+- plan/docs/06_GENERATION_PIPELINE.md — pipeline stage contracts
 
-Scale only through validated releases:
+All other documents under plan/docs remain Design v2 legacy inputs until explicitly migrated. They may contain useful ideas, but they are not binding Design v3 requirements.
 
-- **Pilot:** 50k–250k compiled tokens
-- **v0:** 1M
-- **v1:** 5M
-- **v2:** 25M
-- **v3:** 100M
-- **v4 target:** 250M
-- **v5+:** only if experiments justify expansion
+Supporting directories:
 
-At every stage, report both:
-- material composition (Life-native / human reading / artifact / other), and
-- training exposure count separately from unique corpus size.
+- schemas/ — machine-readable record schemas; currently awaiting D3 migration
+- examples/ — schema examples; currently awaiting D3 migration
+- data/ — canonical, draft, source, export, and evaluation data roots
+- config/ — versioned experiment configuration
+- prompts/ — future model-assisted authoring contracts
+- tests/ — deterministic validation tests
 
-## Status
+## Current status
 
-**Design v2.**
+**Design v3 migration.**
 
-The project is ready for implementation of ledgers, source registry, reading-event records, chronology store, validation, and corpus compilation. It is **not** ready for bulk prose generation or bulk source ingestion.
+The core scientific framing and evidence map are complete. The canonical graph, schemas, deterministic validator, compiler, micro-life, and training harness are not yet operational.
+
+Do not begin bulk generation, bulk source ingestion, or 100M-parameter training.
+
+The first implementation program is a deterministic corpus substrate capable of producing and verifying matched experimental exports.

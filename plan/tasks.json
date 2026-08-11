@@ -17,7 +17,7 @@
       "id": "t-004",
       "title": "Reset the TL100 foundation as a scientific Design v3",
       "description": "Replace the fictional-life-first framing with a falsifiable situated-learner and relational-data design, specify matched experimental controls and scale gates, preserve the primary research evidence, and mark unmigrated Design v2 documents as non-canonical legacy inputs.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-003"
       ],
@@ -28,8 +28,100 @@
         "plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md"
       ],
       "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md",
+      "completedCommit": "060d52cdb3431148201b7500015fe1369c80d2b9"
+    },
+    {
+      "id": "t-005",
+      "title": "Normalize TinyLife100 naming and design-document paths",
+      "description": "Replace current-project LIFE100 naming with TinyLife100 or TL100, update repository documentation to reference plan/docs/, and clearly label retained Design v2 history without rewriting its historical meaning.",
+      "status": "in-progress",
+      "dependsOn": [
+        "t-004"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "README.md",
+        "PROJECT_HANDOFF.md",
+        "AGENTS.md",
+        "CHANGELOG_v2.md",
+        "config/corpus_targets.yaml",
+        "data/README.md",
+        "prompts/README.md",
+        "plan/docs/"
+      ],
+      "canParallelize": false,
       "planDoc": "00_PROJECT_DESIGN.md"
+    },
+    {
+      "id": "t-006",
+      "title": "Specify the D3 canonical graph and acquisition state",
+      "description": "Replace the fictional world-and-continuity document with the Design v3 node, edge, entity, acquisition-state, belief-state, mutation, chronology, and canonicality specification.",
+      "status": "pending",
+      "dependsOn": [
+        "t-005"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/01_WORLD_AND_CONTINUITY.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "01_WORLD_AND_CONTINUITY.md"
+    },
+    {
+      "id": "t-007",
+      "title": "Redesign the D3 canonical schema suite and examples",
+      "description": "Define the Design v3 canonical record model for nodes, typed edges, acquisition state, sources, stream items, and export manifests; replace fiction-specific schema assumptions; and provide schema-valid examples.",
+      "status": "pending",
+      "dependsOn": [
+        "t-006"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/05_EPISODE_SPECIFICATION.md",
+        "schemas/",
+        "examples/"
+      ],
+      "canParallelize": false,
+      "planDoc": "05_EPISODE_SPECIFICATION.md"
+    },
+    {
+      "id": "t-008",
+      "title": "Specify D3 deterministic validation and rights gates",
+      "description": "Define deterministic schema, referential-integrity, chronology, acquisition, graph, source-rights, hash, duplication, and export acceptance checks with explicit error classes and phase gates.",
+      "status": "pending",
+      "dependsOn": [
+        "t-007"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/07_CURATION_AND_QA.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "07_CURATION_AND_QA.md"
+    },
+    {
+      "id": "t-009",
+      "title": "Specify D3 compilation and derive the implementation backlog",
+      "description": "Define exact canonical-to-export compilation behavior, attention-boundary and update-order controls, reproducible manifests, and pipeline stage contracts, then create granular implementation tasks from the stabilized Design v3 specifications.",
+      "status": "pending",
+      "dependsOn": [
+        "t-008"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/06_GENERATION_PIPELINE.md",
+        "plan/docs/08_CORPUS_FORMAT_AND_VERSIONING.md",
+        "plan/tasks.json"
+      ],
+      "canParallelize": false,
+      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
     }
   ],
-  "nextId": 5
+  "nextId": 10
 }

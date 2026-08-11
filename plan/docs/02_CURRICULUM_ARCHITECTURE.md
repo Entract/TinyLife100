@@ -224,7 +224,7 @@ Projects:
 - expose tool call;
 - build evaluation harness.
 
-This is deliberately meta: the life eventually learns enough to build a small language model much as the LIFE100 project itself does.
+This is deliberately meta: the life eventually learns enough to build a small language model much as the TL100 project itself does.
 
 ### Era 8 — Technical judgment and deployment
 Target concepts:
@@ -423,4 +423,3 @@ The curriculum should maintain a **reading map** in parallel with the concept gr
 A reading is not justified merely because it covers the next syllabus item. It should have a plausible Life trigger and prerequisite fit.
 
 See `15_LIBRARY_AND_READING_EVENTS.md`.
-

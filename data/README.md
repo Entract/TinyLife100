@@ -1,4 +1,6 @@
-# LIFE100 data directories (Design v2)
+# TinyLife100 data directories (Design v2 legacy layout)
+
+> This directory layout predates Design v3 and remains provisional until the canonical graph and compiler specifications are migrated.
 
 - `drafts/` — generated/edited Life material not yet canon
 - `canon/` — immutable accepted records and ledgers

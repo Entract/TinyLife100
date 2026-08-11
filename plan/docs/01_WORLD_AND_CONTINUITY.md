@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-The LIFE100 world must be coherent enough that recurring experience has meaning.
+The TL100 world must be coherent enough that recurring experience has meaning.
 
 The world bible is not merely lore. It is an **input constraint on generation** and a machine-readable consistency system.
 

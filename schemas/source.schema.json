@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://life100.local/schemas/source.schema.json",
-  "title": "LIFE100 External Source Record",
+  "$id": "https://tl100.local/schemas/source.schema.json",
+  "title": "TL100 External Source Record",
   "type": "object",
   "additionalProperties": false,
   "required": [

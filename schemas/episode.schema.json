@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://life100.local/schemas/episode.schema.json",
-  "title": "LIFE100 Canonical Life Episode",
+  "$id": "https://tl100.local/schemas/episode.schema.json",
+  "title": "TL100 Canonical Life Episode",
   "type": "object",
   "additionalProperties": false,
   "required": [

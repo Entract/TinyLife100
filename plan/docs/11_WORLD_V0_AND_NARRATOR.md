@@ -15,7 +15,7 @@ This document makes the abstract project actionable. It deliberately chooses a w
 **Starting technical state:** curious and practically inexperienced; comfortable with ordinary arithmetic, reading, everyday tools, and basic school science, but without formal engineering competence  
 **Long-term trajectory:** curious maker -> competent technician/builder -> software/systems engineer -> experimentalist -> machine-learning practitioner -> person capable of designing and explaining AI systems
 
-Alex is a human narrator. LIFE100 does not begin at birth and does not attempt to learn basic English from infant-like input. The "life" begins once ordinary language is already established and concentrates on the formation of technical, conversational, experimental, and systems competence.
+Alex is a human narrator. TL100 does not begin at birth and does not attempt to learn basic English from infant-like input. The "life" begins once ordinary language is already established and concentrates on the formation of technical, conversational, experimental, and systems competence.
 
 The life may eventually span roughly 15–25 fictional years. Exact duration is less important than causal learning order.
 
@@ -269,7 +269,7 @@ The narrator should have:
 - changing relationships;
 - school/work obligations.
 
-However, LIFE100 is a curated technical life, not a full social novel. Ordinary content exists to make experiences credible and broaden language, not to dominate the corpus.
+However, TL100 is a curated technical life, not a full social novel. Ordinary content exists to make experiences credible and broaden language, not to dominate the corpus.
 
 No person should exist only to teach Alex.
 
