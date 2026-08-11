@@ -76,7 +76,7 @@
       "id": "t-007",
       "title": "Redesign the D3 canonical schema suite and examples",
       "description": "Define the Design v3 canonical record model for nodes, typed edges, acquisition state, sources, stream items, and export manifests; replace fiction-specific schema assumptions; and provide schema-valid examples.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-006"
       ],
@@ -88,13 +88,14 @@
         "examples/"
       ],
       "canParallelize": false,
-      "planDoc": "05_EPISODE_SPECIFICATION.md"
+      "planDoc": "05_EPISODE_SPECIFICATION.md",
+      "completedCommit": "907d0c4afe87939d80694a5c7ebcd8a5044c9e88"
     },
     {
       "id": "t-008",
       "title": "Specify D3 deterministic validation and rights gates",
       "description": "Define deterministic schema, referential-integrity, chronology, acquisition, graph, source-rights, hash, duplication, and export acceptance checks with explicit error classes and phase gates.",
-      "status": "pending",
+      "status": "in-progress",
       "dependsOn": [
         "t-007"
       ],
