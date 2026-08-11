@@ -1,70 +1,99 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tl100.local/schemas/export_manifest.schema.json",
-  "title": "TL100 Design v3 Export Manifest",
+  "title": "TL100 Design v3 Exact Training Export Manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "export_id", "release_id", "created_at", "compiler", "tokenizer", "selection", "context_policy", "update_order_policy", "relationship_visibility", "source_policy", "items", "token_accounting", "output", "manifest_hash"],
+  "required": ["schema_version", "export_id", "release_id", "protocol_id", "condition", "export_status", "output_class", "created_at", "compiler", "tokenizer", "selection", "packing_policy", "declared_factors", "update_order_policy", "training_shape", "relationship_visibility", "source_policy", "artifacts", "token_accounting", "known_deviations", "manifest_hash"],
   "properties": {
     "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
     "export_id": {"$ref": "common.schema.json#/$defs/export_id"},
     "release_id": {"$ref": "common.schema.json#/$defs/release_id"},
+    "protocol_id": {"$ref": "common.schema.json#/$defs/protocol_id"},
+    "condition": {"type": "string", "enum": ["relational_ordered", "local_coherence_only", "global_chronology_only", "fully_disrupted", "custom"]},
+    "export_status": {"type": "string", "enum": ["draft", "accepted", "quarantined"]},
+    "output_class": {"type": "string", "enum": ["private_experiment", "public_metadata", "public_payload"]},
     "created_at": {"$ref": "common.schema.json#/$defs/timestamp"},
     "compiler": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "version", "git_commit", "configuration_hash", "normalization_policy_version"],
+      "required": ["name", "version", "git_commit", "configuration_hash", "environment_hash", "normalization_policy_version"],
       "properties": {
         "name": {"type": "string", "minLength": 1},
         "version": {"type": "string", "minLength": 1},
         "git_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
         "configuration_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "environment_hash": {"$ref": "common.schema.json#/$defs/sha256"},
         "normalization_policy_version": {"type": "string", "minLength": 1}
       }
     },
     "tokenizer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "version", "configuration_hash", "vocabulary_hash"],
+      "required": ["tokenizer_id", "tokenizer_manifest_hash", "vocabulary_hash", "special_token_map_hash"],
       "properties": {
-        "name": {"type": "string", "minLength": 1},
-        "version": {"type": "string", "minLength": 1},
-        "configuration_hash": {"$ref": "common.schema.json#/$defs/sha256"},
-        "vocabulary_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+        "tokenizer_id": {"$ref": "common.schema.json#/$defs/tokenizer_id"},
+        "tokenizer_manifest_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "vocabulary_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "special_token_map_hash": {"$ref": "common.schema.json#/$defs/sha256"}
       }
     },
     "selection": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["canonical_stream_id", "selected_stream_item_ids", "derived_payload_ids", "selection_hash"],
+      "required": ["canonical_stream_id", "selected_stream_item_ids", "derived_payload_ids", "selection_hash", "exclusion_hash"],
       "properties": {
         "canonical_stream_id": {"type": "string", "pattern": "^canonical_[a-z0-9][a-z0-9._-]*$"},
-        "selected_stream_item_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/stream_item_id"}, "uniqueItems": true},
-        "derived_payload_ids": {"type": "array", "items": {"type": "string", "pattern": "^derived_[a-z0-9][a-z0-9_-]*$"}, "uniqueItems": true},
-        "selection_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+        "selected_stream_item_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/stream_item_id"}, "minItems": 1, "uniqueItems": true},
+        "derived_payload_ids": {"type": "array", "items": {"type": "string", "pattern": "^derived_[a-z0-9][a-z0-9._-]*$"}, "uniqueItems": true},
+        "selection_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "exclusion_hash": {"$ref": "common.schema.json#/$defs/sha256"}
       }
     },
-    "context_policy": {
+    "packing_policy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["related_items_share_context", "grouping_method", "max_context_tokens", "boundary_token_ids", "cross_group_attention"],
+      "required": ["algorithm", "configuration_hash", "max_context_tokens", "node_spans_intact", "boundary_token_ids", "padding_token_id", "position_policy"],
       "properties": {
-        "related_items_share_context": {"type": "boolean"},
-        "grouping_method": {"type": "string", "enum": ["canonical_node", "same_stream_group", "relation_components", "fixed_token_windows", "custom"]},
+        "algorithm": {"type": "string", "minLength": 1},
+        "configuration_hash": {"$ref": "common.schema.json#/$defs/sha256"},
         "max_context_tokens": {"type": "integer", "minimum": 1},
-        "boundary_token_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}, "uniqueItems": true},
-        "cross_group_attention": {"type": "string", "enum": ["isolated", "allowed", "model_default"]}
+        "node_spans_intact": {"const": true},
+        "boundary_token_ids": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 1, "uniqueItems": true},
+        "padding_token_id": {"type": "integer", "minimum": 0},
+        "position_policy": {"type": "string", "enum": ["continuous_within_packing_group"]}
+      }
+    },
+    "declared_factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cross_node_attention", "packing_group_update_order"],
+      "properties": {
+        "cross_node_attention": {"type": "string", "enum": ["allowed", "blocked_at_node_boundaries"]},
+        "packing_group_update_order": {"type": "string", "enum": ["canonical", "shuffled", "custom"]}
       }
     },
     "update_order_policy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["mode", "seed", "algorithm", "preserves_within_context_order"],
+      "required": ["mode", "seed", "algorithm", "preserves_within_group_order", "epoch_count"],
       "properties": {
-        "mode": {"type": "string", "enum": ["canonical", "global_shuffle", "custom"]},
+        "mode": {"type": "string", "enum": ["canonical", "shuffled", "custom"]},
         "seed": {"type": ["integer", "null"], "minimum": 0},
         "algorithm": {"type": "string", "minLength": 1},
-        "preserves_within_context_order": {"type": "boolean"}
+        "preserves_within_group_order": {"const": true},
+        "epoch_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "training_shape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batch_size", "gradient_accumulation_steps", "planned_optimizer_updates", "incomplete_final_batch_policy"],
+      "properties": {
+        "batch_size": {"type": "integer", "minimum": 1},
+        "gradient_accumulation_steps": {"type": "integer", "minimum": 1},
+        "planned_optimizer_updates": {"type": "integer", "minimum": 1},
+        "incomplete_final_batch_policy": {"type": "string", "enum": ["drop", "pad_with_non_loss_groups", "error"]}
       }
     },
     "relationship_visibility": {
@@ -81,26 +110,49 @@
       "additionalProperties": false,
       "required": ["requires_training_approval", "requires_redistribution_approval", "included_source_ids", "decision_log_hash"],
       "properties": {
-        "requires_training_approval": {"type": "boolean"},
+        "requires_training_approval": {"const": true},
         "requires_redistribution_approval": {"type": "boolean"},
         "included_source_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/source_id"}, "uniqueItems": true},
         "decision_log_hash": {"$ref": "common.schema.json#/$defs/sha256"}
       }
     },
-    "items": {
-      "type": "array",
-      "items": {"$ref": "#/$defs/export_item"},
-      "minItems": 1
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection", "normalized_payload_inventory", "token_spans", "packing_plan", "tokens", "attention_layout", "position_layout", "loss_mask", "update_schedule", "source_decisions", "validation_report", "matched_condition_report"],
+      "properties": {
+        "selection": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "normalized_payload_inventory": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "token_spans": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "packing_plan": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "tokens": {"$ref": "common.schema.json#/$defs/tensor_artifact"},
+        "attention_layout": {"$ref": "common.schema.json#/$defs/tensor_artifact"},
+        "position_layout": {"$ref": "common.schema.json#/$defs/tensor_artifact"},
+        "loss_mask": {"$ref": "common.schema.json#/$defs/tensor_artifact"},
+        "update_schedule": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "source_decisions": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "validation_report": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "matched_condition_report": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/file_artifact"},
+            {"type": "null"}
+          ]
+        }
+      }
     },
     "token_accounting": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["unique_payload_tokens", "exposure_tokens", "emitted_tokens", "excluded_tokens", "by_material_class"],
+      "required": ["unique_payload_tokens", "payload_exposure_tokens", "boundary_tokens", "padding_tokens", "loss_bearing_tokens", "non_loss_input_tokens", "total_input_tokens", "excluded_payload_tokens", "by_material_class"],
       "properties": {
         "unique_payload_tokens": {"type": "integer", "minimum": 0},
-        "exposure_tokens": {"type": "integer", "minimum": 0},
-        "emitted_tokens": {"type": "integer", "minimum": 0},
-        "excluded_tokens": {"type": "integer", "minimum": 0},
+        "payload_exposure_tokens": {"type": "integer", "minimum": 0},
+        "boundary_tokens": {"type": "integer", "minimum": 0},
+        "padding_tokens": {"type": "integer", "minimum": 0},
+        "loss_bearing_tokens": {"type": "integer", "minimum": 0},
+        "non_loss_input_tokens": {"type": "integer", "minimum": 0},
+        "total_input_tokens": {"type": "integer", "minimum": 0},
+        "excluded_payload_tokens": {"type": "integer", "minimum": 0},
         "by_material_class": {
           "type": "object",
           "additionalProperties": false,
@@ -115,43 +167,25 @@
         }
       }
     },
-    "output": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["format", "relative_path", "byte_count", "content_hash"],
-      "properties": {
-        "format": {"type": "string", "enum": ["text", "jsonl", "token_ids", "indexed_binary"]},
-        "relative_path": {"type": "string", "minLength": 1},
-        "byte_count": {"type": "integer", "minimum": 0},
-        "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
-      }
-    },
+    "known_deviations": {"type": "array", "items": {"type": "string"}},
     "manifest_hash": {"$ref": "common.schema.json#/$defs/sha256"}
   },
-  "$defs": {
-    "export_item": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["output_position", "optimizer_position", "context_group_id", "stream_item_id", "node_id", "payload_hash", "material_class", "exposure_index", "derived_payload_id", "token_start", "token_end", "token_count"],
-      "properties": {
-        "output_position": {"type": "integer", "minimum": 0},
-        "optimizer_position": {"type": "integer", "minimum": 0},
-        "context_group_id": {"type": "string", "pattern": "^ctx_[a-z0-9][a-z0-9_-]*$"},
-        "stream_item_id": {"$ref": "common.schema.json#/$defs/stream_item_id"},
-        "node_id": {"$ref": "common.schema.json#/$defs/node_id"},
-        "payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
-        "material_class": {"type": "string", "enum": ["project_authored", "external_source", "artifact", "metadata_only", "derived"]},
-        "exposure_index": {"type": "integer", "minimum": 0},
-        "derived_payload_id": {
-          "oneOf": [
-            {"type": "string", "pattern": "^derived_[a-z0-9][a-z0-9_-]*$"},
-            {"type": "null"}
-          ]
-        },
-        "token_start": {"type": "integer", "minimum": 0},
-        "token_end": {"type": "integer", "minimum": 0},
-        "token_count": {"type": "integer", "minimum": 0}
-      }
+  "allOf": [
+    {
+      "if": {"properties": {"condition": {"const": "relational_ordered"}}},
+      "then": {"properties": {"declared_factors": {"properties": {"cross_node_attention": {"const": "allowed"}, "packing_group_update_order": {"const": "canonical"}}}, "update_order_policy": {"properties": {"mode": {"const": "canonical"}, "seed": {"type": "null"}}}}}
+    },
+    {
+      "if": {"properties": {"condition": {"const": "local_coherence_only"}}},
+      "then": {"properties": {"declared_factors": {"properties": {"cross_node_attention": {"const": "allowed"}, "packing_group_update_order": {"const": "shuffled"}}}, "update_order_policy": {"properties": {"mode": {"const": "shuffled"}, "seed": {"type": "integer", "minimum": 0}}}}}
+    },
+    {
+      "if": {"properties": {"condition": {"const": "global_chronology_only"}}},
+      "then": {"properties": {"declared_factors": {"properties": {"cross_node_attention": {"const": "blocked_at_node_boundaries"}, "packing_group_update_order": {"const": "canonical"}}}, "update_order_policy": {"properties": {"mode": {"const": "canonical"}, "seed": {"type": "null"}}}}}
+    },
+    {
+      "if": {"properties": {"condition": {"const": "fully_disrupted"}}},
+      "then": {"properties": {"declared_factors": {"properties": {"cross_node_attention": {"const": "blocked_at_node_boundaries"}, "packing_group_update_order": {"const": "shuffled"}}}, "update_order_policy": {"properties": {"mode": {"const": "shuffled"}, "seed": {"type": "integer", "minimum": 0}}}}}
     }
-  }
+  ]
 }

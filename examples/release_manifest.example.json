@@ -1,0 +1,117 @@
+{
+  "schema_version": "3.0.0",
+  "release_id": "release_fixture_v1",
+  "corpus_version": "0.1.0",
+  "parent_release_ids": [],
+  "release_status": "accepted",
+  "created_at": "2026-08-11T08:17:00Z",
+  "accepted_at": "2026-08-11T08:18:00Z",
+  "schema_suite": [
+    {
+      "schema_id": "https://tl100.local/schemas/common.schema.json",
+      "content_hash": "sha256:3030303030303030303030303030303030303030303030303030303030303030"
+    },
+    {
+      "schema_id": "https://tl100.local/schemas/node.schema.json",
+      "content_hash": "sha256:3131313131313131313131313131313131313131313131313131313131313131"
+    }
+  ],
+  "policies": {
+    "canonicalization_version": "fixture-canonicalization-1",
+    "normalization_version": "fixture-normalization-1",
+    "validation_policy_version": "fixture-validation-1",
+    "rights_policy_version": "fixture-rights-1",
+    "hashes": [
+      "sha256:3232323232323232323232323232323232323232323232323232323232323232",
+      "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "sha256:3434343434343434343434343434343434343434343434343434343434343434",
+      "sha256:3535353535353535353535353535353535353535353535353535353535353535"
+    ]
+  },
+  "validator": {
+    "name": "tl100-validator",
+    "version": "0.0.0-fixture",
+    "git_commit": "0000000000000000000000000000000000000000",
+    "configuration_hash": "sha256:2020202020202020202020202020202020202020202020202020202020202020",
+    "environment_hash": "sha256:2121212121212121212121212121212121212121212121212121212121212121"
+  },
+  "validation_report": {
+    "relative_path": "examples/validation_report.example.json",
+    "media_type": "application/json",
+    "byte_count": 0,
+    "content_hash": "sha256:2525252525252525252525252525252525252525252525252525252525252525",
+    "record_schema_id": "https://tl100.local/schemas/validation_report.schema.json",
+    "record_count": 1
+  },
+  "record_inventory": [
+    {"record_kind": "entity", "record_id": "ent_instrument_fixture_meter", "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+    {"record_kind": "claim", "record_id": "claim_fixture_meter_loads_divider", "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"},
+    {"record_kind": "concept", "record_id": "concept_fixture_measurement_loading", "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"},
+    {"record_kind": "source", "record_id": "source_fixture_measurement_note", "content_hash": "sha256:7777777777777777777777777777777777777777777777777777777777777777"},
+    {"record_kind": "artifact", "record_id": "artifact_fixture_voltage_table", "content_hash": "sha256:1818181818181818181818181818181818181818181818181818181818181818"},
+    {"record_kind": "node", "record_id": "node_fixture_source_encounter", "content_hash": "sha256:8888888888888888888888888888888888888888888888888888888888888888"},
+    {"record_kind": "relation_edge", "record_id": "edge_fixture_segment_acquisition", "content_hash": "sha256:9999999999999999999999999999999999999999999999999999999999999999"},
+    {"record_kind": "state_delta", "record_id": "delta_fixture_source_encounter", "content_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
+    {"record_kind": "state_snapshot", "record_id": "state_fixture_after_source_encounter", "content_hash": "sha256:6969696969696969696969696969696969696969696969696969696969696969"},
+    {"record_kind": "stream_item", "record_id": "stream_fixture_000001", "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    {"record_kind": "replacement", "record_id": "replace_fixture_claim_v0_with_v1", "content_hash": "sha256:1919191919191919191919191919191919191919191919191919191919191919"}
+  ],
+  "stream_inventory": [
+    {
+      "stream_item_id": "stream_fixture_000001",
+      "ordinal": 0,
+      "node_id": "node_fixture_source_encounter",
+      "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "payload_inventory": [
+    {
+      "payload_id": "payload_fixture_measurement_note_body",
+      "owner_record_kind": "source_segment",
+      "owner_record_id": "segment_fixture_measurement_note_body",
+      "material_class": "project_authored",
+      "raw_content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "normalized_payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "byte_count": 128,
+      "availability": "public"
+    },
+    {
+      "payload_id": "payload_fixture_voltage_table",
+      "owner_record_kind": "artifact",
+      "owner_record_id": "artifact_fixture_voltage_table",
+      "material_class": "artifact",
+      "raw_content_hash": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+      "normalized_payload_hash": "sha256:1717171717171717171717171717171717171717171717171717171717171717",
+      "byte_count": 31,
+      "availability": "public"
+    }
+  ],
+  "source_registry_snapshot_hash": "sha256:3636363636363636363636363636363636363636363636363636363636363636",
+  "rights_decision_log_hash": "sha256:1313131313131313131313131313131313131313131313131313131313131313",
+  "replacement_record_ids": ["replace_fixture_claim_v0_with_v1"],
+  "genesis_state_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "terminal_state_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "graph_summary": {
+    "node_count": 1,
+    "edge_count": 1,
+    "hard_edge_count": 1,
+    "hard_edge_inventory_hash": "sha256:3737373737373737373737373737373737373737373737373737373737373737"
+  },
+  "accounting": {
+    "unique_payload_count": 2,
+    "normalized_bytes": 159,
+    "reference_tokenizer_id": "tokenizer_fixture_byte_v1",
+    "reference_token_count": 49
+  },
+  "warning_dispositions": [],
+  "known_limitations": ["All hashes and counts are syntactic fixture values, not computed production identities."],
+  "dataset_card": {
+    "relative_path": "examples/payloads/fixture-dataset-card.md",
+    "media_type": "text/markdown",
+    "byte_count": 93,
+    "content_hash": "sha256:3838383838383838383838383838383838383838383838383838383838383838",
+    "record_schema_id": null,
+    "record_count": null
+  },
+  "manifest_hash": "sha256:3939393939393939393939393939393939393939393939393939393939393939"
+}

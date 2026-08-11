@@ -1,0 +1,17 @@
+{
+  "schema_version": "3.0.0",
+  "packing_group_id": "pack_fixture_000001",
+  "canonical_group_ordinal": 0,
+  "span_ids": ["span_fixture_measurement_note_body"],
+  "first_canonical_ordinal": 0,
+  "last_canonical_ordinal": 0,
+  "payload_token_count": 18,
+  "boundary_token_count": 1,
+  "padding_token_count": 13,
+  "total_token_count": 32,
+  "capacity": 32,
+  "token_sequence_hash": "sha256:5858585858585858585858585858585858585858585858585858585858585858",
+  "position_sequence_hash": "sha256:5959595959595959595959595959595959595959595959595959595959595959",
+  "loss_mask_hash": "sha256:6060606060606060606060606060606060606060606060606060606060606060",
+  "content_hash": "sha256:6161616161616161616161616161616161616161616161616161616161616161"
+}

@@ -39,11 +39,22 @@ Schema validity is necessary but not sufficient for canonical acceptance.
 | `claim.schema.json` | Stable propositions and controlled truth status |
 | `concept.schema.json` | Reusable abstractions, prerequisites, and competence criteria |
 | `source.schema.json` | External-source identity, provenance, rights, storage, and immutable segments |
+| `artifact.schema.json` | Inspectable code, logs, tables, measurements, configurations, and other payload-bearing artifacts |
 | `node.schema.json` | Independently reviewable information-bearing events or objects |
 | `relation_edge.schema.json` | Reviewed typed relations and ordering constraints |
 | `state_delta.schema.json` | Ordered, evidence-bearing acquisition-state transitions |
 | `state_snapshot.schema.json` | Reconstructable state checkpoints |
 | `stream_item.schema.json` | One exact canonical placement of an accepted node |
+| `replacement.schema.json` | Explicit non-destructive correction and migration history |
+| `acceptance_receipt.schema.json` | Atomic acceptance transaction, reviewed bundle, validation evidence, and state transition |
+| `validation_report.schema.json` | Deterministic gate results and stable machine-readable findings |
+| `release_manifest.schema.json` | Immutable release inventory, policies, rights snapshot, graph/state anchors, and dataset card |
+| `tokenizer_manifest.schema.json` | Complete glass-box tokenizer algorithm, corpus, vocabulary, implementation, and artifact identity |
+| `decision_record.schema.json` | Inspectable owner decisions, alternatives, evidence, risks, and failure tests |
+| `dependency_boundary.schema.json` | Borrowed component behavior, defaults, scientific effects, and conformance tests |
+| `token_span.schema.json` | Condition-independent atomic tokenized payload span |
+| `packing_group.schema.json` | Condition-independent physical context packing unit |
+| `update_schedule_item.schema.json` | Exact epoch, optimizer, batch, slot, group, and exposure placement |
 | `export_manifest.schema.json` | Exact compiled view, policies, inputs, token accounting, and output identities |
 
 `common.schema.json` is a definition library and is not itself instantiated.
@@ -80,14 +91,14 @@ The same immutable source segment may be encountered in several nodes. Each enco
 An export manifest owns:
 
 - selected release and records;
-- tokenizer and compiler identity;
-- attention-context policy;
-- optimizer/update-order policy;
-- deterministic seeds;
-- exact item order and token offsets;
-- unique-token and exposure-token accounting;
-- source eligibility decision record;
-- output and manifest hashes.
+- compiler, environment, normalization, and tokenizer identities;
+- condition-independent selection, atomic spans, and packing-plan identities;
+- the two declared experimental factors;
+- exact token, attention, position, loss-mask, batch-slot, and update-schedule artifacts;
+- deterministic seeds and epoch count;
+- unique, exposure, boundary, padding, loss-bearing, and excluded-token accounting;
+- source eligibility decision and validation artifacts;
+- known deviations and the final manifest hash.
 
 Export operations never mutate canonical nodes or stream order.
 
@@ -194,19 +205,45 @@ computed state hash == current state_after_hash
 
 For a non-mutating item, state-before equals state-after. A metadata-only boundary cannot mutate state without an explicit delta.
 
-## 12. Export manifests
+## 12. Operational acceptance and release records
 
-Every training export is reproducible from one accepted release plus a manifest. The first manifest contract distinguishes:
+An artifact record is the canonical boundary for code, tables, measurements, logs, datasets, and other non-source objects. A payload-bearing artifact declares repo or authorized-local storage, raw and normalized hashes, training eligibility, and redistribution eligibility. Metadata-only artifacts are never training- or redistribution-approved by implication. Externally authored artifacts must link to at least one source record; their local eligibility fields cannot bypass that source's rights decision.
+
+Acceptance is atomic. An acceptance receipt binds the reviewed record bundle, prior and new canonical heads, exact state transition, validation report, reviewer evidence, and transaction identity. A partly written bundle has no canonical effect.
+
+Released records are immutable. A correction appends a replacement record naming the old and new identities, reason, affected releases, effective release, and migration guidance. It never rewrites the historical record.
+
+A release manifest freezes the complete record and stream inventories, schema and policy hashes, source/rights snapshot, state endpoints, graph summary, payload inventory, warning dispositions, dataset card, and validator identity. `accepted_at` is mandatory for an accepted release and absent for a draft.
+
+## 13. Glass-box and compiler records
+
+Tokenizer manifests record the algorithm at the level needed for an independent implementation: byte alphabet, pretokenizer, target and achieved vocabulary, pair counting, tie breaking, merge replacement order, normalization, exact training corpus, vocabulary hashes, special tokens, two implementation identities, tests, metrics, parameter costs, decision, and validation report. A byte-only tokenizer is constrained to 256 lexical tokens and zero merges.
+
+Decision records preserve alternatives as well as conclusions. Dependency-boundary records make every borrowed primitive inspectable by declaring inputs, outputs, determinism, defaults, limitations, scientific effects, ownership, and tests.
+
+The compiler emits three JSONL record streams before opaque arrays:
+
+- token spans bind each normalized payload component to its stream item, node, source/segment if any, exact token count, boundary tokens, exposure index, and hashes;
+- packing groups bind intact spans into fixed-capacity, condition-independent physical groups;
+- update-schedule items bind those groups to epochs, optimizer positions, batches, slots, exposures, and deterministic shuffle keys.
+
+Token, attention, position, and loss layouts are described as hashed tensor artifacts with explicit encoding, semantics version, dtype, shape, and endianness. Their human-readable JSONL parents remain available for inspection.
+
+## 14. Export manifests
+
+Every training export is reproducible from one accepted release plus a manifest. The manifest distinguishes:
 
 - canonical selection from derived payloads;
-- context grouping and attention isolation;
-- canonical, global-shuffle, or declared custom update order;
-- unique payload tokens from repeated token exposures;
-- requested policy from observed compiled result.
+- physical packing from attention visibility;
+- canonical, shuffled, or declared custom whole-group update order;
+- unique payload tokens from repeated exposures, boundaries, padding, and excluded payloads;
+- declared condition factors from the identities of materialized arrays and schedules.
 
-The manifest item list is the audit trail. Every emitted span identifies its parent stream item and node, payload hash, exposure index, context group, optimizer position, and exact token range.
+The four primary condition names are schema-bound to their exact factor values. A manifest called `relational_ordered`, for example, cannot declare blocked cross-node attention or shuffled packing-group updates.
 
-## 13. Cross-record invariants
+The manifest references the complete token-span and packing-plan audit trail rather than duplicating it. Every array and JSONL file is content-addressed, typed, counted, and schema-identified where applicable. Cross-record validation recomputes shapes, totals, hashes, schedule legality, and equality of all controlled variables across matched conditions.
+
+## 15. Cross-record invariants
 
 JSON Schema cannot establish all required properties. The deterministic validator must additionally enforce:
 
@@ -220,10 +257,17 @@ JSON Schema cannot establish all required properties. The deterministic validato
 - source-segment hashes match stored payloads;
 - source inclusion satisfies rights and storage policy;
 - accepted and released payload hashes match normalized content;
+- acceptance receipts refer only to one completely validated, reviewed transaction;
+- replacement records preserve type identity and do not create replacement cycles;
 - released records are immutable;
-- export token offsets, counts, order, and hashes reproduce exactly.
+- release inventories, state endpoints, policy identities, and payload accounting reproduce exactly;
+- tokenizer totals, merge counts, special-token IDs, and artifacts agree;
+- packing counts sum to capacity and tensor shapes agree with the packing plan;
+- schedule entries cover the declared exposure multiset exactly;
+- export token counts, array semantics, order, and hashes reproduce exactly;
+- matched conditions differ only in declared attention layout and whole-group update schedule.
 
-## 14. Example fixture
+## 16. Example fixture
 
 The `examples/` directory contains one small, non-fictional measurement chain:
 
@@ -236,11 +280,19 @@ The `examples/` directory contains one small, non-fictional measurement chain:
 7. a delta that makes the claim available and records the source encounter;
 8. the resulting state snapshot;
 9. a canonical stream item;
-10. an export manifest referencing that exact payload.
+10. a project-authored artifact;
+11. an explicit replacement record;
+12. a deterministic validation report and atomic acceptance receipt;
+13. an immutable release manifest;
+14. a glass-box tokenizer manifest, decision record, and dependency boundary;
+15. an atomic token span, packing group, and update-schedule item;
+16. an exact export manifest referencing all compiled artifacts.
 
 The examples demonstrate shape, not scientific evidence. Their hashes are syntactically valid fixture identities and must never be mistaken for computed production hashes.
 
-## 15. D2 migration
+`examples/schema-fixtures.json` is the executable fixture index. Positive cases map each example to its schema. Each negative case derives from one valid example through exactly one JSON-Pointer mutation and declares the expected failing keyword. Materializing mutations in memory keeps valid/invalid pairs synchronized and proves that only one fact changed.
+
+## 17. D2 migration
 
 The former `episode` and `reading_event` schemas are withdrawn.
 
@@ -251,12 +303,13 @@ The former `episode` and `reading_event` schemas are withdrawn.
 
 Migration is explicit; old records do not become D3-valid merely by renaming fields.
 
-## 16. Completion criteria
+## 18. Completion criteria
 
 This schema layer is ready for implementation when:
 
 - every schema parses under draft 2020-12;
 - every example validates against its named schema;
+- every declared one-fact negative mutation fails on the expected keyword;
 - all external references resolve locally without network access;
 - the example chain has internally resolvable IDs;
 - no schema requires a fictional person, setting, age, or narrator;

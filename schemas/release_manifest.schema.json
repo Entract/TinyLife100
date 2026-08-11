@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/release_manifest.schema.json",
+  "title": "TL100 Design v3 Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release_id", "corpus_version", "parent_release_ids", "release_status", "created_at", "accepted_at", "schema_suite", "policies", "validator", "validation_report", "record_inventory", "stream_inventory", "payload_inventory", "source_registry_snapshot_hash", "rights_decision_log_hash", "replacement_record_ids", "genesis_state_hash", "terminal_state_hash", "graph_summary", "accounting", "warning_dispositions", "known_limitations", "dataset_card", "manifest_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "release_id": {"$ref": "common.schema.json#/$defs/release_id"},
+    "corpus_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-z0-9.-]+)?$"},
+    "parent_release_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/release_id"}, "uniqueItems": true},
+    "release_status": {"type": "string", "enum": ["draft", "accepted", "withdrawn"]},
+    "created_at": {"$ref": "common.schema.json#/$defs/timestamp"},
+    "accepted_at": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/timestamp"},
+        {"type": "null"}
+      ]
+    },
+    "schema_suite": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema_id", "content_hash"],
+        "properties": {
+          "schema_id": {"type": "string", "format": "uri"},
+          "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+        }
+      },
+      "minItems": 1
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalization_version", "normalization_version", "validation_policy_version", "rights_policy_version", "hashes"],
+      "properties": {
+        "canonicalization_version": {"type": "string", "minLength": 1},
+        "normalization_version": {"type": "string", "minLength": 1},
+        "validation_policy_version": {"type": "string", "minLength": 1},
+        "rights_policy_version": {"type": "string", "minLength": 1},
+        "hashes": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/sha256"}, "minItems": 4, "uniqueItems": true}
+      }
+    },
+    "validator": {"$ref": "common.schema.json#/$defs/tool_identity"},
+    "validation_report": {"$ref": "common.schema.json#/$defs/file_artifact"},
+    "record_inventory": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/record_ref"}, "minItems": 1},
+    "stream_inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stream_item_id", "ordinal", "node_id", "content_hash"],
+        "properties": {
+          "stream_item_id": {"$ref": "common.schema.json#/$defs/stream_item_id"},
+          "ordinal": {"type": "integer", "minimum": 0},
+          "node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+          "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+        }
+      },
+      "minItems": 1
+    },
+    "payload_inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["payload_id", "owner_record_kind", "owner_record_id", "material_class", "raw_content_hash", "normalized_payload_hash", "byte_count", "availability"],
+        "properties": {
+          "payload_id": {"type": "string", "pattern": "^payload_[a-z0-9][a-z0-9._-]*$"},
+          "owner_record_kind": {"$ref": "common.schema.json#/$defs/record_kind"},
+          "owner_record_id": {"type": "string", "minLength": 1},
+          "material_class": {"type": "string", "enum": ["project_authored", "external_source", "artifact", "metadata_only", "derived"]},
+          "raw_content_hash": {
+            "oneOf": [
+              {"$ref": "common.schema.json#/$defs/sha256"},
+              {"type": "null"}
+            ]
+          },
+          "normalized_payload_hash": {
+            "oneOf": [
+              {"$ref": "common.schema.json#/$defs/sha256"},
+              {"type": "null"}
+            ]
+          },
+          "byte_count": {"type": "integer", "minimum": 0},
+          "availability": {"type": "string", "enum": ["public", "authorized_local", "metadata_only", "blocked"]}
+        }
+      }
+    },
+    "source_registry_snapshot_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "rights_decision_log_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "replacement_record_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/replacement_id"}, "uniqueItems": true},
+    "genesis_state_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "terminal_state_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "graph_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_count", "edge_count", "hard_edge_count", "hard_edge_inventory_hash"],
+      "properties": {
+        "node_count": {"type": "integer", "minimum": 0},
+        "edge_count": {"type": "integer", "minimum": 0},
+        "hard_edge_count": {"type": "integer", "minimum": 0},
+        "hard_edge_inventory_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unique_payload_count", "normalized_bytes", "reference_tokenizer_id", "reference_token_count"],
+      "properties": {
+        "unique_payload_count": {"type": "integer", "minimum": 0},
+        "normalized_bytes": {"type": "integer", "minimum": 0},
+        "reference_tokenizer_id": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/tokenizer_id"},
+            {"type": "null"}
+          ]
+        },
+        "reference_token_count": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "warning_dispositions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "finding_hash", "disposition", "reviewer"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^TL100-[A-Z]+-[0-9]{3}$"},
+          "finding_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+          "disposition": {"type": "string", "minLength": 1},
+          "reviewer": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "known_limitations": {"type": "array", "items": {"type": "string"}},
+    "dataset_card": {"$ref": "common.schema.json#/$defs/file_artifact"},
+    "manifest_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"release_status": {"const": "accepted"}}, "required": ["release_status"]},
+      "then": {"properties": {"accepted_at": {"$ref": "common.schema.json#/$defs/timestamp"}}}
+    },
+    {
+      "if": {"properties": {"release_status": {"const": "draft"}}, "required": ["release_status"]},
+      "then": {"properties": {"accepted_at": {"type": "null"}}}
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "fixture_suite_version": "1.0.0",
+  "positive_cases": [
+    {"case_id": "entity-valid", "instance": "examples/entity.example.json", "schema": "schemas/entity.schema.json"},
+    {"case_id": "claim-valid", "instance": "examples/claim.example.json", "schema": "schemas/claim.schema.json"},
+    {"case_id": "concept-valid", "instance": "examples/concept.example.json", "schema": "schemas/concept.schema.json"},
+    {"case_id": "source-valid", "instance": "examples/source.example.json", "schema": "schemas/source.schema.json"},
+    {"case_id": "node-valid", "instance": "examples/node.example.json", "schema": "schemas/node.schema.json"},
+    {"case_id": "relation-edge-valid", "instance": "examples/relation_edge.example.json", "schema": "schemas/relation_edge.schema.json"},
+    {"case_id": "state-delta-valid", "instance": "examples/state_delta.example.json", "schema": "schemas/state_delta.schema.json"},
+    {"case_id": "state-snapshot-valid", "instance": "examples/state_snapshot.example.json", "schema": "schemas/state_snapshot.schema.json"},
+    {"case_id": "stream-item-valid", "instance": "examples/stream_item.example.json", "schema": "schemas/stream_item.schema.json"},
+    {"case_id": "artifact-valid", "instance": "examples/artifact.example.json", "schema": "schemas/artifact.schema.json"},
+    {"case_id": "replacement-valid", "instance": "examples/replacement.example.json", "schema": "schemas/replacement.schema.json"},
+    {"case_id": "validation-report-valid", "instance": "examples/validation_report.example.json", "schema": "schemas/validation_report.schema.json"},
+    {"case_id": "acceptance-receipt-valid", "instance": "examples/acceptance_receipt.example.json", "schema": "schemas/acceptance_receipt.schema.json"},
+    {"case_id": "release-manifest-valid", "instance": "examples/release_manifest.example.json", "schema": "schemas/release_manifest.schema.json"},
+    {"case_id": "tokenizer-manifest-valid", "instance": "examples/tokenizer_manifest.example.json", "schema": "schemas/tokenizer_manifest.schema.json"},
+    {"case_id": "decision-record-valid", "instance": "examples/decision_record.example.json", "schema": "schemas/decision_record.schema.json"},
+    {"case_id": "dependency-boundary-valid", "instance": "examples/dependency_boundary.example.json", "schema": "schemas/dependency_boundary.schema.json"},
+    {"case_id": "token-span-valid", "instance": "examples/token_span.example.json", "schema": "schemas/token_span.schema.json"},
+    {"case_id": "packing-group-valid", "instance": "examples/packing_group.example.json", "schema": "schemas/packing_group.schema.json"},
+    {"case_id": "update-schedule-valid", "instance": "examples/update_schedule_item.example.json", "schema": "schemas/update_schedule_item.schema.json"},
+    {"case_id": "export-manifest-valid", "instance": "examples/export_manifest.example.json", "schema": "schemas/export_manifest.schema.json"}
+  ],
+  "negative_mutations": [
+    {
+      "case_id": "artifact-parent-path-invalid",
+      "base_instance": "examples/artifact.example.json",
+      "schema": "schemas/artifact.schema.json",
+      "operation": "replace",
+      "json_pointer": "/payload/file/relative_path",
+      "value": "../outside.csv",
+      "expected_keyword": "pattern",
+      "rationale": "Artifact paths must remain project-relative and cannot traverse to a parent."
+    },
+    {
+      "case_id": "external-artifact-source-link-missing",
+      "base_instance": "examples/artifact.example.json",
+      "schema": "schemas/artifact.schema.json",
+      "operation": "replace",
+      "json_pointer": "/origin",
+      "value": "external_human",
+      "expected_keyword": "minItems",
+      "rationale": "Externally authored artifacts must resolve through at least one source record and its rights decision."
+    },
+    {
+      "case_id": "replacement-kind-invalid",
+      "base_instance": "examples/replacement.example.json",
+      "schema": "schemas/replacement.schema.json",
+      "operation": "replace",
+      "json_pointer": "/record_kind",
+      "value": "episode",
+      "expected_keyword": "enum",
+      "rationale": "Withdrawn Design v2 record kinds cannot enter Design v3 replacement history."
+    },
+    {
+      "case_id": "receipt-report-link-missing",
+      "base_instance": "examples/acceptance_receipt.example.json",
+      "schema": "schemas/acceptance_receipt.schema.json",
+      "operation": "remove",
+      "json_pointer": "/validation_report_id",
+      "expected_keyword": "required",
+      "rationale": "Atomic acceptance must name the validation report it relied on."
+    },
+    {
+      "case_id": "accepted-release-time-missing",
+      "base_instance": "examples/release_manifest.example.json",
+      "schema": "schemas/release_manifest.schema.json",
+      "operation": "replace",
+      "json_pointer": "/accepted_at",
+      "value": null,
+      "expected_keyword": "type",
+      "rationale": "An accepted release must carry an acceptance timestamp."
+    },
+    {
+      "case_id": "byte-tokenizer-has-merge-invalid",
+      "base_instance": "examples/tokenizer_manifest.example.json",
+      "schema": "schemas/tokenizer_manifest.schema.json",
+      "operation": "replace",
+      "json_pointer": "/vocabulary/merge_token_count",
+      "value": 1,
+      "expected_keyword": "const",
+      "rationale": "A byte-only tokenizer cannot report learned merge tokens."
+    },
+    {
+      "case_id": "decision-single-option-invalid",
+      "base_instance": "examples/decision_record.example.json",
+      "schema": "schemas/decision_record.schema.json",
+      "operation": "replace",
+      "json_pointer": "/options_considered",
+      "value": [
+        {
+          "option_id": "own_byte_bpe",
+          "summary": "Implement and train a readable byte-level BPE tokenizer on the approved TL100 corpus.",
+          "advantages": ["The vocabulary and every merge are inspectable."],
+          "disadvantages": ["More implementation and validation work."]
+        }
+      ],
+      "expected_keyword": "minItems",
+      "rationale": "A decision record must preserve at least two genuinely considered options."
+    },
+    {
+      "case_id": "dependency-behavior-invalid",
+      "base_instance": "examples/dependency_boundary.example.json",
+      "schema": "schemas/dependency_boundary.schema.json",
+      "operation": "replace",
+      "json_pointer": "/behavior",
+      "value": "opaque",
+      "expected_keyword": "enum",
+      "rationale": "Dependency determinism must use the controlled vocabulary."
+    },
+    {
+      "case_id": "token-span-source-id-invalid",
+      "base_instance": "examples/token_span.example.json",
+      "schema": "schemas/token_span.schema.json",
+      "operation": "replace",
+      "json_pointer": "/source_id",
+      "value": "Source Fixture",
+      "expected_keyword": "oneOf",
+      "rationale": "Compiled source links retain canonical type-prefixed IDs."
+    },
+    {
+      "case_id": "packing-capacity-invalid",
+      "base_instance": "examples/packing_group.example.json",
+      "schema": "schemas/packing_group.schema.json",
+      "operation": "replace",
+      "json_pointer": "/capacity",
+      "value": 0,
+      "expected_keyword": "minimum",
+      "rationale": "A packing group must have positive capacity."
+    },
+    {
+      "case_id": "schedule-negative-slot-invalid",
+      "base_instance": "examples/update_schedule_item.example.json",
+      "schema": "schemas/update_schedule_item.schema.json",
+      "operation": "replace",
+      "json_pointer": "/batch_slot",
+      "value": -1,
+      "expected_keyword": "minimum",
+      "rationale": "Batch slots are zero-based non-negative positions."
+    },
+    {
+      "case_id": "validation-code-invalid",
+      "base_instance": "examples/validation_report.example.json",
+      "schema": "schemas/validation_report.schema.json",
+      "operation": "replace",
+      "json_pointer": "/findings/0/code",
+      "value": "schema-error",
+      "expected_keyword": "pattern",
+      "rationale": "Stable validator codes use the declared TL100 namespace."
+    },
+    {
+      "case_id": "export-factor-mismatch-invalid",
+      "base_instance": "examples/export_manifest.example.json",
+      "schema": "schemas/export_manifest.schema.json",
+      "operation": "replace",
+      "json_pointer": "/declared_factors/cross_node_attention",
+      "value": "blocked_at_node_boundaries",
+      "expected_keyword": "const",
+      "rationale": "The named 2x2 condition fixes both experimental factor values."
+    }
+  ]
+}

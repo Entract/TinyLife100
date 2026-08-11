@@ -1,0 +1,88 @@
+{
+  "schema_version": "3.0.0",
+  "tokenizer_id": "tokenizer_fixture_byte_v1",
+  "tokenizer_version": "0.1.0-fixture",
+  "status": "provisional",
+  "algorithm": {
+    "kind": "byte_only",
+    "base_alphabet": "all_256_bytes",
+    "pretokenizer": "none",
+    "target_lexical_vocabulary_size": 256,
+    "achieved_lexical_vocabulary_size": 256,
+    "minimum_pair_frequency": 2,
+    "maximum_token_bytes": 1,
+    "pair_counting": "adjacent_overlapping_within_payload_v1",
+    "tie_breaking": "left_bytes_right_bytes_left_id_right_id_v1",
+    "replacement_order": "non_overlapping_left_to_right_v1"
+  },
+  "normalization": {
+    "policy_version": "fixture-normalization-1",
+    "policy_hash": "sha256:4040404040404040404040404040404040404040404040404040404040404040"
+  },
+  "training_corpus": {
+    "manifest": {
+      "relative_path": "examples/release_manifest.example.json",
+      "media_type": "application/json",
+      "byte_count": 0,
+      "content_hash": "sha256:3939393939393939393939393939393939393939393939393939393939393939",
+      "record_schema_id": "https://tl100.local/schemas/release_manifest.schema.json",
+      "record_count": 1
+    },
+    "unique_payload_count": 2,
+    "normalized_byte_count": 159,
+    "payload_multiset_hash": "sha256:4141414141414141414141414141414141414141414141414141414141414141",
+    "evaluation_exclusion_hash": "sha256:4242424242424242424242424242424242424242424242424242424242424242"
+  },
+  "vocabulary": {
+    "base_token_count": 256,
+    "merge_token_count": 0,
+    "special_token_count": 4,
+    "total_token_count": 260,
+    "vocabulary_hash": "sha256:4343434343434343434343434343434343434343434343434343434343434343",
+    "merge_table_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "special_tokens": [
+    {"name": "PAD", "token_id": 256, "insertion_authority": "compiler_only", "loss_treatment": "excluded_from_loss"},
+    {"name": "BOS", "token_id": 257, "insertion_authority": "compiler_only", "loss_treatment": "configuration_dependent"},
+    {"name": "EOS", "token_id": 258, "insertion_authority": "compiler_only", "loss_treatment": "loss_bearing"},
+    {"name": "NODE_BOUNDARY", "token_id": 259, "insertion_authority": "compiler_only", "loss_treatment": "excluded_from_loss"}
+  ],
+  "implementation": {
+    "reference": {
+      "name": "tl100-readable-byte-tokenizer",
+      "version": "0.0.0-fixture",
+      "git_commit": "0000000000000000000000000000000000000000",
+      "configuration_hash": "sha256:4545454545454545454545454545454545454545454545454545454545454545",
+      "environment_hash": "sha256:4646464646464646464646464646464646464646464646464646464646464646"
+    },
+    "conformance_implementation": {
+      "name": "tl100-conformance-byte-tokenizer",
+      "version": "0.0.0-fixture",
+      "git_commit": "0000000000000000000000000000000000000000",
+      "configuration_hash": "sha256:4747474747474747474747474747474747474747474747474747474747474747",
+      "environment_hash": "sha256:4646464646464646464646464646464646464646464646464646464646464646"
+    },
+    "environment_hash": "sha256:4646464646464646464646464646464646464646464646464646464646464646"
+  },
+  "artifacts": {
+    "configuration": {"relative_path": "tokenizers/fixture/config.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:4848484848484848484848484848484848484848484848484848484848484848", "record_schema_id": null, "record_count": null},
+    "training_corpus_manifest": {"relative_path": "examples/release_manifest.example.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:3939393939393939393939393939393939393939393939393939393939393939", "record_schema_id": "https://tl100.local/schemas/release_manifest.schema.json", "record_count": 1},
+    "normalization_policy": {"relative_path": "tokenizers/fixture/normalization.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:4040404040404040404040404040404040404040404040404040404040404040", "record_schema_id": null, "record_count": null},
+    "merges": {"relative_path": "tokenizers/fixture/merges.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444", "record_schema_id": null, "record_count": 0},
+    "vocabulary": {"relative_path": "tokenizers/fixture/vocabulary.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:4343434343434343434343434343434343434343434343434343434343434343", "record_schema_id": null, "record_count": 260},
+    "special_tokens": {"relative_path": "tokenizers/fixture/special-tokens.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:4949494949494949494949494949494949494949494949494949494949494949", "record_schema_id": null, "record_count": 4},
+    "test_vectors": {"relative_path": "tokenizers/fixture/test-vectors.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:5050505050505050505050505050505050505050505050505050505050505050", "record_schema_id": null, "record_count": 1},
+    "metrics": {"relative_path": "tokenizers/fixture/metrics.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:5151515151515151515151515151515151515151515151515151515151515151", "record_schema_id": null, "record_count": null},
+    "parameter_costs": {"relative_path": "tokenizers/fixture/parameter-costs.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:5252525252525252525252525252525252525252525252525252525252525252", "record_schema_id": null, "record_count": null},
+    "decision": {"relative_path": "examples/decision_record.example.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:5353535353535353535353535353535353535353535353535353535353535353", "record_schema_id": "https://tl100.local/schemas/decision_record.schema.json", "record_count": 1},
+    "validation_report": {"relative_path": "examples/validation_report.example.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:2525252525252525252525252525252525252525252525252525252525252525", "record_schema_id": "https://tl100.local/schemas/validation_report.schema.json", "record_count": 1}
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:19:00Z",
+    "notes": ["This provisional byte tokenizer is a schema fixture, not a scientific freeze."]
+  },
+  "created_at": "2026-08-11T08:19:00Z",
+  "manifest_hash": "sha256:5454545454545454545454545454545454545454545454545454545454545454"
+}

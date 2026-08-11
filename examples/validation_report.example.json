@@ -1,0 +1,42 @@
+{
+  "schema_version": "3.0.0",
+  "validation_report_id": "validation_fixture_release_v1",
+  "validator": {
+    "name": "tl100-validator",
+    "version": "0.0.0-fixture",
+    "git_commit": "0000000000000000000000000000000000000000",
+    "configuration_hash": "sha256:2020202020202020202020202020202020202020202020202020202020202020",
+    "environment_hash": "sha256:2121212121212121212121212121212121212121212121212121212121212121"
+  },
+  "validation_policy_version": "fixture-validation-1",
+  "schema_suite_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "input_kind": "release_candidate",
+  "input_id": "release_fixture_v1",
+  "input_hash": "sha256:2323232323232323232323232323232323232323232323232323232323232323",
+  "started_at": "2026-08-11T08:15:00Z",
+  "finished_at": "2026-08-11T08:15:01Z",
+  "configuration_hash": "sha256:2424242424242424242424242424242424242424242424242424242424242424",
+  "gate_results": [
+    {"gate": "schema", "result": "passed"},
+    {"gate": "references", "result": "passed"},
+    {"gate": "rights", "result": "passed"},
+    {"gate": "state_chain", "result": "passed"}
+  ],
+  "findings": [
+    {
+      "code": "TL100-SCHEMA-001",
+      "severity": "information",
+      "record_id": null,
+      "source_path": "examples/release_manifest.example.json",
+      "json_pointer": null,
+      "related_record_ids": ["release_fixture_v1"],
+      "observed": "The fixture uses syntactic hashes.",
+      "expected": "Production manifests use computed hashes.",
+      "evidence": "The fixture specification explicitly marks these identities as shape-only.",
+      "remediation_class": "fixture_only_no_action"
+    }
+  ],
+  "counts": {"errors": 0, "warnings": 0, "information": 1},
+  "overall_result": "passed",
+  "report_hash": "sha256:2525252525252525252525252525252525252525252525252525252525252525"
+}

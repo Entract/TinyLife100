@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/update_schedule_item.schema.json",
+  "title": "TL100 Training Update Schedule Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "schedule_item_id", "epoch", "optimizer_position", "batch_index", "batch_slot", "packing_group_id", "exposure_index", "shuffle_key", "packing_group_content_hash", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "schedule_item_id": {"type": "string", "pattern": "^schedule_[a-z0-9][a-z0-9._-]*$"},
+    "epoch": {"type": "integer", "minimum": 0},
+    "optimizer_position": {"type": "integer", "minimum": 0},
+    "batch_index": {"type": "integer", "minimum": 0},
+    "batch_slot": {"type": "integer", "minimum": 0},
+    "packing_group_id": {"type": "string", "pattern": "^pack_[a-z0-9][a-z0-9._-]*$"},
+    "exposure_index": {"type": "integer", "minimum": 0},
+    "shuffle_key": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "packing_group_content_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

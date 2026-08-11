@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/tokenizer_manifest.schema.json",
+  "title": "TL100 Glass-Box Tokenizer Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tokenizer_id", "tokenizer_version", "status", "algorithm", "normalization", "training_corpus", "vocabulary", "special_tokens", "implementation", "artifacts", "review", "created_at", "manifest_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "tokenizer_id": {"$ref": "common.schema.json#/$defs/tokenizer_id"},
+    "tokenizer_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-z0-9.-]+)?$"},
+    "status": {"type": "string", "enum": ["provisional", "scientific_frozen", "superseded"]},
+    "algorithm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "base_alphabet", "pretokenizer", "target_lexical_vocabulary_size", "achieved_lexical_vocabulary_size", "minimum_pair_frequency", "maximum_token_bytes", "pair_counting", "tie_breaking", "replacement_order"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["byte_only", "byte_bpe"]},
+        "base_alphabet": {"const": "all_256_bytes"},
+        "pretokenizer": {"type": "string", "enum": ["none", "boundary_aware_v1"]},
+        "target_lexical_vocabulary_size": {"type": "integer", "minimum": 256},
+        "achieved_lexical_vocabulary_size": {"type": "integer", "minimum": 256},
+        "minimum_pair_frequency": {"type": "integer", "minimum": 1},
+        "maximum_token_bytes": {"type": "integer", "minimum": 1},
+        "pair_counting": {"const": "adjacent_overlapping_within_payload_v1"},
+        "tie_breaking": {"const": "left_bytes_right_bytes_left_id_right_id_v1"},
+        "replacement_order": {"const": "non_overlapping_left_to_right_v1"}
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_version", "policy_hash"],
+      "properties": {
+        "policy_version": {"type": "string", "minLength": 1},
+        "policy_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "training_corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest", "unique_payload_count", "normalized_byte_count", "payload_multiset_hash", "evaluation_exclusion_hash"],
+      "properties": {
+        "manifest": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "unique_payload_count": {"type": "integer", "minimum": 0},
+        "normalized_byte_count": {"type": "integer", "minimum": 0},
+        "payload_multiset_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "evaluation_exclusion_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "vocabulary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base_token_count", "merge_token_count", "special_token_count", "total_token_count", "vocabulary_hash", "merge_table_hash"],
+      "properties": {
+        "base_token_count": {"const": 256},
+        "merge_token_count": {"type": "integer", "minimum": 0},
+        "special_token_count": {"type": "integer", "minimum": 0},
+        "total_token_count": {"type": "integer", "minimum": 256},
+        "vocabulary_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+        "merge_table_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "special_tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "token_id", "insertion_authority", "loss_treatment"],
+        "properties": {
+          "name": {"type": "string", "enum": ["PAD", "BOS", "EOS", "NODE_BOUNDARY"]},
+          "token_id": {"type": "integer", "minimum": 256},
+          "insertion_authority": {"const": "compiler_only"},
+          "loss_treatment": {"type": "string", "enum": ["loss_bearing", "excluded_from_loss", "configuration_dependent"]}
+        }
+      },
+      "uniqueItems": true
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "conformance_implementation", "environment_hash"],
+      "properties": {
+        "reference": {"$ref": "common.schema.json#/$defs/tool_identity"},
+        "conformance_implementation": {"$ref": "common.schema.json#/$defs/tool_identity"},
+        "environment_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["configuration", "training_corpus_manifest", "normalization_policy", "merges", "vocabulary", "special_tokens", "test_vectors", "metrics", "parameter_costs", "decision", "validation_report"],
+      "properties": {
+        "configuration": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "training_corpus_manifest": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "normalization_policy": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "merges": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "vocabulary": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "special_tokens": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "test_vectors": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "metrics": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "parameter_costs": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "decision": {"$ref": "common.schema.json#/$defs/file_artifact"},
+        "validation_report": {"$ref": "common.schema.json#/$defs/file_artifact"}
+      }
+    },
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "created_at": {"$ref": "common.schema.json#/$defs/timestamp"},
+    "manifest_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"algorithm": {"properties": {"kind": {"const": "byte_only"}}, "required": ["kind"]}},
+        "required": ["algorithm"]
+      },
+      "then": {
+        "properties": {
+          "algorithm": {
+            "properties": {
+              "target_lexical_vocabulary_size": {"const": 256},
+              "achieved_lexical_vocabulary_size": {"const": 256}
+            }
+          },
+          "vocabulary": {"properties": {"merge_token_count": {"const": 0}}}
+        }
+      }
+    }
+  ]
+}

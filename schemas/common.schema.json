@@ -75,9 +75,37 @@
       "type": "string",
       "pattern": "^export_[a-z0-9][a-z0-9._-]*$"
     },
+    "replacement_id": {
+      "type": "string",
+      "pattern": "^replace_[a-z0-9][a-z0-9._-]*$"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^receipt_[a-z0-9][a-z0-9._-]*$"
+    },
+    "validation_report_id": {
+      "type": "string",
+      "pattern": "^validation_[a-z0-9][a-z0-9._-]*$"
+    },
+    "tokenizer_id": {
+      "type": "string",
+      "pattern": "^tokenizer_[a-z0-9][a-z0-9._-]*$"
+    },
+    "decision_id": {
+      "type": "string",
+      "pattern": "^decision_[a-z0-9][a-z0-9._-]*$"
+    },
+    "boundary_id": {
+      "type": "string",
+      "pattern": "^boundary_[a-z0-9][a-z0-9._-]*$"
+    },
+    "protocol_id": {
+      "type": "string",
+      "pattern": "^protocol_[a-z0-9][a-z0-9._-]*$"
+    },
     "record_kind": {
       "type": "string",
-      "enum": ["node", "entity", "claim", "concept", "source", "source_segment", "artifact", "state_delta", "state_snapshot", "stream_item", "replacement"]
+      "enum": ["node", "relation_edge", "entity", "claim", "concept", "source", "source_segment", "artifact", "state_delta", "state_snapshot", "stream_item", "replacement", "acceptance_receipt", "release_manifest", "export_manifest", "validation_report", "tokenizer_manifest", "decision_record", "dependency_boundary"]
     },
     "acquisition_mode": {
       "type": "string",
@@ -154,6 +182,57 @@
           ]
         },
         "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "record_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_kind", "record_id", "content_hash"],
+      "properties": {
+        "record_kind": {"$ref": "#/$defs/record_kind"},
+        "record_id": {"type": "string", "minLength": 1},
+        "content_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "file_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "media_type", "byte_count", "content_hash", "record_schema_id", "record_count"],
+      "properties": {
+        "relative_path": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._-][A-Za-z0-9._/-]*$"
+        },
+        "media_type": {"type": "string", "minLength": 1},
+        "byte_count": {"type": "integer", "minimum": 0},
+        "content_hash": {"$ref": "#/$defs/sha256"},
+        "record_schema_id": {"type": ["string", "null"], "format": "uri"},
+        "record_count": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "tensor_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "encoding", "semantics_version", "dtype", "shape", "endianness"],
+      "properties": {
+        "file": {"$ref": "#/$defs/file_artifact"},
+        "encoding": {"type": "string", "minLength": 1},
+        "semantics_version": {"type": "string", "minLength": 1},
+        "dtype": {"type": "string", "enum": ["bool", "uint8", "uint16", "uint32", "uint64", "int8", "int16", "int32", "int64", "float16", "bfloat16", "float32", "float64"]},
+        "shape": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 1},
+        "endianness": {"type": "string", "enum": ["little", "big", "not_applicable"]}
+      }
+    },
+    "tool_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "git_commit", "configuration_hash", "environment_hash"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "git_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "configuration_hash": {"$ref": "#/$defs/sha256"},
+        "environment_hash": {"$ref": "#/$defs/sha256"}
       }
     }
   }

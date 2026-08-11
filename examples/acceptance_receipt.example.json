@@ -1,0 +1,40 @@
+{
+  "schema_version": "3.0.0",
+  "receipt_id": "receipt_fixture_bundle_000001",
+  "bundle_id": "bundle_fixture_000001",
+  "accepted_at": "2026-08-11T08:16:00Z",
+  "accepted_by": "TL100 fixture reviewer",
+  "store_version": "fixture-store-1",
+  "previous_canonical_head_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "new_canonical_head_hash": "sha256:2626262626262626262626262626262626262626262626262626262626262626",
+  "accepted_records": [
+    {
+      "record_kind": "node",
+      "record_id": "node_fixture_source_encounter",
+      "content_hash": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+    },
+    {
+      "record_kind": "relation_edge",
+      "record_id": "edge_fixture_segment_acquisition",
+      "content_hash": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    {
+      "record_kind": "state_delta",
+      "record_id": "delta_fixture_source_encounter",
+      "content_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    {
+      "record_kind": "stream_item",
+      "record_id": "stream_fixture_000001",
+      "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "stream_item_id": "stream_fixture_000001",
+  "pre_state_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "post_state_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "validation_report_id": "validation_fixture_release_v1",
+  "validation_report_hash": "sha256:2525252525252525252525252525252525252525252525252525252525252525",
+  "review_record_hashes": ["sha256:2727272727272727272727272727272727272727272727272727272727272727"],
+  "transaction_hash": "sha256:2828282828282828282828282828282828282828282828282828282828282828",
+  "content_hash": "sha256:2929292929292929292929292929292929292929292929292929292929292929"
+}

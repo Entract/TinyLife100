@@ -1,0 +1,19 @@
+{
+  "schema_version": "3.0.0",
+  "span_id": "span_fixture_measurement_note_body",
+  "stream_item_id": "stream_fixture_000001",
+  "node_id": "node_fixture_source_encounter",
+  "canonical_ordinal": 0,
+  "payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+  "component_record_id": "segment_fixture_measurement_note_body",
+  "material_class": "project_authored",
+  "source_id": "source_fixture_measurement_note",
+  "segment_id": "segment_fixture_measurement_note_body",
+  "derived_payload_id": null,
+  "exposure_index": 0,
+  "token_ids_hash": "sha256:5656565656565656565656565656565656565656565656565656565656565656",
+  "token_count": 18,
+  "boundary_token_ids_before": [],
+  "boundary_token_ids_after": [259],
+  "content_hash": "sha256:5757575757575757575757575757575757575757575757575757575757575757"
+}

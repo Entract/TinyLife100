@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/packing_group.schema.json",
+  "title": "TL100 Condition-Independent Packing Group",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "packing_group_id", "canonical_group_ordinal", "span_ids", "first_canonical_ordinal", "last_canonical_ordinal", "payload_token_count", "boundary_token_count", "padding_token_count", "total_token_count", "capacity", "token_sequence_hash", "position_sequence_hash", "loss_mask_hash", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "packing_group_id": {"type": "string", "pattern": "^pack_[a-z0-9][a-z0-9._-]*$"},
+    "canonical_group_ordinal": {"type": "integer", "minimum": 0},
+    "span_ids": {"type": "array", "items": {"type": "string", "pattern": "^span_[a-z0-9][a-z0-9._-]*$"}, "minItems": 1, "uniqueItems": true},
+    "first_canonical_ordinal": {"type": "integer", "minimum": 0},
+    "last_canonical_ordinal": {"type": "integer", "minimum": 0},
+    "payload_token_count": {"type": "integer", "minimum": 0},
+    "boundary_token_count": {"type": "integer", "minimum": 0},
+    "padding_token_count": {"type": "integer", "minimum": 0},
+    "total_token_count": {"type": "integer", "minimum": 1},
+    "capacity": {"type": "integer", "minimum": 1},
+    "token_sequence_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "position_sequence_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "loss_mask_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

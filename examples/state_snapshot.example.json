@@ -46,6 +46,7 @@
     "tool_version": "0",
     "parent_record_ids": ["delta_fixture_source_encounter"],
     "deterministic_seed": 0,
-    "notes": "Schema fixture; state hash is not a production-computed identity."
-  }
+    "notes": "Schema fixture; state and content hashes are not production-computed identities."
+  },
+  "content_hash": "sha256:6969696969696969696969696969696969696969696969696969696969696969"
 }

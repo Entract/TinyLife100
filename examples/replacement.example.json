@@ -1,0 +1,26 @@
+{
+  "schema_version": "3.0.0",
+  "replacement_id": "replace_fixture_claim_v0_with_v1",
+  "record_kind": "claim",
+  "superseded_record_id": "claim_fixture_meter_loads_divider_v0",
+  "replacement_record_id": "claim_fixture_meter_loads_divider",
+  "reason_code": "technical_correction",
+  "reason": "The first fixture wording omitted the finite input resistance condition.",
+  "affected_release_ids": ["release_fixture_v0"],
+  "effective_release_id": "release_fixture_v1",
+  "migration_guidance": "Resolve the v0 claim only when reproducing release_fixture_v0; use the replacement in later releases.",
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:11:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Shape-only replacement history."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:12:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:1919191919191919191919191919191919191919191919191919191919191919"
+}

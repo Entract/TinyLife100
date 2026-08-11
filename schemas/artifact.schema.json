@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/artifact.schema.json",
+  "title": "TL100 Design v3 Artifact Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_id", "artifact_type", "title", "origin", "payload", "entity_ids", "claim_ids", "concept_ids", "source_ids", "toolchain", "canonical_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "artifact_id": {"$ref": "common.schema.json#/$defs/artifact_id"},
+    "artifact_type": {"type": "string", "enum": ["code", "log", "table", "configuration", "dataset", "diagram", "calculation", "notebook", "measurement", "procedure", "model_checkpoint", "other"]},
+    "title": {"type": "string", "minLength": 1},
+    "origin": {"type": "string", "enum": ["project_human", "project_model_assisted", "project_generated", "external_human", "external_model", "mixed", "derived"]},
+    "payload": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["storage_mode", "file", "raw_content_hash", "normalized_payload_hash", "training_eligibility", "redistribution_eligibility"],
+          "properties": {
+            "storage_mode": {"type": "string", "enum": ["repo_payload", "local_payload"]},
+            "file": {"$ref": "common.schema.json#/$defs/file_artifact"},
+            "raw_content_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+            "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+            "training_eligibility": {"type": "string", "enum": ["approved", "conditional", "not_approved", "review_required"]},
+            "redistribution_eligibility": {"type": "string", "enum": ["approved", "conditional", "not_approved", "review_required"]}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["storage_mode", "training_eligibility", "redistribution_eligibility"],
+          "properties": {
+            "storage_mode": {"const": "metadata_only"},
+            "training_eligibility": {"const": "not_approved"},
+            "redistribution_eligibility": {"const": "not_approved"}
+          }
+        }
+      ]
+    },
+    "entity_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/entity_id"}, "uniqueItems": true},
+    "claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "uniqueItems": true},
+    "concept_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/concept_id"}, "uniqueItems": true},
+    "source_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/source_id"}, "uniqueItems": true},
+    "toolchain": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/tool_identity"}},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"origin": {"enum": ["external_human", "external_model"]}},
+        "required": ["origin"]
+      },
+      "then": {
+        "properties": {"source_ids": {"minItems": 1}}
+      }
+    }
+  ]
+}

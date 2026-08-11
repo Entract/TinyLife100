@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/replacement.schema.json",
+  "title": "TL100 Design v3 Replacement Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "replacement_id", "record_kind", "superseded_record_id", "replacement_record_id", "reason_code", "reason", "affected_release_ids", "effective_release_id", "migration_guidance", "canonical_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "replacement_id": {"$ref": "common.schema.json#/$defs/replacement_id"},
+    "record_kind": {"$ref": "common.schema.json#/$defs/record_kind"},
+    "superseded_record_id": {"type": "string", "minLength": 1},
+    "replacement_record_id": {"type": "string", "minLength": 1},
+    "reason_code": {"type": "string", "enum": ["factual_correction", "technical_correction", "rights_change", "provenance_correction", "schema_migration", "state_correction", "chronology_correction", "duplicate_merge", "other"]},
+    "reason": {"type": "string", "minLength": 1},
+    "affected_release_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/release_id"}, "uniqueItems": true},
+    "effective_release_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/release_id"},
+        {"type": "null"}
+      ]
+    },
+    "migration_guidance": {"type": "string", "minLength": 1},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

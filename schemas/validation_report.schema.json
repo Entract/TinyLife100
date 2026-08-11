@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/validation_report.schema.json",
+  "title": "TL100 Design v3 Validation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "validation_report_id", "validator", "validation_policy_version", "schema_suite_hash", "input_kind", "input_id", "input_hash", "started_at", "finished_at", "configuration_hash", "gate_results", "findings", "counts", "overall_result", "report_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "validation_report_id": {"$ref": "common.schema.json#/$defs/validation_report_id"},
+    "validator": {"$ref": "common.schema.json#/$defs/tool_identity"},
+    "validation_policy_version": {"type": "string", "minLength": 1},
+    "schema_suite_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "input_kind": {"type": "string", "enum": ["record", "acceptance_bundle", "release_candidate", "export", "matched_condition_set"]},
+    "input_id": {"type": "string", "minLength": 1},
+    "input_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "started_at": {"$ref": "common.schema.json#/$defs/timestamp"},
+    "finished_at": {"$ref": "common.schema.json#/$defs/timestamp"},
+    "configuration_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "gate_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate", "result"],
+        "properties": {
+          "gate": {"type": "string", "minLength": 1},
+          "result": {"type": "string", "enum": ["passed", "failed", "skipped"]}
+        }
+      },
+      "minItems": 1
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "severity", "record_id", "source_path", "json_pointer", "related_record_ids", "observed", "expected", "evidence", "remediation_class"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^TL100-[A-Z]+-[0-9]{3}$"},
+          "severity": {"type": "string", "enum": ["error", "warning", "information"]},
+          "record_id": {"type": ["string", "null"]},
+          "source_path": {"type": ["string", "null"]},
+          "json_pointer": {"type": ["string", "null"]},
+          "related_record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "observed": {"type": "string"},
+          "expected": {"type": "string"},
+          "evidence": {"type": "string"},
+          "remediation_class": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["errors", "warnings", "information"],
+      "properties": {
+        "errors": {"type": "integer", "minimum": 0},
+        "warnings": {"type": "integer", "minimum": 0},
+        "information": {"type": "integer", "minimum": 0}
+      }
+    },
+    "overall_result": {"type": "string", "enum": ["passed", "failed"]},
+    "report_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

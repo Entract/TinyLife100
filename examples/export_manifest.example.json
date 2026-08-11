@@ -2,38 +2,57 @@
   "schema_version": "3.0.0",
   "export_id": "export_fixture_relational_ordered_v1",
   "release_id": "release_fixture_v1",
+  "protocol_id": "protocol_fixture_primary_2x2_v1",
+  "condition": "relational_ordered",
+  "export_status": "accepted",
+  "output_class": "public_payload",
   "created_at": "2026-08-11T08:20:00Z",
   "compiler": {
     "name": "tl100-fixture-compiler",
-    "version": "0.0.0",
+    "version": "0.0.0-fixture",
     "git_commit": "0000000000000000000000000000000000000000",
     "configuration_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    "normalization_policy_version": "fixture-norm-1"
+    "environment_hash": "sha256:6363636363636363636363636363636363636363636363636363636363636363",
+    "normalization_policy_version": "fixture-normalization-1"
   },
   "tokenizer": {
-    "name": "fixture-tokenizer",
-    "version": "0.0.0",
-    "configuration_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    "vocabulary_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    "tokenizer_id": "tokenizer_fixture_byte_v1",
+    "tokenizer_manifest_hash": "sha256:5454545454545454545454545454545454545454545454545454545454545454",
+    "vocabulary_hash": "sha256:4343434343434343434343434343434343434343434343434343434343434343",
+    "special_token_map_hash": "sha256:4949494949494949494949494949494949494949494949494949494949494949"
   },
   "selection": {
     "canonical_stream_id": "canonical_fixture_v1",
     "selected_stream_item_ids": ["stream_fixture_000001"],
     "derived_payload_ids": [],
-    "selection_hash": "sha256:1212121212121212121212121212121212121212121212121212121212121212"
+    "selection_hash": "sha256:1212121212121212121212121212121212121212121212121212121212121212",
+    "exclusion_hash": "sha256:6464646464646464646464646464646464646464646464646464646464646464"
   },
-  "context_policy": {
-    "related_items_share_context": true,
-    "grouping_method": "canonical_node",
-    "max_context_tokens": 128,
-    "boundary_token_ids": [1],
-    "cross_group_attention": "isolated"
+  "packing_policy": {
+    "algorithm": "first-fit-in-canonical-order-v1",
+    "configuration_hash": "sha256:6565656565656565656565656565656565656565656565656565656565656565",
+    "max_context_tokens": 32,
+    "node_spans_intact": true,
+    "boundary_token_ids": [259],
+    "padding_token_id": 256,
+    "position_policy": "continuous_within_packing_group"
+  },
+  "declared_factors": {
+    "cross_node_attention": "allowed",
+    "packing_group_update_order": "canonical"
   },
   "update_order_policy": {
     "mode": "canonical",
     "seed": null,
-    "algorithm": "canonical-ordinal-ascending",
-    "preserves_within_context_order": true
+    "algorithm": "canonical-group-ordinal-ascending-v1",
+    "preserves_within_group_order": true,
+    "epoch_count": 1
+  },
+  "training_shape": {
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "planned_optimizer_updates": 1,
+    "incomplete_final_batch_policy": "error"
   },
   "relationship_visibility": {
     "exposed_edge_ids": ["edge_fixture_segment_acquisition"],
@@ -45,40 +64,65 @@
     "included_source_ids": ["source_fixture_measurement_note"],
     "decision_log_hash": "sha256:1313131313131313131313131313131313131313131313131313131313131313"
   },
-  "items": [
-    {
-      "output_position": 0,
-      "optimizer_position": 0,
-      "context_group_id": "ctx_fixture_000001",
-      "stream_item_id": "stream_fixture_000001",
-      "node_id": "node_fixture_source_encounter",
-      "payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
-      "material_class": "external_source",
-      "exposure_index": 0,
-      "derived_payload_id": null,
-      "token_start": 0,
-      "token_end": 18,
-      "token_count": 18
-    }
-  ],
+  "artifacts": {
+    "selection": {"relative_path": "exports/fixture/selection.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:1212121212121212121212121212121212121212121212121212121212121212", "record_schema_id": null, "record_count": null},
+    "normalized_payload_inventory": {"relative_path": "exports/fixture/normalized-payloads.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666", "record_schema_id": null, "record_count": 1},
+    "token_spans": {"relative_path": "exports/fixture/token-spans.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:5757575757575757575757575757575757575757575757575757575757575757", "record_schema_id": "https://tl100.local/schemas/token_span.schema.json", "record_count": 1},
+    "packing_plan": {"relative_path": "exports/fixture/packing-groups.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:6161616161616161616161616161616161616161616161616161616161616161", "record_schema_id": "https://tl100.local/schemas/packing_group.schema.json", "record_count": 1},
+    "tokens": {
+      "file": {"relative_path": "exports/fixture/tokens.bin", "media_type": "application/octet-stream", "byte_count": 64, "content_hash": "sha256:5858585858585858585858585858585858585858585858585858585858585858", "record_schema_id": null, "record_count": null},
+      "encoding": "contiguous-row-major-v1",
+      "semantics_version": "token-id-matrix-v1",
+      "dtype": "uint16",
+      "shape": [1, 32],
+      "endianness": "little"
+    },
+    "attention_layout": {
+      "file": {"relative_path": "exports/fixture/attention-layout.bin", "media_type": "application/octet-stream", "byte_count": 1024, "content_hash": "sha256:6767676767676767676767676767676767676767676767676767676767676767", "record_schema_id": null, "record_count": null},
+      "encoding": "dense-row-major-v1",
+      "semantics_version": "causal-attention-allowed-v1",
+      "dtype": "bool",
+      "shape": [1, 32, 32],
+      "endianness": "not_applicable"
+    },
+    "position_layout": {
+      "file": {"relative_path": "exports/fixture/position-ids.bin", "media_type": "application/octet-stream", "byte_count": 64, "content_hash": "sha256:5959595959595959595959595959595959595959595959595959595959595959", "record_schema_id": null, "record_count": null},
+      "encoding": "contiguous-row-major-v1",
+      "semantics_version": "continuous-within-packing-group-v1",
+      "dtype": "uint16",
+      "shape": [1, 32],
+      "endianness": "little"
+    },
+    "loss_mask": {
+      "file": {"relative_path": "exports/fixture/loss-mask.bin", "media_type": "application/octet-stream", "byte_count": 32, "content_hash": "sha256:6060606060606060606060606060606060606060606060606060606060606060", "record_schema_id": null, "record_count": null},
+      "encoding": "dense-row-major-v1",
+      "semantics_version": "next-token-loss-mask-v1",
+      "dtype": "bool",
+      "shape": [1, 32],
+      "endianness": "not_applicable"
+    },
+    "update_schedule": {"relative_path": "exports/fixture/update-schedule.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:6262626262626262626262626262626262626262626262626262626262626262", "record_schema_id": "https://tl100.local/schemas/update_schedule_item.schema.json", "record_count": 1},
+    "source_decisions": {"relative_path": "exports/fixture/source-decisions.jsonl", "media_type": "application/jsonl", "byte_count": 0, "content_hash": "sha256:1313131313131313131313131313131313131313131313131313131313131313", "record_schema_id": null, "record_count": 1},
+    "validation_report": {"relative_path": "exports/fixture/validation-report.json", "media_type": "application/json", "byte_count": 0, "content_hash": "sha256:6868686868686868686868686868686868686868686868686868686868686868", "record_schema_id": "https://tl100.local/schemas/validation_report.schema.json", "record_count": 1},
+    "matched_condition_report": null
+  },
   "token_accounting": {
     "unique_payload_tokens": 18,
-    "exposure_tokens": 18,
-    "emitted_tokens": 18,
-    "excluded_tokens": 0,
+    "payload_exposure_tokens": 18,
+    "boundary_tokens": 1,
+    "padding_tokens": 13,
+    "loss_bearing_tokens": 18,
+    "non_loss_input_tokens": 14,
+    "total_input_tokens": 32,
+    "excluded_payload_tokens": 0,
     "by_material_class": {
-      "project_authored": 0,
-      "external_source": 18,
+      "project_authored": 18,
+      "external_source": 0,
       "artifact": 0,
       "metadata_only": 0,
       "derived": 0
     }
   },
-  "output": {
-    "format": "text",
-    "relative_path": "exports/fixture/relational-ordered.txt",
-    "byte_count": 128,
-    "content_hash": "sha256:1414141414141414141414141414141414141414141414141414141414141414"
-  },
+  "known_deviations": [],
   "manifest_hash": "sha256:1515151515151515151515151515151515151515151515151515151515151515"
 }

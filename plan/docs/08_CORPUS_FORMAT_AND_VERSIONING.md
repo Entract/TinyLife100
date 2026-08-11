@@ -184,7 +184,7 @@ validation-report.json
 
 Optional human-readable text and statistics are derivatives and carry their own hashes.
 
-The current `export_manifest.schema.json` is the first manifest boundary. Before training implementation, it must be extended to identify the exact packing-plan, attention, position, loss-mask, batch-slot, and schedule artifacts described here.
+`export_manifest.schema.json` identifies the exact selection, packing-plan, token, attention, position, loss-mask, batch-shape, update-schedule, source-decision, and validation artifacts described here. The referenced JSONL and tensor contracts are defined by `token_span.schema.json`, `packing_group.schema.json`, `update_schedule_item.schema.json`, and the shared typed artifact descriptors in `common.schema.json`.
 
 ## 10. Compilation phases
 

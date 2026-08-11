@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/token_span.schema.json",
+  "title": "TL100 Compiled Atomic Token Span",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "span_id", "stream_item_id", "node_id", "canonical_ordinal", "payload_hash", "component_record_id", "material_class", "source_id", "segment_id", "derived_payload_id", "exposure_index", "token_ids_hash", "token_count", "boundary_token_ids_before", "boundary_token_ids_after", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "span_id": {"type": "string", "pattern": "^span_[a-z0-9][a-z0-9._-]*$"},
+    "stream_item_id": {"$ref": "common.schema.json#/$defs/stream_item_id"},
+    "node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+    "canonical_ordinal": {"type": "integer", "minimum": 0},
+    "payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "component_record_id": {"type": "string", "minLength": 1},
+    "material_class": {"type": "string", "enum": ["project_authored", "external_source", "artifact", "metadata_only", "derived"]},
+    "source_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/source_id"},
+        {"type": "null"}
+      ]
+    },
+    "segment_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/segment_id"},
+        {"type": "null"}
+      ]
+    },
+    "derived_payload_id": {"type": ["string", "null"], "pattern": "^derived_[a-z0-9][a-z0-9._-]*$"},
+    "exposure_index": {"type": "integer", "minimum": 0},
+    "token_ids_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "token_count": {"type": "integer", "minimum": 0},
+    "boundary_token_ids_before": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "boundary_token_ids_after": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

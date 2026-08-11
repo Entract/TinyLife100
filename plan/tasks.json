@@ -4,7 +4,7 @@
       "id": "t-021",
       "title": "Define glass-box engineering and the tokenizer protocol",
       "description": "Make inspectability and pedagogical reconstruction explicit project requirements; classify which TL100 components are built, borrowed, or independently verified; and specify a from-scratch byte-level BPE reference tokenizer, vocabulary-size bakeoff, provenance artifacts, tests, freeze criteria, and discussion checkpoints before model training.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-009"
       ],
@@ -17,13 +17,14 @@
         "plan/tasks.json"
       ],
       "canParallelize": false,
-      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md",
+      "completedCommit": "1f92af9ef67d650a04a900541e7cdfdb5e9c2f11"
     },
     {
       "id": "t-010",
       "title": "Complete the operational record and manifest schemas",
       "description": "Add Design v3 schemas for artifacts, replacements, acceptance receipts, and release manifests; extend export manifests for exact packing, attention, position, loss-mask, batch, and schedule artifacts; and add positive and negative fixtures for the expanded contract.",
-      "status": "pending",
+      "status": "in-progress",
       "dependsOn": [
         "t-009",
         "t-021"
@@ -33,7 +34,8 @@
       "affectedPaths": [
         "schemas/",
         "examples/",
-        "plan/docs/05_EPISODE_SPECIFICATION.md"
+        "plan/docs/05_EPISODE_SPECIFICATION.md",
+        "plan/docs/08_CORPUS_FORMAT_AND_VERSIONING.md"
       ],
       "canParallelize": false,
       "planDoc": "05_EPISODE_SPECIFICATION.md"

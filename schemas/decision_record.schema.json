@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/decision_record.schema.json",
+  "title": "TL100 Glass-Box Decision Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_id", "status", "question", "options_considered", "recommendation", "evidence_refs", "project_measurement_refs", "scientific_variables_affected", "pedagogical_value", "risks", "failure_tests", "owner_decision", "decision_at", "implementation_task_ids", "artifact_hashes", "supersedes_decision_ids", "superseded_by_decision_id", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "decision_id": {"$ref": "common.schema.json#/$defs/decision_id"},
+    "status": {"type": "string", "enum": ["proposed", "discussed", "accepted", "superseded"]},
+    "question": {"type": "string", "minLength": 1},
+    "options_considered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["option_id", "summary", "advantages", "disadvantages"],
+        "properties": {
+          "option_id": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "advantages": {"type": "array", "items": {"type": "string"}},
+          "disadvantages": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "minItems": 2
+    },
+    "recommendation": {"type": "string", "minLength": 1},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "project_measurement_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "scientific_variables_affected": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "pedagogical_value": {"type": "string", "minLength": 1},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "failure_tests": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "owner_decision": {"type": ["string", "null"]},
+    "decision_at": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/timestamp"},
+        {"type": "null"}
+      ]
+    },
+    "implementation_task_ids": {"type": "array", "items": {"type": "string", "pattern": "^t-[0-9]{3}$"}, "uniqueItems": true},
+    "artifact_hashes": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/sha256"}, "uniqueItems": true},
+    "supersedes_decision_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/decision_id"}, "uniqueItems": true},
+    "superseded_by_decision_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/decision_id"},
+        {"type": "null"}
+      ]
+    },
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

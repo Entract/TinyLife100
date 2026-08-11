@@ -1,0 +1,41 @@
+{
+  "schema_version": "3.0.0",
+  "artifact_id": "artifact_fixture_voltage_table",
+  "artifact_type": "table",
+  "title": "Fixture voltage measurements",
+  "origin": "project_human",
+  "payload": {
+    "storage_mode": "repo_payload",
+    "file": {
+      "relative_path": "examples/payloads/fixture-voltage-table.csv",
+      "media_type": "text/csv",
+      "byte_count": 31,
+      "content_hash": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+      "record_schema_id": null,
+      "record_count": null
+    },
+    "raw_content_hash": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+    "normalized_payload_hash": "sha256:1717171717171717171717171717171717171717171717171717171717171717",
+    "training_eligibility": "approved",
+    "redistribution_eligibility": "approved"
+  },
+  "entity_ids": ["ent_instrument_fixture_meter"],
+  "claim_ids": ["claim_fixture_meter_loads_divider"],
+  "concept_ids": ["concept_fixture_measurement_loading"],
+  "source_ids": [],
+  "toolchain": [],
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Synthetic values for schema testing only."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": ["No external data is present."]
+  },
+  "content_hash": "sha256:1818181818181818181818181818181818181818181818181818181818181818"
+}

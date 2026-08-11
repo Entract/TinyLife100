@@ -1,0 +1,13 @@
+{
+  "schema_version": "3.0.0",
+  "schedule_item_id": "schedule_fixture_epoch_000_group_000001",
+  "epoch": 0,
+  "optimizer_position": 0,
+  "batch_index": 0,
+  "batch_slot": 0,
+  "packing_group_id": "pack_fixture_000001",
+  "exposure_index": 0,
+  "shuffle_key": null,
+  "packing_group_content_hash": "sha256:6161616161616161616161616161616161616161616161616161616161616161",
+  "content_hash": "sha256:6262626262626262626262626262626262626262626262626262626262626262"
+}

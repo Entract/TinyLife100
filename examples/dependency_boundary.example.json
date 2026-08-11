@@ -1,0 +1,19 @@
+{
+  "schema_version": "3.0.0",
+  "boundary_id": "boundary_fixture_python_hashlib_sha256",
+  "component": "Python hashlib.sha256",
+  "version": "Python standard library fixture",
+  "license": "Python Software Foundation License",
+  "function": "Compute SHA-256 digests over exact byte sequences.",
+  "inputs": ["bytes"],
+  "outputs": ["32-byte digest"],
+  "behavior": "deterministic",
+  "relevant_defaults": ["No implicit text encoding is performed."],
+  "overridden_defaults": [],
+  "known_limitations": ["The caller owns serialization and domain separation."],
+  "scientific_effects": ["Provides artifact identity but does not select or transform corpus content."],
+  "test_refs": ["tests/hashing/test_sha256_vectors.py"],
+  "decision_owner": "TL100 project owner",
+  "reviewed_at": "2026-08-11T08:19:00Z",
+  "content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+}
