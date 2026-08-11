@@ -4,14 +4,32 @@
       "id": "t-003",
       "title": "Assess TL100 research value and define the minimum decisive experiment",
       "description": "Evaluate whether interrelated chronological experiential pretraining poses a genuinely open and falsifiable research question, identify the strongest confounds and failure modes, and recommend the smallest experimental program that can answer it before redesigning the corpus pipeline.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [],
       "assignee": "Codex",
       "category": "feature",
       "affectedPaths": [],
       "canParallelize": false,
-      "planDoc": "17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md"
+      "planDoc": "17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md",
+      "completedCommit": "f06903af6409c186e901a0ebe07029d4a8edb5ef"
+    },
+    {
+      "id": "t-004",
+      "title": "Reset the TL100 foundation as a scientific Design v3",
+      "description": "Replace the fictional-life-first framing with a falsifiable situated-learner and relational-data design, specify matched experimental controls and scale gates, preserve the primary research evidence, and mark unmigrated Design v2 documents as non-canonical legacy inputs.",
+      "status": "in-progress",
+      "dependsOn": [
+        "t-003"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/00_PROJECT_DESIGN.md",
+        "plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md"
     }
   ],
-  "nextId": 4
+  "nextId": 5
 }

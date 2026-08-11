@@ -1,559 +1,551 @@
-# 00 — Project Design (v2)
-
-## 1. Project name
-
-**LIFE100**
-
-Working subtitle:
-
-> **A life-structured corpus for studying data organization in a ~100M-parameter language model.**
-
-The name is deliberately about the dataset and target scale, not a novel model architecture.
-
 ---
+category: feature
+---
+
+# TinyLife100 (TL100) — Project Design (Design v3)
+
+> Status: foundational Design v3 specification.
+>
+> Design v3 supersedes the fictional-human framing of Design v2. A situated learner and its acquisition history are research abstractions, not claims of personhood, consciousness, human cognition, or simulated biography.
+
+## 1. Project identity
+
+**Project name:** TinyLife100
+
+**Short name:** TL100
+
+**Working subtitle:** Life-Structured Relational Pretraining for Small Language Models
+
+TL100 is a dataset-first research project for studying whether small, conventional language models learn differently when their training data preserves explicit relationships among information encounters.
+
+The primary research artifact is the corpus, its relational metadata, its controlled transformations, and the exact manifests describing what each model saw.
+
+The project does not depend on a novel neural architecture.
 
 ## 2. Central research question
 
-Most language-model pretraining corpora are mixtures of many authors, eras, genres, intentions, domains, viewpoints, reliability levels, duplicated explanations, and unrelated documents.
+Most language-model pretraining corpora contain useful local documents but weak global organization. Documents from unrelated authors, domains, times, and purposes are sampled into training contexts with little attempt to preserve causal or developmental relationships between them.
 
-LIFE100 asks a deliberately different question:
+TL100 asks:
 
-> **What happens when essentially everything a small language model has ever "seen" belongs to one intentionally constructed, internally consistent stream of experience?**
+> Holding content, token exposure, architecture, tokenizer, and optimization as constant as possible, does preserving causal, temporal, referential, epistemic, and prerequisite structure in a training stream change what a small language model learns?
 
-### The v2 definition of “Life”
+The strongest version of the hypothesis is not that coherent prose is pleasant, nor that a model trained on a story becomes human-like.
 
-The Life is **not** merely a very long synthetic autobiography.
+The testable claim is:
 
-The Life is the **causal, chronological, epistemic, and curricular structure that gives every piece of training data a place**.
+> A model may learn some relationships more efficiently, transfer them more reliably, or represent them differently when the corpus makes those relationships repeatedly available in a controlled acquisition structure.
 
-The narrator:
+## 3. The situated learner
 
-- experiences events;
-- builds and repairs things;
-- talks with recurring people;
-- makes mistakes;
-- conducts experiments;
-- reads books, textbooks, manuals, papers, essays, literature, code, and technical artifacts;
-- learns some things from other people;
-- infers other things from evidence;
-- misunderstands some of what is encountered;
-- revises beliefs;
-- reuses old knowledge in new settings;
-- accumulates preferences, vocabulary, memories, unresolved questions, and technical judgment.
+TL100 organizes information around one **situated learner**.
 
-Narrator-authored prose remains one persistent first-person voice. External human-authored material may retain its original voice when deliberately included as an experience.
+The situated learner is an epistemic reference point used to answer:
 
-The model therefore does **not** receive one authorial voice. It receives **one point of reception**.
+- What information was available?
+- In what order did it become available?
+- Through which source or interaction?
+- What prior information could support understanding?
+- What was believed, uncertain, or misunderstood afterward?
+- What later observation corrected or reused it?
 
-That distinction is fundamental.
+The learner does not need:
 
----
+- a human childhood;
+- a fictional hometown;
+- a dramatic biography;
+- a fixed age, gender, personality, or social identity;
+- claims of inner experience;
+- continuous first-person prose;
+- psychologically realistic human development.
 
-## 3. Why this is a data experiment
+The learner may be represented through scenes, observations, dialogues, notebooks, measurements, artifacts, source readings, plans, explanations, and reflections. These are data forms attached to one acquisition history.
 
-The target model is intentionally conventional. The project does not depend on inventing a new attention mechanism, optimizer, or transformer block.
+“Life” remains a compact project metaphor for this persistent acquisition history. In technical specifications, prefer **situated learner**, **relational stream**, and **acquisition state**.
 
-The experimental object is the corpus:
+## 4. What “experienced” means
 
-- what information is included;
-- when it appears;
-- what prerequisites existed beforehand;
-- why the narrator encounters it;
-- whether it is experienced, told, read, measured, inferred, or taught;
-- how often it recurs;
-- what else shares the same context;
-- what mistakes mediate learning;
-- how human-authored and synthetic material are mixed;
-- whether coherent organization changes learning relative to the same tokens shuffled or decontextualized.
+In TL100, “experienced” is an operational data property.
 
-The project should therefore spend disproportionate effort on **world design, curriculum design, source curation, chronology, provenance, corpus QA, and experimental controls**.
+An item is experienced when the canonical records state:
 
----
+1. why it became available;
+2. what acquisition mode exposed it;
+3. what the learner state was before it;
+4. what state changes it proposed;
+5. which later items depend on, revisit, test, correct, or apply it.
 
-## 4. Research hypotheses
+Experience is therefore not a metaphysical claim. It is a provenance-rich relationship between a learner state and a corpus item.
 
-All hypotheses are empirical. The implementation must preserve enough metadata and matched controls to falsify them.
+## 5. The relational stream graph
 
-### H1 — Coherent-distribution efficiency
+The canonical scientific object is a directed, typed graph plus one canonical stream order.
 
-For a fixed small model size and token budget, a tightly coherent corpus may produce unusually strong competence inside its intended world and technical domains relative to a heterogeneous corpus of comparable quality.
+### 5.1 Node classes
 
-### H2 — Curriculum and chronology
+Initial node classes:
 
-Ordering material approximately according to conceptual prerequisites and causal life history may change sample efficiency, retention, transfer, or world consistency relative to globally shuffling the same material.
+- **encounter** — a bounded event in which information becomes available;
+- **observation** — recorded evidence from an environment or artifact;
+- **action** — an attempted intervention or procedure;
+- **conversation** — information exchanged among identified participants;
+- **source segment** — external text with provenance and rights metadata;
+- **artifact** — code, log, table, diagram, specification, configuration, or other structured object;
+- **reflection** — an interpretation, comparison, plan, explanation, or belief update;
+- **assessment** — a probe, test, or task used to evaluate current competence.
 
-### H3 — Contextualized external knowledge
+Node types may be refined after schema prototyping. They must not be multiplied merely to encode prose genres.
 
-Human-authored material may be learned differently when it is encountered at a meaningful point in a life — prompted by a problem, surrounded by prior knowledge and later application — than when the same material is inserted without those bridges.
+### 5.2 Edge classes
 
-### H4 — Recurrence creates dense representations
+Every important relationship must be explicit and independently addressable.
 
-Repeated encounters with the same people, places, machines, projects, concepts, and mistakes across changing contexts may make limited model capacity more useful than equivalent token volume spent on unrelated examples.
+- **temporal** — A occurred before B;
+- **causal** — A caused or materially contributed to B;
+- **prerequisite** — understanding A is expected to support B;
+- **entity recurrence** — A and B concern the same persistent entity;
+- **project continuation** — B continues an objective or constraint established in A;
+- **acquisition** — A made a claim, term, procedure, or observation available;
+- **belief support** — A increased support for a belief;
+- **belief conflict** — A conflicted with a current belief;
+- **correction** — A revised or invalidated an earlier belief;
+- **source application** — B applies information encountered in source A;
+- **memory or callback** — B reuses an earlier event after a meaningful interval;
+- **analogy or transfer** — B applies a structure learned in A to a different surface domain.
 
-### H5 — Stable identity creates behavioral consistency
+Each accepted edge should include:
 
-A persistent narrator may make explanatory habits, uncertainty behavior, conversational style, preferences, and autobiographical/world consistency easier for a small model to learn.
+- stable edge ID;
+- edge type;
+- source node;
+- target node;
+- design rationale;
+- confidence or review state where appropriate;
+- whether the edge is visible in text, metadata only, or both.
 
-### H6 — Human-authored variation protects linguistic breadth
+### 5.3 Canonical order
 
-External books, manuals, literature, papers, and other selected human-authored material may reduce stylistic narrowing and generator-model artifacts while preserving the Life's organizational coherence.
+The canonical stream is a reviewed linearization of the graph. It must respect hard temporal and acquisition constraints.
 
-### H7 — Productive imperfection matters
+Canonical order is immutable within a release.
 
-Mistakes, uncertainty, failed hypotheses, corrections, delayed resolution, and conflicting evidence may teach stronger debugging and reasoning behavior than a corpus containing only polished answers.
+Training exports may reorder or mask relationships, but they never overwrite canon.
 
-### H8 — Mixture has an optimum, not a dogma
+## 6. Experimental factors
 
-The useful proportion of Life-native synthetic material versus human-authored reading and technical artifacts is unknown and may vary by capability. It should be treated as an experimental variable rather than fixed from prior synthetic-data studies.
+Design v3 separates factors that Design v2 often bundled together.
 
-### H9 — Structure can help or hurt
+### 6.1 Local relational context
 
-Too much coherence may cause narrowness, memorization, stylistic collapse, weak out-of-distribution behavior, or overdependence on the fictional world. LIFE100 should explicitly measure these failure modes.
+Are causally or referentially connected items visible together inside the model’s attention context?
 
----
+### 6.2 Global update order
 
-## 5. Non-goals
+Are training windows presented to the optimizer in canonical acquisition order or a controlled shuffle?
 
-LIFE100 is not intended to:
+This is distinct from local context. A standard transformer does not carry an activation state across independent batches; global chronology can influence later learning only through parameter updates and the training schedule.
 
-- reproduce frontier-model breadth or capability;
-- claim that language models learn like humans;
-- create a psychologically realistic human childhood;
-- imply subjective experience or consciousness;
-- maximize arbitrary benchmark performance;
-- optimize broad trivia coverage;
-- replace human technical source material with generated imitation;
-- invent a novel transformer architecture;
-- conceal model narrowness with in-distribution tests;
-- assume synthetic data is intrinsically better than natural data;
-- assume human-authored data is intrinsically better than carefully designed synthetic data;
-- make legal claims about the permissibility of training on particular copyrighted works.
+### 6.3 Prerequisite curriculum
 
-The Life metaphor is a **data-organization principle**.
+Are prerequisite concepts introduced before dependent uses?
 
----
+Curriculum order can help even without a persistent learner. It therefore requires a separate control.
 
-## 6. Model target
+### 6.4 Relational construction
 
-Primary target: a conventional decoder-only transformer of approximately **100 million trainable parameters**.
+Does the text itself contain recurring entities, causal bridges, source-to-application links, and belief revision, or is equivalent content presented as independent material?
 
-Representative architecture class:
+This factor requires content-matched rewriting and is less perfectly controlled than order-only experiments.
 
-- 8–12 transformer blocks;
-- residual width roughly 512–768;
-- 8–12 attention heads;
-- conventional or gated MLP;
-- RMSNorm;
-- RoPE or comparable positional method;
-- tied embedding/output weights where useful;
-- context initially 512–2048 tokens, selected experimentally.
+### 6.5 Stable epistemic center
 
-Smaller models (~1M, ~10M, ~30M) are diagnostic instruments and should be trained repeatedly during corpus development.
+Does one acquisition history improve temporal belief tracking, source attribution, correction behavior, or recurring-entity knowledge?
 
-The final 100M model should not be trained until small-model results justify the data-production cost.
+### 6.6 Material mixture
 
----
+What proportion of the stream is project-authored narrative or explanation, external human-authored text, and structured artifacts?
 
-## 7. Corpus target
+Mixture is a later factor. It must not be conflated with the first ordering and relational experiments.
 
-The mature planning target remains approximately **250M unique accepted training tokens**.
+## 7. Hypothesis hierarchy
 
-That total now includes multiple material classes:
+### H1 — Local relational availability
 
-- Life-native narrator prose;
-- external human-authored readings;
-- technical artifacts/documents/code where intentionally included;
-- dialogue or quoted material that naturally belongs to Life episodes;
-- derived reflection/application material.
+For the same text and exposure count, placing related items in the same attention context improves performance on tasks requiring those relationships.
 
-No final percentage is locked.
+### H2 — Global acquisition order
 
-Recommended releases:
+After controlling for local context, presenting training windows in acquisition order changes sample efficiency, retention, or transfer relative to shuffled update order.
 
-| Release | Compiled unique tokens | Purpose |
+### H3 — Relational construction
+
+Content organized around recurring entities, causal consequences, source application, and belief revision produces stronger relational transfer than content-matched standalone passages.
+
+### H4 — Epistemic-center effects
+
+A stable acquisition history improves temporal knowledge, source attribution, uncertainty, and obsolete-belief rejection.
+
+### H5 — Bounded-distribution efficiency
+
+A small model may achieve unusually dense competence inside a bounded relational domain, at the cost of some linguistic or out-of-distribution breadth.
+
+### H6 — Human-source contribution
+
+Human-authored sources may protect linguistic breadth and add useful alternative structures, but the useful mixture depends on model size, data budget, source selection, and experimental objective.
+
+### H0 — Null
+
+Once text, exposure, local context, curriculum, and optimization are controlled, relational stream structure produces no reliable advantage beyond memorizing its own recurring world.
+
+The null is a valid and informative outcome.
+
+## 8. Minimum exact-token experiment
+
+The first scientific experiment uses the same accepted text units and exposure counts under four conditions.
+
+| Condition | Related neighboring items share attention context | Training-window update order |
 |---|---:|---|
-| Pilot | 50k–250k | prove schemas, chronology, source encounters, voice, compilation |
-| v0 | 1M | train tiny diagnostic models |
-| v1 | 5M | validate recurring world + reading integration + curriculum |
-| v2 | 25M | first serious mixture/order experiments |
-| v3 | 100M | 30M–100M model experiments |
-| v4 | 250M | primary 100M-target corpus |
-| v5+ | 500M+ | only if results justify |
+| relational ordered | yes | canonical |
+| local coherence only | yes | shuffled |
+| global chronology only | no; cross-item attention is masked or reset | canonical |
+| fully disrupted | no; cross-item attention is masked or reset | shuffled |
 
-At each release report:
+The compiler must hold constant:
 
-1. unique compiled tokens;
-2. training token exposures;
-3. material-class composition;
-4. source-origin composition;
-5. era/curriculum composition;
-6. recurrence and duplication statistics.
+- selected text units;
+- tokenized text;
+- total token exposures;
+- tokenizer;
+- model architecture;
+- optimizer and schedule;
+- number of updates;
+- padding and loss masking as closely as possible;
+- checkpoint and evaluation cadence;
+- separator policy;
+- random seeds where the comparison permits.
 
----
+Any unavoidable difference must be declared in the export manifest.
 
-## 8. The unit of design is not the token
+### 8.1 Why this experiment comes first
 
-Design at nested scales:
+It separates information that is available directly to attention from information that can affect learning only through weight updates.
 
-1. **World** — stable reality and constraints
-2. **Life** — narrator trajectory and identity
-3. **Curriculum** — concept dependency graph
-4. **Library** — selected external knowledge sources
-5. **Era** — broad developmental stage
-6. **Arc** — project, relationship, concept, question, machine, or reading arc
-7. **Encounter** — event through which information becomes available
-8. **Episode** — narrator-authored coherent event/reflection
-9. **Source segment** — external text deliberately encountered
-10. **Stream item** — canonical timeline unit pointing to episode/source/artifact
-11. **Training passage** — compiled text unit
-12. **Token** — tokenizer unit
+It does not require rewriting the corpus, so the token content can remain exactly matched.
 
-Bulk generation must never begin at level 12.
+### 8.2 Second experiment: relational versus delinked
 
----
+If the exact-token experiment shows a signal, build a content-matched control that removes or replaces:
 
-## 9. What “one life” means
+- persistent identities;
+- explicit callbacks;
+- causal bridges;
+- acquisition framing;
+- belief history;
+- source-to-application links.
 
-There is one persistent narrator and one canonical timeline.
+This experiment tests relational construction rather than ordering. Because rewriting changes surface text, it requires stronger matching, independent review, and explicit caveats.
 
-Every meaningful input to the narrator has an acquisition path.
+### 8.3 Curriculum control
 
-The project distinguishes:
+A curriculum-only condition should preserve prerequisite tiers while removing fine-grained acquisition chronology. This tests whether any TL100 benefit is simply ordinary curriculum learning.
 
-### Experienced
+## 9. Minimum corpus
 
-> I saw the wheel rub the frame.
+The first corpus should be a **micro-life**, not a simulated lifetime.
 
-### Told
+Recommended scope for the first manually inspectable corpus:
 
-> Mara said the startup current could be much higher than the running current.
+- one situated learner;
+- three to six recurring entities;
+- two or three bounded technical domains;
+- four to eight project or investigation arcs;
+- twenty to sixty explicitly tracked concepts;
+- several plausible errors and corrections;
+- several delayed callbacks;
+- at least two cross-domain transfer targets;
+- a small, fixed, rights-clear source set if external readings are used.
 
-### Read
+The corpus should be large enough to express relationships and small enough that a human can inspect every node, edge, and transition.
 
-> The motor datasheet listed a stall current well above what I had expected.
+The learner’s biography is deliberately underspecified unless a field is required for continuity or an experiment.
 
-### Measured
+## 10. Acquisition and knowledge state
 
-> I measured the rail falling from 5.0 V to 4.1 V during startup.
+Important information changes must record an acquisition mode:
 
-### Inferred
+- observed;
+- measured;
+- read;
+- told;
+- inferred;
+- tested;
+- taught or explained;
+- believed without sufficient support;
+- corrected.
 
-> I concluded the reset was probably a supply problem rather than a timing bug.
+World or task truth and learner state are separate.
 
-### Believed but wrong
+For any important claim at stream position T, the system should be able to answer:
 
-> I was still convinced the firmware was at fault.
+- Is the claim true in the controlled environment?
+- Was it available by T?
+- Through what path?
+- Was it believed, doubted, or misunderstood?
+- What later event changed that state?
 
-These distinctions are metadata and should often be visible naturally in prose.
+This enables deterministic detection of information appearing before acquisition and evaluation of obsolete-belief behavior.
 
----
+## 11. Sources and rights
 
-## 10. External knowledge inside the Life
+External sources are optional inputs, not corpus filler.
 
-External sources are not random corpus filler.
+Every source requires:
 
-A source may enter the training stream only through an intentional encounter with metadata such as:
-
-- source ID;
-- selected segment/work;
-- trigger for reading;
-- narrator knowledge before;
-- intended curriculum role;
-- expected misunderstanding or uncertainty if any;
-- rights/licensing status;
-- later applications/callbacks.
-
-The source may retain its original voice.
-
-The Life prose around it may include:
-
-- why it was sought;
-- anticipation;
-- notes;
-- questions;
-- partial understanding;
-- disagreement;
-- application;
-- later semanticized memory.
-
-Not every reading needs an explicit lesson or reflection. Realistic reading also includes curiosity, pleasure, incomplete attention, and later indirect influence.
-
-See `15_LIBRARY_AND_READING_EVENTS.md`.
-
----
-
-## 11. Intended cognitive distribution
-
-One identity must not become one rhetorical template.
-
-Deliberately include:
-
-- observation;
-- procedural action;
-- measurement;
-- causal reasoning;
-- quantitative calculation;
-- comparison;
-- hypothesis formation;
-- experimental design;
-- debugging;
-- planning;
-- design review;
-- dialogue;
-- negotiation;
-- explanation;
-- teaching;
-- uncertainty;
-- disagreement;
-- postmortem;
-- memory;
-- transfer;
-- reading comprehension;
-- note-taking;
-- source criticism;
-- reconciliation of source vs experiment;
-- ordinary nontechnical life.
-
-Measure release-level distributions.
-
----
-
-## 12. Technical subject scope
-
-The life should develop a **deep but bounded technical worldview**.
-
-### Foundations
-- objects/properties/categories;
-- space/geometry;
-- time/sequence;
-- number/arithmetic;
-- units/measurement;
-- uncertainty/estimation;
-- observation/evidence/inference.
-
-### Practical making
-- hand tools;
-- materials;
-- fasteners/joints;
-- mechanisms;
-- friction/force/torque/energy;
-- fabrication/tolerances;
-- safety.
-
-### Electricity, electronics, instrumentation
-- voltage/current/resistance/power;
-- circuits;
-- motors;
-- sensors;
-- measurement loading;
-- signals/noise;
-- oscilloscopes/meters/power supplies;
-- calibration.
-
-### Software and computation
-- variables/state/control flow;
-- functions/abstraction;
-- files/parsing;
-- testing/debugging;
-- version control;
-- data structures;
-- APIs/databases/networks;
-- observability.
-
-### Systems and control
-- requirements;
-- interfaces;
-- feedback;
-- setpoint/error;
-- stability intuition;
-- latency/throughput;
-- queues;
-- failure modes;
-- state estimation;
-- redundancy.
-
-### Experimental reasoning
-- hypotheses;
-- controls;
-- confounders;
-- uncertainty;
-- repeatability;
-- calibration/validation;
-- evidence quality;
-- belief revision.
-
-### Machine learning and language models
-- train/validation/test;
-- loss/gradient intuition;
-- overfitting/generalization;
-- representation;
-- precision/recall;
-- tokenization;
-- embeddings;
-- transformers/attention/MLPs;
-- pretraining/inference;
-- KV cache;
-- quantization;
-- fine-tuning/LoRA/distillation;
-- retrieval/RAG;
-- agents/tools;
-- evaluation.
-
-### Technical judgment and deployment
-- problem discovery;
-- when not to use AI;
-- deterministic/probabilistic boundaries;
-- privacy/security/data residency;
-- permissions;
-- observability;
-- acceptance criteria;
-- staged deployment;
-- cost per task;
-- human oversight.
-
----
-
-## 13. Source grounding and source inclusion
-
-Two distinct source modes exist.
-
-### Mode A — Backstage grounding
-
-Authoritative source material is used to build factual substrates and verify generated Life prose. The source itself does not enter training text.
-
-### Mode B — Explicit reading
-
-A selected source or source segment itself becomes part of the compiled training stream because the narrator encounters it at a designed point in the Life.
-
-Both modes require a source registry.
-
-For every technical unit:
-
-1. identify authoritative or otherwise purposeful sources;
-2. record provenance and rights status;
-3. map sources to concepts and prerequisites;
-4. decide whether the source is grounding-only or eligible for explicit reading;
-5. plan encounter timing;
-6. validate the narrator's later use of the source;
-7. preserve source identity in manifests.
-
----
-
-## 14. Canonical data versus training views
-
-There is exactly one canonical life timeline.
-
-The source of truth is a sequence of **stream items**, not a single flat text file.
-
-A stream item may reference:
-
-- narrator episode;
-- reading-event boundary;
-- selected source segment;
-- technical artifact;
-- reflection/application episode;
-- transition marker.
-
-The canonical timeline is never shuffled.
-
-Training exports can then produce:
-
-- `life_ordered`;
-- `life_local_shuffle`;
-- `global_shuffle`;
-- `decontextualized`;
-- `curriculum_replay`;
-- mixture-controlled exports;
-- source-removed or Life-removed ablations.
-
-The same source segment may be **referenced** in multiple experiments, but token exposure must be explicitly tracked.
-
----
-
-## 15. Fundamental experiments
-
-### Experiment O — Ordered Life
-
-Same architecture/tokenizer/optimizer/token budget. Material occurs in designed Life order, including readings at the moments they are encountered.
-
-### Experiment S — Global Shuffle
-
-Exact same selected training material, randomized globally.
-
-Tests order while holding content constant.
-
-### Experiment D — Decontextualized
-
-Same Life-native prose and same readings, but reading rationale/bridges and later callback structure are removed or minimized while preserving token budget as closely as possible.
-
-Tests whether contextual placement contributes beyond content.
-
-### Experiment M — Mixture sweep
-
-Matched training runs with different proportions of:
-
-- Life-native material;
-- human-authored readings;
-- technical artifacts/other.
-
-No ratio is assumed optimal in advance.
-
-### Experiment V — Multi-voice Life
-
-Matched Life-native content rewritten across multiple independent narrators/styles.
-
-Tests stable-identity effects.
-
-### Experiment R — Recurrence removed
-
-Recurring objects/people/projects are replaced by one-off equivalents while preserving conceptual content.
-
-Tests recurrence.
-
-### Experiment E — Error-free
-
-Mistakes/corrections are replaced with polished correct exposition where possible.
-
-Tests productive imperfection.
-
----
-
-## 16. What success would look like
-
-Success is not merely “the model sounds good.”
-
-Success means we can make statements such as:
-
-- contextualized reading improved transfer relative to the same readings shuffled;
-- chronology reduced exposures needed for a concept;
-- human-authored reading improved linguistic breadth without destroying narrator consistency;
-- recurrence improved world memory or cross-domain analogy;
-- the Life-heavy mixture improved target-domain behavior but harmed OOD performance;
-- a reading-heavy mixture improved language modeling but weakened autobiographical/world consistency;
-- mistakes improved fault diagnosis;
-- the result was null, and the matched controls show structure did not matter at this scale.
-
-Negative results are valuable if the dataset and controls are auditable.
-
----
-
-## 17. Development philosophy
-
-Treat the corpus as software and as a scientific instrument:
-
-- schemas;
-- tests;
+- stable identity and version;
 - provenance;
-- rights metadata;
-- immutable releases;
-- diffs;
-- source hashes;
-- deterministic compilation;
-- reproducible manifests;
-- matched experiments;
-- phase gates;
-- small-model diagnostics.
+- selected segment identity and hash;
+- storage mode;
+- redistribution status;
+- training-use status under project policy;
+- role in the experiment;
+- acquisition placement if included in the canonical stream.
 
-Treat frontier models as contributors, not authorities.
+Public accessibility does not imply redistribution or training permission.
 
-The project's most expensive failure would be generating or acquiring hundreds of millions of tokens before discovering that the ontology, source strategy, voice contract, chronology, mixture, or evaluation design is wrong.
+For the first order experiment, use either no external text or a small rights-clear set held identical across all conditions. Mixture experiments come later.
+
+## 12. Canon, content pool, and training exports
+
+TL100 separates:
+
+1. **canonical graph and stream** — what became available and how nodes relate;
+2. **content pool** — exact text and artifact payloads eligible for compilation;
+3. **training export** — exact token sequence, attention-boundary policy, ordering, sampling schedule, and exposures used for one run.
+
+Every export must be reproducible from versioned inputs and an exact manifest.
+
+The canonical graph is never shuffled or rewritten in place.
+
+## 13. Evaluation
+
+### 13.1 Primary outcomes
+
+- sample efficiency on held-out relational tasks;
+- transfer to new surface forms or projects;
+- temporal and epistemic accuracy;
+- rejection of corrected or obsolete beliefs;
+- source-to-application transfer where sources are present.
+
+### 13.2 Secondary outcomes
+
+- held-out language-model loss by material class;
+- recurring-entity consistency;
+- causal and prerequisite reasoning;
+- calibration and uncertainty;
+- learning-curve shape;
+- retention after later curriculum stages.
+
+### 13.3 Required negative and external controls
+
+- unrelated human prose;
+- novel names and objects using known mechanisms;
+- questions whose answers were never available;
+- source holdouts;
+- content-composition tasks not rehearsed directly;
+- verbatim memorization probes;
+- stylistic-diversity and monotony measures.
+
+World recall alone is not evidence for the central hypothesis.
+
+### 13.4 Experimental discipline
+
+- use multiple training seeds;
+- predeclare primary metrics and comparisons;
+- evaluate checkpoints throughout training;
+- report confidence intervals and run variance;
+- preserve failed and null runs;
+- do not choose the best condition after inspecting the test set.
+
+## 14. Success, null, failure, and stop conditions
+
+### Proceed
+
+Proceed to larger data or models only when a structural condition produces a repeatable improvement in transfer, epistemic behavior, or sample efficiency across seeds without an unacceptable external-language penalty.
+
+### Interesting null
+
+If exact-token order has no effect but local context does, TL100 should narrow toward context construction rather than global chronology.
+
+If curriculum-only matches the full stream, the useful mechanism is curriculum and the persistent learner should not be credited.
+
+### Failure
+
+Treat the initial thesis as unsupported if apparent gains reduce to:
+
+- memorization of recurring names;
+- easier or cleaner prose;
+- extra token exposure;
+- more replay;
+- source-quality differences;
+- evaluation leakage;
+- one favorable seed;
+- worse external transfer hidden by in-world tests.
+
+### Stop
+
+Do not scale corpus generation when:
+
+- schemas or manifests cannot reproduce exact exports;
+- rights status is incomplete;
+- corpus transformations cannot be matched;
+- critic scores replace deterministic validation;
+- small-model learning curves show no interpretable signal;
+- generator artifacts dominate the text distribution.
+
+## 15. Scale strategy
+
+Model size and corpus size are experimental axes, not project identity.
+
+### Pipeline pilot
+
+Approximately 100k–250k accepted tokens.
+
+Purpose:
+
+- validate schemas;
+- validate relation edges and acquisition state;
+- compile exact experimental views;
+- inspect every item manually;
+- run smoke-training only.
+
+### First scientific corpus
+
+Provisional range: 5M–20M unique accepted tokens.
+
+Use several small model sizes, likely spanning roughly 3M–30M parameters, and multiple seeds. Final choices must follow compute estimates and pilot learning curves.
+
+### Intermediate scaling
+
+Scale toward 25M–100M tokens only after the minimum experiment is reproducible and evaluable.
+
+### 100M-parameter target
+
+A conventional model near 100M parameters remains a useful eventual target because it is large enough to exhibit nontrivial language behavior and small enough to train and inspect comparatively.
+
+It is not a commitment to a 250M-token corpus or a claim of compute-optimal general-language training. Unique tokens, repeated exposures, and total training tokens must be reported separately.
+
+## 16. Architecture stance
+
+The primary model family is a conventional decoder-only transformer.
+
+Architecture experiments are allowed for learning purposes, but the central relational-data comparisons must first hold architecture constant.
+
+Smaller diagnostic models are scientific instruments, not merely prototypes.
+
+## 17. Pipeline priority
+
+The first implementation program is a deterministic corpus substrate:
+
+1. validate and version schemas;
+2. implement graph nodes, typed edges, and acquisition-state records;
+3. implement source provenance and rights gates;
+4. implement immutable canonical stream storage;
+5. implement exact compilation and manifests;
+6. implement the four minimum experimental views;
+7. implement deterministic validation and leakage checks;
+8. author and inspect the micro-life;
+9. implement a minimal training and evaluation harness;
+10. run small matched experiments.
+
+Model-assisted generation stages come only after the deterministic substrate can reject invalid output.
+
+## 18. Non-goals
+
+TL100 does not aim to:
+
+- simulate a human being;
+- claim that transformers learn like humans;
+- imply consciousness or subjective experience;
+- write a technical coming-of-age novel;
+- maximize broad benchmark scores;
+- prove chronological order is universally beneficial;
+- replace human-authored text with generated imitation;
+- lock an optimal synthetic/human mixture in advance;
+- build a novel transformer before testing the data hypothesis;
+- scale to hundreds of millions of tokens before small falsification attempts;
+- treat a pleasing narrative sample as scientific evidence.
+
+## 19. Principal threats to validity
+
+- **Bundled variables:** coherence, curriculum, style, source quality, and recurrence change together.
+- **Training-order ambiguity:** canonical file order has no effect if the sampler globally shuffles it.
+- **Context leakage:** one condition exposes related items inside a context while another changes token or padding budgets.
+- **Generator signature:** a model learns the authoring model’s style rather than relational structure.
+- **Domain narrowness:** in-world improvement masks external degradation.
+- **Evaluation leakage:** tests restate training facts or surface forms.
+- **Replay imbalance:** ordered conditions receive different effective exposure.
+- **Seed variance:** a subtle result is reported from one run.
+- **Capacity mismatch:** the tested model is too small or too large for the selected dependencies.
+- **Anthropomorphic interpretation:** acquisition metadata is mistaken for human experience.
+
+Every experiment must state which threats it controls and which remain.
+
+## 20. Design v2 migration status
+
+Design v3 retains these principles from v2:
+
+- dataset-first research;
+- conventional model architecture;
+- one traceable acquisition history;
+- explicit provenance and rights metadata;
+- separation of canonical records from training views;
+- immutable releases and exact manifests;
+- deterministic validation;
+- matched controls;
+- small-model experiments before scale;
+- human review of contiguous data;
+- external sources retaining their actual authorship when intentionally included.
+
+Design v3 discards or withdraws as assumptions:
+
+- Alex as a canonical narrator;
+- Rookfield and its fictional cast;
+- a simulated 15–25-year human life;
+- biography as the primary organizing object;
+- first-person prose as the dominant or required format;
+- the first 30 project arcs as a committed backbone;
+- the first 100 episode plan as a committed chronology;
+- 250M unique tokens as a settled target;
+- any predetermined material mixture.
+
+Until individually migrated, plan documents 01 through 16 and the current schemas/examples are **Design v2 legacy inputs**, not binding Design v3 specifications. They may contain useful mechanisms, but implementations must not infer D3 requirements from them without explicit migration.
+
+The evidence map in 17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md is part of Design v3.
+
+## 21. Naming convention
+
+Use:
+
+- **TinyLife100** for the project;
+- **TL100** as the short form;
+- **relational stream** for the ordered corpus abstraction;
+- **situated learner** for the acquisition reference point;
+- **acquisition state** for what is available, believed, uncertain, or corrected;
+- **canonical graph** for nodes and typed relationships;
+- **training export** for one exact compiled condition.
+
+Do not use LIFE100 as the current project name.
+
+## 22. Immediate next design slices
+
+After this foundation:
+
+1. normalize project naming and plan/docs references;
+2. replace the world/continuity specification with the canonical graph and acquisition-state specification;
+3. replace the curriculum specification with relation and prerequisite schemas;
+4. redesign canonical node, edge, source, stream, and export schemas;
+5. specify deterministic compiler and validator behavior;
+6. specify the micro-life and evaluation protocol;
+7. decompose the operational pipeline into shippable implementation tasks.
+
+No bulk data generation begins during these migrations.
