@@ -1,0 +1,70 @@
+episode_id: ep_00001234
+era_id: era_2
+date_index: 213
+episode_class: debugging
+
+location_ids:
+  - place_foundry
+
+people_present:
+  - person_narrator
+  - person_mara
+
+machine_ids:
+  - machine_bench_supply_01
+  - machine_motor_01
+  - machine_motor_driver_01
+
+project_ids:
+  - project_motor_controller_01
+
+concept_targets:
+  - concept_stall_current
+  - concept_power_supply_droop
+
+concept_prerequisites:
+  - concept_voltage
+  - concept_current
+  - concept_resistance
+
+acquisition_modes:
+  - experience
+  - experiment
+  - reading
+  - artifact
+
+memory_callbacks:
+  - memory_cart_alignment_01
+
+open_questions_before:
+  - question_motor_driver_reset_01
+
+objective: >
+  Discover through measurement and a source encounter that the motor-driver reset
+  is caused by startup/stall current and supply droop rather than the software timing
+  bug the narrator currently suspects.
+
+narrator_belief_before: >
+  I think the controller reset is probably caused by a timing error in my firmware.
+
+planned_evidence:
+  - observe reset coinciding with motor start
+  - measure supply rail before and during start
+  - inspect motor and driver ratings
+  - compare current requirement to available supply
+
+planned_mistake: >
+  Spend too long inspecting firmware because the failure presents as a controller reset.
+
+triggered_reading_event_ids:
+  - read_00000217
+
+state_changes_expected:
+  - misconception_motor_reset_software corrected
+  - question_motor_driver_reset_01 resolved
+  - concept_stall_current advances to first practical use
+
+source_ids:
+  - source_motor_datasheet_01
+  - source_driver_datasheet_01
+  - source_power_supply_manual_01

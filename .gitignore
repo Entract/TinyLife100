@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+
+# Generated caches
+.cache/
+tmp/
+logs/
+
+# Large generated training outputs
+checkpoints/
+runs/
+wandb/
+data/exports/**/*.bin
+data/exports/**/*.npy
+data/exports/**/*.pt
+data/exports/**/*.safetensors
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Source text that must remain local unless explicitly approved
+/data/sources/fulltext_local/
+/data/sources/restricted/
+/data/readings/local/
+
+# Alepou runtime state and file-transfer staging
+/plan/.init-packet.md
+/plan/.planner-*.md
+/plan/.planner-session.json
+/plan/.outbox/
+/plan/sessions/

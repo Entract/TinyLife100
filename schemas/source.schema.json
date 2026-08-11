@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://life100.local/schemas/source.schema.json",
+  "title": "LIFE100 External Source Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id", "title", "source_type", "origin", "roles", "provenance",
+    "rights", "storage_mode", "concept_ids", "segments"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^source_[A-Za-z0-9_-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "creators": {"type": "array", "items": {"type": "string"}},
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "textbook", "technical_book", "manual", "datasheet", "standard_or_specification",
+        "research_paper", "technical_article", "documentation", "code_repository_or_excerpt",
+        "essay", "literature", "reference_work", "course_material", "historical_primary_source", "other"
+      ]
+    },
+    "origin": {
+      "type": "string",
+      "enum": [
+        "human_original", "human_public_domain", "human_open_licensed",
+        "model_generated", "model_rephrased_from_source", "mixed_or_edited"
+      ]
+    },
+    "roles": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["grounding_only", "explicit_reading"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["identifier_or_locator", "version_or_date"],
+      "properties": {
+        "identifier_or_locator": {"type": "string"},
+        "publisher_or_organization": {"type": ["string", "null"]},
+        "version_or_date": {"type": ["string", "null"]},
+        "acquired_at": {"type": ["string", "null"]},
+        "source_hash": {"type": ["string", "null"]}
+      }
+    },
+    "rights": {
+      "type": "object",
+      "required": ["rights_status", "redistribution_status", "training_use_status"],
+      "properties": {
+        "rights_status": {"type": "string"},
+        "license_identifier": {"type": ["string", "null"]},
+        "redistribution_status": {"type": "string", "enum": ["approved", "not_approved", "unknown"]},
+        "training_use_status": {"type": "string", "enum": ["approved", "not_approved", "unknown"]},
+        "rights_notes": {"type": ["string", "null"]}
+      }
+    },
+    "storage_mode": {
+      "type": "string",
+      "enum": ["repo_fulltext", "local_fulltext", "metadata_only", "grounding_excerpt_only", "blocked"]
+    },
+    "concept_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "prerequisite_concept_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "difficulty_band": {"type": ["string", "null"]},
+    "selection_notes": {"type": ["string", "null"]},
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["segment_id", "sequence_in_source", "content_hash", "training_eligible"],
+        "properties": {
+          "segment_id": {"type": "string"},
+          "sequence_in_source": {"type": "integer", "minimum": 0},
+          "start_locator": {"type": ["string", "null"]},
+          "end_locator": {"type": ["string", "null"]},
+          "content_hash": {"type": "string"},
+          "approx_tokens": {"type": ["integer", "null"], "minimum": 0},
+          "training_eligible": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

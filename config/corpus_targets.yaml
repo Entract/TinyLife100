@@ -1,0 +1,69 @@
+project: LIFE100
+design_version: 2
+target_model_parameters_approx: 100000000
+
+releases:
+  pilot:
+    target_unique_tokens_min: 50000
+    target_unique_tokens_max: 250000
+  v0:
+    target_unique_tokens: 1000000
+  v1:
+    target_unique_tokens: 5000000
+  v2:
+    target_unique_tokens: 25000000
+  v3:
+    target_unique_tokens: 100000000
+  v4:
+    target_unique_tokens: 250000000
+
+material_classes:
+  - LIFE_NATIVE
+  - HUMAN_READING
+  - TECHNICAL_ARTIFACT
+  - OTHER_DIALOGUE_OR_DOCUMENT
+
+# Planning capability envelope only. NOT a target mixture.
+mixture_planning_envelope:
+  LIFE_NATIVE: [0.30, 0.70]
+  HUMAN_READING: [0.20, 0.60]
+  TECHNICAL_ARTIFACT_AND_OTHER: [0.05, 0.20]
+
+initial_mixture_experiments:
+  pure_life:
+    LIFE_NATIVE: 1.00
+    HUMAN_READING: 0.00
+    TECHNICAL_ARTIFACT_AND_OTHER: 0.00
+  life_heavy:
+    LIFE_NATIVE: 0.70
+    HUMAN_READING: 0.20
+    TECHNICAL_ARTIFACT_AND_OTHER: 0.10
+  balanced:
+    LIFE_NATIVE: 0.50
+    HUMAN_READING: 0.35
+    TECHNICAL_ARTIFACT_AND_OTHER: 0.15
+  reading_heavy:
+    LIFE_NATIVE: 0.30
+    HUMAN_READING: 0.55
+    TECHNICAL_ARTIFACT_AND_OTHER: 0.15
+
+episode_length_tokens:
+  short: [250, 700]
+  typical: [700, 1800]
+  long: [1800, 4000]
+  exceptional_max: 8000
+
+canonical_order: life_stream
+training_exports:
+  - life_ordered
+  - life_local_shuffle
+  - global_shuffle
+  - decontextualized
+  - curriculum_replay
+  - mixture_controls
+
+hard_requirements:
+  source_provenance_complete: true
+  rights_status_required: true
+  explicit_reading_requires_approved_training_use: true
+  canonical_stream_immutable_per_release: true

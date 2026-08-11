@@ -1,0 +1,46 @@
+source_id: source_motor_datasheet_01
+title: Example DC Motor Datasheet
+creators:
+  - Example Manufacturer
+source_type: datasheet
+origin: human_original
+roles:
+  - grounding_only
+  - explicit_reading
+
+provenance:
+  identifier_or_locator: manufacturer-document-id-placeholder
+  publisher_or_organization: Example Manufacturer
+  version_or_date: null
+  acquired_at: null
+  source_hash: null
+
+rights:
+  rights_status: review_required
+  license_identifier: null
+  redistribution_status: unknown
+  training_use_status: unknown
+  rights_notes: >
+    Placeholder example only. A real source must be reviewed before any source
+    text is stored or included in a training export.
+
+storage_mode: metadata_only
+concept_ids:
+  - concept_stall_current
+  - concept_motor_load
+prerequisite_concept_ids:
+  - concept_voltage
+  - concept_current
+difficulty_band: early_technical
+selection_notes: >
+  Intended to demonstrate that a datasheet is encountered because a real bench
+  problem creates a need for rated electrical characteristics.
+
+segments:
+  - segment_id: seg_electrical_characteristics
+    sequence_in_source: 0
+    start_locator: electrical-characteristics-table
+    end_locator: electrical-characteristics-table-end
+    content_hash: sha256:placeholder
+    approx_tokens: null
+    training_eligible: false

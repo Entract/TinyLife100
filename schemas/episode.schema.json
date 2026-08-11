@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://life100.local/schemas/episode.schema.json",
+  "title": "LIFE100 Canonical Life Episode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "episode_id",
+    "ordinal",
+    "era_id",
+    "prose",
+    "episode_class",
+    "material_class",
+    "entity_refs",
+    "concept_events",
+    "acquisition_modes",
+    "source_ids",
+    "reading_event_ids",
+    "generation",
+    "validation",
+    "content_hash"
+  ],
+  "properties": {
+    "episode_id": {"type": "string", "pattern": "^ep_[0-9]{8}$"},
+    "ordinal": {"type": "integer", "minimum": 0},
+    "world_date": {"type": ["string", "null"]},
+    "era_id": {"type": "string"},
+    "episode_class": {
+      "type": "string",
+      "enum": [
+        "scene", "project_work", "conversation", "lesson", "experiment",
+        "debugging", "reflection", "postmortem", "planning", "documentation",
+        "reading_preparation", "reading_response", "practice", "assessment",
+        "transition", "mixed"
+      ]
+    },
+    "material_class": {"const": "LIFE_NATIVE"},
+    "title_internal": {"type": ["string", "null"]},
+    "prose": {"type": "string", "minLength": 1},
+    "entity_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "people": {"type": "array", "items": {"type": "string"}},
+        "places": {"type": "array", "items": {"type": "string"}},
+        "machines": {"type": "array", "items": {"type": "string"}},
+        "projects": {"type": "array", "items": {"type": "string"}},
+        "mistakes": {"type": "array", "items": {"type": "string"}},
+        "questions": {"type": "array", "items": {"type": "string"}},
+        "memories": {"type": "array", "items": {"type": "string"}},
+        "preferences": {"type": "array", "items": {"type": "string"}},
+        "discoveries": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "concept_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concept_id", "event_type"],
+        "properties": {
+          "concept_id": {"type": "string"},
+          "event_type": {
+            "type": "string",
+            "enum": [
+              "first_exposure", "term_introduction", "intuitive_use",
+              "formalization", "practice", "misconception", "correction",
+              "source_encounter", "source_reconciliation", "explanation_to_other",
+              "transfer", "integration", "assessment", "spaced_recall", "rereading"
+            ]
+          }
+        }
+      }
+    },
+    "acquisition_modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["experience", "conversation", "reading", "artifact", "experiment", "inference", "teaching"]
+      },
+      "uniqueItems": true
+    },
+    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "reading_event_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "state_before_hash": {"type": ["string", "null"]},
+    "state_mutations": {"type": "array", "items": {"type": "object"}},
+    "generation": {
+      "type": "object",
+      "required": ["pipeline_version"],
+      "properties": {
+        "pipeline_version": {"type": "string"},
+        "planner_model": {"type": ["string", "null"]},
+        "writer_model": {"type": ["string", "null"]},
+        "critic_models": {"type": "array", "items": {"type": "string"}},
+        "prompt_hashes": {"type": "array", "items": {"type": "string"}},
+        "revision_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["accepted"],
+      "properties": {
+        "accepted": {"type": "boolean"},
+        "technical": {"type": ["number", "null"]},
+        "continuity": {"type": ["number", "null"]},
+        "epistemic": {"type": ["number", "null"]},
+        "voice": {"type": ["number", "null"]},
+        "curriculum": {"type": ["number", "null"]},
+        "diversity": {"type": ["number", "null"]},
+        "source_copying": {"type": ["number", "null"]},
+        "human_review": {"type": ["string", "null"]},
+        "issues": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "content_hash": {"type": "string"},
+    "corpus_version": {"type": ["string", "null"]}
+  }
+}

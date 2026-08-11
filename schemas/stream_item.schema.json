@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://life100.local/schemas/stream_item.schema.json",
+  "title": "LIFE100 Canonical Stream Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["stream_item_id", "ordinal", "item_type", "reference_id", "material_class", "content_hash"],
+  "properties": {
+    "stream_item_id": {"type": "string", "pattern": "^stream_[0-9]{8}$"},
+    "ordinal": {"type": "integer", "minimum": 0},
+    "item_type": {
+      "type": "string",
+      "enum": ["LIFE_EPISODE", "READING_START", "SOURCE_SEGMENT", "READING_END", "TECH_ARTIFACT", "TRANSITION"]
+    },
+    "reference_id": {"type": "string"},
+    "subreference_id": {"type": ["string", "null"]},
+    "material_class": {
+      "type": "string",
+      "enum": ["LIFE_NATIVE", "HUMAN_READING", "TECHNICAL_ARTIFACT", "OTHER_DIALOGUE_OR_DOCUMENT", "METADATA_ONLY"]
+    },
+    "world_date": {"type": ["string", "null"]},
+    "era_id": {"type": ["string", "null"]},
+    "emits_training_text": {"type": "boolean", "default": true},
+    "content_hash": {"type": "string"},
+    "state_before_hash": {"type": ["string", "null"]},
+    "state_after_hash": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]}
+  }
+}
