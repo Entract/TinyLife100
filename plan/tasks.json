@@ -35,7 +35,7 @@
       "id": "t-005",
       "title": "Normalize TinyLife100 naming and design-document paths",
       "description": "Replace current-project LIFE100 naming with TinyLife100 or TL100, update repository documentation to reference plan/docs/, and clearly label retained Design v2 history without rewriting its historical meaning.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-004"
       ],
@@ -52,13 +52,14 @@
         "plan/docs/"
       ],
       "canParallelize": false,
-      "planDoc": "00_PROJECT_DESIGN.md"
+      "planDoc": "00_PROJECT_DESIGN.md",
+      "completedCommit": "9bf5c7b8541a1c63518eccd29f98168282950a1a"
     },
     {
       "id": "t-006",
       "title": "Specify the D3 canonical graph and acquisition state",
       "description": "Replace the fictional world-and-continuity document with the Design v3 node, edge, entity, acquisition-state, belief-state, mutation, chronology, and canonicality specification.",
-      "status": "pending",
+      "status": "in-progress",
       "dependsOn": [
         "t-005"
       ],

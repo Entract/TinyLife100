@@ -1,316 +1,968 @@
-# 01 — World and Continuity Specification
+---
+category: feature
+---
+
+# TL100 Canonical Graph and Acquisition-State Specification (Design v3)
+
+> Status: binding Design v3 architecture for canonical records and state.
+>
+> This document replaces the Design v2 fictional world-and-continuity specification.
 
 ## 1. Purpose
 
-The TL100 world must be coherent enough that recurring experience has meaning.
+TL100 needs a machine-readable account of:
 
-The world bible is not merely lore. It is an **input constraint on generation** and a machine-readable consistency system.
+- what information-bearing items exist;
+- how those items relate;
+- when they become available in the canonical stream;
+- what the situated learner could know at each point;
+- what the learner accepts, doubts, rejects, or has not yet encountered;
+- which later events apply, revise, or transfer earlier information;
+- which transformations a training export applies without altering canon.
 
-The world should be rich enough to support years of learning but small enough that a 100M-parameter model can repeatedly encounter the same structures.
+The canonical object is a directed, typed graph plus one reviewed canonical stream.
 
----
+The graph is not a fictional biography database. It is an experimental substrate for constructing, validating, transforming, and evaluating relational training data.
 
-## 2. Design principle: bounded richness
+## 2. Scope
 
-Do not create a globe-sized fictional universe.
+This specification defines:
 
-Prefer a compact recurring geography such as:
-- one home and neighborhood;
-- one workshop/makerspace;
-- one technical school/lab;
-- a small number of local businesses and workplaces;
-- several recurring outdoor/test locations;
-- a few later travel locations introduced when curriculum requires them.
+- canonical node identity and lifecycle;
+- persistent entity identity;
+- claim and concept identity;
+- typed graph edges;
+- acquisition and belief state;
+- demonstrated competence state;
+- state deltas and snapshots;
+- chronology and ordering constraints;
+- canonicality and release immutability;
+- provenance and content identity;
+- graph queries needed by validators and compilers.
 
-Likewise, prefer a stable cast of perhaps 15–40 meaningfully recurring people over hundreds of disposable names.
+This specification does not define:
 
-Objects and machines should recur. A multimeter first used for a battery can later diagnose a motor driver. A bench supply can appear across years. A badly aligned cart can become a remembered analogy for losses.
+- prose voice;
+- a fictional town or cast;
+- a human developmental simulation;
+- final file formats;
+- training architecture;
+- optimizer behavior;
+- export algorithms;
+- source rights policy details;
+- evaluation datasets.
 
----
+Those concerns reference this architecture but are specified elsewhere.
 
-## 3. Canonical entity classes
+## 3. Design principles
 
-Every persistent entity belongs to a ledger.
+### 3.1 Separate truth from learner state
 
-### People
-Fields should include:
-- canonical ID;
-- name;
-- first encounter;
-- age band if relevant;
-- relationship to narrator;
-- stable traits;
-- expertise;
-- speech tendencies;
-- shared history;
-- known information;
-- conflicts/tensions;
-- current status;
-- forbidden contradictions.
+For an important claim, TL100 may need to represent all of the following independently:
 
-### Places
-- canonical ID;
-- name;
-- geography;
-- physical layout;
-- recurring sensory details;
-- contained machines/objects;
-- associated people;
-- changes over time.
+- controlled-environment truth;
+- whether the information was available;
+- how it became available;
+- the learner’s current stance;
+- evidence supporting or conflicting with that stance;
+- whether the learner has demonstrated competent use;
+- whether later information superseded an earlier formulation.
 
-### Machines and important objects
-- canonical ID;
-- name;
-- type;
-- acquisition/build date;
-- specifications known to narrator;
-- maintenance/failure history;
-- modifications;
-- current state;
-- conceptual roles.
+No single knowledge flag can represent these distinctions.
 
-### Projects
-- canonical ID;
-- objective;
-- start/end;
-- participants;
-- constraints;
-- prerequisites;
-- milestones;
-- failures;
-- decisions;
-- result;
-- lessons;
-- later callbacks.
+### 3.2 Preserve acquisition paths
 
-### Concepts
-- canonical ID;
-- definition in curriculum;
-- prerequisite concepts;
-- first exposure;
-- first competent use;
-- misconceptions;
-- later transfer events;
-- mastery estimate.
+Important information must have a traceable path from an accepted node to a learner-state transition.
 
-### Mistakes
-Mistakes are first-class entities when educationally important:
-- what narrator believed/did;
-- why it was plausible;
-- consequence;
-- discovery mechanism;
-- correction;
-- recurrence risk;
-- later memory callbacks.
+If the learner uses a claim before any valid acquisition path makes it available, the corpus is invalid unless the use is explicitly represented as a guess, hypothesis, or prior assumption.
 
-### Preferences
-Stable preferences may concern:
-- explanation style;
-- tools;
-- design principles;
-- working habits;
-- aesthetic choices;
-- risk tolerance;
-- conversational behavior.
+### 3.3 Prefer categorical state over invented precision
 
-Preferences should emerge from experience rather than appear as arbitrary profile facts.
+Do not assign numeric belief probabilities merely to make the data appear rigorous.
 
-### Unresolved questions
-An unresolved question can span many episodes:
-- question;
-- origin;
-- partial hypotheses;
-- evidence gathered;
-- status;
-- resolution episode or intentionally unresolved state.
+Use categorical stance and confidence labels unless a number is:
 
-### Discoveries
-- observation;
-- context;
-- prior belief;
-- new understanding;
-- significance;
-- linked concepts/projects.
+- measured;
+- explicitly reported by the learner;
+- produced by a defined scoring process;
+- required by an approved experiment.
 
-### Vocabulary
-Track important words and phrases:
-- first encounter;
-- inferred meaning;
-- explicit definition;
-- later natural usage;
-- technical register.
+### 3.4 Keep canon independent of training views
 
-### Memories
-A memory record links earlier episodes to later callbacks. It does not imply perfect verbatim recall. It establishes what earlier events can plausibly be referenced.
+The canonical graph records accepted relationships and acquisition order.
 
-### Sources / library items
-External knowledge sources are first-class persistent entities:
-- source ID;
-- title/creator;
-- source type;
+A training export may:
+
+- shuffle windows;
+- mask cross-node attention;
+- omit selected bridges;
+- replay nodes;
+- create a declared counterfactual derivative.
+
+Those transformations belong to export records. They do not mutate canonical nodes or edges.
+
+### 3.5 Make hard constraints deterministic
+
+Schema validity, referential integrity, ordering, rights eligibility, hashes, and declared state transitions must be checkable without a language model.
+
+Interpretive quality may still require human or model review.
+
+## 4. Identifier namespaces
+
+Identifiers are opaque, stable, and namespaced by record type.
+
+Recommended prefixes:
+
+| Record | Prefix | Example |
+|---|---|---|
+| canonical node | node_ | node_000001 |
+| relation edge | edge_ | edge_000001 |
+| persistent entity | ent_ | ent_instrument_meter_01 |
+| claim | claim_ | claim_supply_drops_under_load |
+| concept | concept_ | concept_measurement_loading |
+| source | source_ | source_meter_manual_01 |
+| source segment | segment_ | segment_meter_manual_safety |
+| state snapshot | state_ | state_000014 |
+| state delta | delta_ | delta_000014 |
+| stream item | stream_ | stream_000021 |
+| artifact | artifact_ | artifact_voltage_log_01 |
+| release | release_ | release_pilot_001 |
+| export | export_ | export_pilot_relational_ordered_001 |
+| replacement | replace_ | replace_node_000014_001 |
+
+Identifiers:
+
+- never encode mutable display names;
+- never encode a stream ordinal that may change before release;
+- never get reused;
+- remain resolvable after supersession;
+- are unique within the project.
+
+## 5. Canonical node model
+
+A canonical node is the smallest independently reviewable information-bearing event or object placed in the relational graph.
+
+### 5.1 Required conceptual fields
+
+Every node records:
+
+- node ID;
+- schema version;
+- node type;
+- canonical status;
+- concise purpose;
+- payload mode and payload identity;
+- referenced entities;
+- referenced claims and concepts;
+- source references where applicable;
+- proposed state-delta reference;
 - provenance;
-- rights/licensing status;
-- first encounter;
-- segments encountered;
-- reread/reference history;
-- concepts connected;
-- narrator attitude/interest where relevant;
-- unresolved questions created by the source;
-- later applications and callbacks.
+- content hash;
+- creation and review metadata.
 
-The source's objective contents and the narrator's current understanding of it are separate state.
+Stream placement is recorded by stream items, not embedded as node identity.
 
-### Reading events
-A reading event records a specific encounter with a source:
-- trigger/reason;
-- source/segments;
-- knowledge state before;
-- comprehension state after;
-- notes/questions/misconceptions;
-- project or curiosity context;
-- later callback targets.
+### 5.2 Initial node types
 
-Reading events are chronological state changes even when the source text itself is stored separately.
+#### Encounter
 
----
+A bounded situation through which information becomes available.
 
-## 4. Narrator knowledge state
+Examples:
 
-At each point in the canonical stream, there is a difference between:
-- **world truth**;
-- **what the narrator has directly observed**;
-- **what the narrator has been told**;
-- **what the narrator has read/encountered in recorded sources**;
-- **what the narrator currently infers or believes**;
-- **what the narrator incorrectly believes**;
-- **what remains uncertain**.
+- encountering an unexpected instrument reading;
+- receiving a recommendation;
+- inspecting an artifact;
+- observing a failed procedure.
 
-The system should be able to answer not only *what Alex knows*, but **how Alex could know it**.
+#### Observation
 
-This distinction is critical.
+A recorded perception or result without requiring a causal interpretation.
 
-Example:
+An observation should distinguish:
 
-World truth:
-`R3 failed because the motor's stall current exceeded the driver rating.`
+- raw or minimally processed result;
+- measurement conditions;
+- units and uncertainty where applicable;
+- linked artifact or instrument.
 
-Narrator state at Episode 420:
-`I suspect a software timing issue.`
+#### Action
 
-The prose in Episode 420 must preserve the wrong hypothesis. Later evidence can resolve it.
+An intervention, procedure, or attempted change.
 
----
+Actions can succeed, fail, or produce ambiguous results.
 
-## 5. Time
+#### Conversation
 
-Every canonical episode receives:
-- ordinal position;
-- world date or relative date;
-- life era;
-- project phase;
-- narrator knowledge snapshot/version.
+An information exchange among identified participants.
 
-Chronology should be precise enough for continuity but not so bureaucratic that prose becomes diary metadata.
+Conversation nodes may contain multiple viewpoints. Only explicitly linked acquisition deltas change learner state.
 
-The prose itself need not begin with a date unless natural.
+#### Source encounter
 
----
+A canonical encounter with one or more registered source segments.
 
-## 6. Geography
+The source payload remains externally authored and independently identified.
 
-Physical recurrence is valuable.
+#### Artifact
 
-A workshop layout should remain stable enough that references such as "the scope on the second bench" have persistent meaning until the workshop explicitly changes.
+A code file, log, table, specification, diagram, configuration, calculation, or other structured object whose form matters.
 
-World geometry may eventually be represented in structured form:
-- rooms;
-- adjacency;
-- storage locations;
-- machine locations;
-- ordinary routes.
+#### Reflection
 
-This can support consistency checks and embodied/spatial episodes later.
+An interpretation, comparison, hypothesis, explanation, plan, or stated uncertainty derived from information currently available.
 
----
+#### Assessment
 
-## 7. Continuity events
+A test, probe, prediction, or task intended to provide evidence about learner competence or an experimental hypothesis.
 
-All meaningful state changes should be explicit records:
-- person introduced;
-- person leaves;
-- machine acquired;
-- machine modified;
-- project begins;
-- project ends;
-- place renovated;
-- source discovered/recommended/acquired;
-- reading begins or resumes;
-- source segment encountered;
-- source is abandoned or reread;
-- concept mastered;
-- misconception corrected;
-- preference changes;
-- question resolved.
+#### Transition
 
-Episode generation consumes the state *before* an episode and emits proposed state mutations *after* it.
+A metadata-bearing boundary used to record a justified change in phase, environment, or availability when no training payload is required.
 
-Those mutations are reviewed before becoming canonical.
+### 5.3 Node payload modes
 
----
+A node may be:
 
-## 8. World creation process
+- **inline text** — small accepted payload stored with the record;
+- **artifact reference** — payload stored as a structured artifact;
+- **source segment reference** — external content addressed through the source registry;
+- **metadata only** — canonical event with no training text;
+- **composite reference** — ordered references to immutable component payloads.
 
-The world should be designed in layers:
+The payload mode determines which hashes and eligibility checks apply.
 
-### Stage A — constraints
-Decide:
-- technological era;
-- broad cultural setting;
-- narrator starting point;
-- available institutions;
-- realism level;
-- language conventions.
+### 5.4 Node atomicity
 
-### Stage B — anchor locations
-Design 5–10 recurring places in detail.
+A node should be small enough to:
 
-### Stage C — anchor cast
-Design 10–20 high-recurrence people plus a controlled secondary cast.
+- review independently;
+- attach precise graph edges;
+- identify state changes;
+- compile under different context-boundary policies.
 
-### Stage D — anchor machines
-Design 20–50 machines/objects that can recur across curriculum arcs.
+A node should be large enough to preserve:
 
-### Stage E — project backbone
-Design the first 20–40 project arcs.
+- coherent source boundaries;
+- measurement conditions;
+- conversational meaning;
+- causal interpretation;
+- artifact structure.
 
-### Stage F — unresolved threads
-Seed questions, tensions, ambitions, and problems that can resolve later.
+Token quotas must not force arbitrary fragmentation.
 
-Only after these are reviewed should bulk episode generation begin.
+## 6. Persistent entity registry
 
----
+Entities provide stable reference identity across nodes.
 
-## 9. Recommended world tone
+Initial entity classes:
 
-The world should feel ordinary enough that technical competence grows naturally.
+- situated learner;
+- participant or actor;
+- physical object;
+- instrument;
+- system or machine;
+- environment or location;
+- project or investigation;
+- organization;
+- dataset;
+- software component;
+- model;
+- source creator or publisher where needed.
 
-Avoid:
-- constant dramatic emergencies;
-- every conversation becoming a lesson;
-- implausibly convenient experts;
-- magical availability of equipment;
-- perfect project outcomes;
-- characters who exist only to ask exposition questions.
+An entity record contains:
 
-Prefer:
-- practical constraints;
-- modest budgets;
-- missing parts;
-- misunderstandings;
-- waiting for measurements;
-- incremental repairs;
-- boredom and routine in small doses;
-- social relationships not reducible to technical teaching;
-- technical learning embedded in real objectives.
+- entity ID;
+- entity class;
+- display label;
+- stable properties;
+- stateful properties;
+- first valid appearance;
+- current status;
+- aliases;
+- provenance;
+- forbidden contradictions where deterministic;
+- replacement or merge history.
 
-The result should read as a life that happens to be unusually information-dense, not as a textbook wearing a diary costume.
+Entities do not require fictional characterization.
+
+A recurring meter, dataset, codebase, collaborator, or test environment is an entity because identity across encounters matters experimentally.
+
+## 7. Claim registry
+
+A claim is a stable proposition whose availability, truth status, and learner stance may change over the stream.
+
+Examples:
+
+- the supply voltage falls under a defined motor load;
+- the parser treats a missing value as zero;
+- the current dataset split leaks project identity;
+- negative feedback always stabilizes a system.
+
+### 7.1 Claim fields
+
+Each claim records:
+
+- claim ID;
+- canonical statement;
+- scope and conditions;
+- truth status;
+- truth authority or evidence basis;
+- concept references;
+- supersedes or refines relationships;
+- version sensitivity;
+- review status.
+
+### 7.2 Truth-status vocabulary
+
+Initial truth statuses:
+
+- true in controlled environment;
+- false in controlled environment;
+- conditionally true;
+- unresolved;
+- contested;
+- source-reported only;
+- not applicable.
+
+Truth status may change only through an explicit versioned correction or a defined environment change.
+
+### 7.3 Claims versus text spans
+
+A node may express several claims, and a claim may appear in several nodes.
+
+Claim identity is semantic and reviewed. It is not inferred solely from string equality.
+
+The project must avoid creating a unique claim ID for every paraphrase.
+
+## 8. Concept registry
+
+A concept is a reusable abstraction or skill target rather than a proposition.
+
+Examples:
+
+- reference surface;
+- measurement loading;
+- state machine;
+- train-validation-test separation;
+- causal confounding.
+
+Concept records include:
+
+- concept ID;
+- name;
+- operational description;
+- prerequisite concept IDs;
+- boundary or non-example notes;
+- expected evidence of competence;
+- transfer targets;
+- version and review status.
+
+Concept prerequisites create graph constraints but do not automatically imply mastery.
+
+## 9. Relation-edge model
+
+Edges express reviewed relationships between canonical records.
+
+### 9.1 Required conceptual fields
+
+Every edge records:
+
+- edge ID;
+- edge type;
+- source record ID;
+- target record ID;
+- source and target record kinds;
+- design rationale;
+- ordering constraint;
+- evidence or reviewer basis;
+- visibility class;
+- canonical status;
+- provenance.
+
+### 9.2 Edge endpoint types
+
+Edges may connect:
+
+- node to node;
+- node to claim;
+- claim to claim;
+- concept to concept;
+- node to concept;
+- node to entity;
+- source segment to node;
+- state snapshot to delta;
+- replacement record to superseded record.
+
+Allowed endpoint combinations are defined by schema and validator rules.
+
+### 9.3 Edge types
+
+#### Temporal
+
+The source precedes the target in canonical time.
+
+Temporal edges can be:
+
+- immediate;
+- before;
+- not-after;
+- simultaneous group;
+- interval overlap.
+
+#### Causal
+
+The source caused or materially contributed to the target under the controlled scenario.
+
+Causal edges require a rationale and must not be created merely because two events are adjacent.
+
+#### Prerequisite
+
+The source concept or information is expected to support comprehension or performance at the target.
+
+Prerequisites may be:
+
+- hard;
+- recommended;
+- preview allowed.
+
+#### Entity recurrence
+
+The endpoints concern the same persistent entity in a way relevant to continuity or evaluation.
+
+#### Project continuation
+
+The target continues an objective, constraint, or unresolved state established at the source.
+
+#### Acquisition
+
+The source node makes a claim, concept, procedure, or source segment available to the learner state.
+
+#### Belief support
+
+The source provides evidence supporting an existing or candidate learner stance.
+
+#### Belief conflict
+
+The source provides evidence inconsistent with an existing stance.
+
+#### Correction
+
+The target explicitly revises, rejects, narrows, or supersedes a prior learner stance or claim formulation.
+
+#### Source application
+
+The target applies information from an earlier registered source encounter.
+
+#### Memory or callback
+
+The target intentionally reuses an earlier encounter after an interval.
+
+This edge is about designed recurrence, not a claim of human memory phenomenology.
+
+#### Analogy or transfer
+
+The target applies an underlying structure to a meaningfully different surface domain.
+
+Transfer edges require a statement of:
+
+- source structure;
+- target structure;
+- surface difference;
+- evaluation intent.
+
+### 9.4 Ordering constraints
+
+Each edge declares one of:
+
+- strict before;
+- not after;
+- same stream group;
+- unconstrained;
+- derived from another hard edge.
+
+Hard ordering edges must form an acyclic constraint graph.
+
+Semantic edges may be cyclic where appropriate, but their ordering constraints may not introduce a hard cycle.
+
+### 9.5 Edge visibility
+
+An edge may be:
+
+- explicit in payload text;
+- inferable from adjacent payloads;
+- metadata only;
+- withheld from training but used for evaluation;
+- export-dependent.
+
+This field supports tests of whether metadata-designed relationships survive when textual bridges are removed.
+
+## 10. Acquisition state
+
+Acquisition state describes what information is available to the situated learner at a point in the canonical stream.
+
+It is not a hidden mental simulation.
+
+### 10.1 State dimensions
+
+For tracked claims:
+
+- availability;
+- stance;
+- confidence category where justified;
+- acquisition modes;
+- supporting evidence references;
+- conflicting evidence references;
+- supersession status;
+- last changed by.
+
+For tracked concepts:
+
+- exposure state;
+- demonstrated competence;
+- supporting assessment or application references;
+- transfer evidence;
+- last changed by.
+
+For sources:
+
+- encountered segments;
+- encounter nodes;
+- reread or reference count;
+- notes or unresolved questions where recorded.
+
+For entities:
+
+- known properties;
+- uncertain properties;
+- observed state;
+- last valid update.
+
+### 10.2 Availability vocabulary
+
+- unavailable;
+- available but unattended;
+- encountered;
+- partially processed;
+- available through reference;
+
+“Available but unattended” is permitted only when an artifact or source is accessible in the controlled environment without implying that its contents were learned.
+
+### 10.3 Stance vocabulary
+
+- no recorded stance;
+- hypothesized;
+- uncertain;
+- tentatively accepted;
+- accepted;
+- rejected;
+- superseded;
+- intentionally unresolved.
+
+Unavailable claims normally have no recorded stance.
+
+### 10.4 Confidence categories
+
+When needed:
+
+- low;
+- medium;
+- high;
+- not recorded.
+
+Numeric confidence is prohibited unless generated by an explicit method recorded in provenance.
+
+### 10.5 Acquisition modes
+
+- observation;
+- measurement;
+- conversation;
+- source reading;
+- artifact inspection;
+- experiment;
+- inference;
+- explanation or teaching;
+- prior assumption;
+- correction.
+
+Several modes may contribute to one state transition.
+
+## 11. Demonstrated competence
+
+Availability and belief do not establish competence.
+
+Concept competence uses evidence-bearing categories:
+
+- not exposed;
+- exposed;
+- recognized with support;
+- applied with support;
+- applied independently;
+- explained accurately;
+- transferred;
+- contradicted by assessment;
+
+A competence transition requires a referenced node or assessment.
+
+The system must permit:
+
+- accepted belief without practical competence;
+- correct action without correct explanation;
+- memorized explanation without transfer;
+- temporary regression;
+- domain-specific competence without general mastery.
+
+## 12. Questions and unresolved state
+
+Open questions are first-class records or claims with unresolved status.
+
+They record:
+
+- question ID or claim ID;
+- originating node;
+- current candidate explanations;
+- evidence gathered;
+- blocked prerequisites;
+- current status;
+- resolution or abandonment node if any.
+
+The graph must support questions that:
+
+- resolve immediately;
+- remain open across many nodes;
+- are reframed;
+- are answered conditionally;
+- are abandoned without resolution.
+
+## 13. State deltas
+
+A node does not mutate state directly.
+
+It proposes a state delta.
+
+### 13.1 Delta operations
+
+Initial operations:
+
+- make claim available;
+- record claim stance;
+- change claim stance;
+- add supporting evidence;
+- add conflicting evidence;
+- supersede claim stance;
+- expose concept;
+- record demonstrated competence;
+- record source segment encounter;
+- update known entity property;
+- open question;
+- update question;
+- resolve question;
+- add unresolved uncertainty.
+
+### 13.2 Delta requirements
+
+Every delta records:
+
+- delta ID;
+- triggering node ID;
+- pre-state hash;
+- ordered operations;
+- expected post-state hash;
+- rationale;
+- validation status;
+- human review status where required.
+
+### 13.3 Acceptance protocol
+
+1. Load the accepted pre-state.
+2. Validate the triggering node and referenced records.
+3. Validate each operation against allowed transitions.
+4. Apply operations deterministically.
+5. Compute the post-state hash.
+6. Compare it with the declared post-state hash.
+7. Reject on mismatch.
+8. Commit the accepted node, delta, edges, stream item, and post-state atomically.
+
+Partial canonicalization is prohibited.
+
+## 14. State snapshots
+
+State snapshots provide deterministic checkpoints over accumulated deltas.
+
+A snapshot records:
+
+- state ID;
+- schema version;
+- stream position;
+- previous snapshot ID;
+- included delta range;
+- claims state map;
+- concepts state map;
+- source encounter map;
+- entity-known-state map;
+- open questions;
+- snapshot hash.
+
+Snapshots may be full or incremental, but the reconstruction procedure must be deterministic.
+
+The project should be able to rebuild any release state from:
+
+- initial state;
+- accepted ordered deltas;
+- schema versions;
+- migration records.
+
+## 15. Chronology
+
+### 15.1 Stream position
+
+Every accepted canonical placement receives:
+
+- stream item ID;
+- release-scoped ordinal;
+- node or boundary reference;
+- canonical phase or block where used;
+- state before;
+- state delta;
+- state after.
+
+### 15.2 Time representation
+
+The initial micro-life may use:
+
+- ordinal only;
+- relative time index;
+- controlled experiment time;
+- explicit timestamp when naturally meaningful.
+
+Real-world dates and simulated ages are not required.
+
+### 15.3 Chronology invariants
+
+- Ordinals are unique and strictly increasing within a release.
+- Hard temporal and acquisition edges agree with stream order.
+- A correction follows the stance it corrects.
+- A source application follows the relevant source encounter.
+- An assessment used as competence evidence is at or before the transition it supports.
+- State-before of one state-changing item equals the prior accepted state-after.
+- Metadata-only boundaries cannot silently mutate acquisition state.
+
+## 16. Canonical status and lifecycle
+
+Record statuses:
+
+- draft;
+- under review;
+- accepted;
+- rejected;
+- superseded;
+- withdrawn before release.
+
+Only accepted records enter a release.
+
+### 16.1 Before release
+
+Drafts may be revised in place while preserving authoring provenance.
+
+Accepted-but-unreleased material may be withdrawn through explicit review state.
+
+### 16.2 After release
+
+Released records are immutable.
+
+A correction creates:
+
+- a new record;
+- a replacement record;
+- a reason;
+- affected releases;
+- migration guidance;
+- new hashes;
+- a new release or export.
+
+Historical manifests remain resolvable.
+
+## 17. Provenance
+
+Every canonical record contains provenance appropriate to its origin.
+
+For project-authored nodes:
+
+- planner or author identity;
+- model and prompt versions where used;
+- grounding references;
+- creation timestamp;
+- revision chain;
+- reviewers;
+- acceptance decision.
+
+For external sources:
+
+- creator;
+- title;
+- version;
+- locator;
+- acquisition method;
+- rights fields;
+- source and segment hashes;
+- storage mode.
+
+For derived records:
+
+- parent record IDs;
+- transformation type;
+- transformation configuration;
+- tool version;
+- deterministic seed where applicable.
+
+Provenance metadata is never part of the training payload unless an experiment explicitly includes it.
+
+## 18. Content identity and hashing
+
+Hashes distinguish:
+
+- record envelope;
+- normalized training payload;
+- raw stored payload;
+- external source segment;
+- state snapshot;
+- compiled export.
+
+Normalization rules must be versioned and must specify:
+
+- Unicode normalization;
+- newline normalization;
+- text encoding;
+- trailing whitespace policy;
+- field ordering for structured records;
+- canonical JSON serialization.
+
+Changing normalization rules requires a new hash-policy version.
+
+## 19. Canonical graph invariants
+
+The validator must enforce at minimum:
+
+- all referenced IDs exist in the correct registry;
+- ID namespaces are unique;
+- accepted hard-order edges are acyclic;
+- stream order satisfies hard constraints;
+- acquisition use follows availability;
+- corrections reference an existing prior stance;
+- source applications reference encountered eligible segments;
+- competence transitions cite evidence;
+- pre-state and post-state hashes chain;
+- content hashes match payloads;
+- superseded records remain resolvable;
+- released records are immutable;
+- no export-only transformation is written back into canon.
+
+## 20. Required graph queries
+
+The implementation must support deterministic queries for:
+
+- all predecessors required before a node;
+- all nodes involving an entity;
+- first and latest encounter of a claim, concept, source, or entity;
+- all acquisition paths for a claim;
+- learner stance at stream position T;
+- evidence supporting or conflicting with a stance;
+- all corrections and the beliefs they supersede;
+- all source-to-application paths;
+- all callbacks beyond a specified interval;
+- all transfer edges;
+- all unresolved questions at T;
+- all nodes affected by replacing a record;
+- all graph edges exposed or hidden in an export.
+
+These queries support validation, compilation, evaluation generation, and manual review.
+
+## 21. Training-view relationship
+
+Canonical records state what relationships exist.
+
+Export manifests state which relationships the model can access and how.
+
+Examples:
+
+- Related nodes may share one attention context.
+- A boundary mask may prevent cross-node attention while preserving token order.
+- Windows may be globally shuffled while preserving local node packing.
+- A node may be replayed with an explicit exposure count.
+- Metadata-only acquisition events may affect canonical order without contributing tokens.
+
+The compiler must never infer canonical relationships from file adjacency alone.
+
+## 22. Counterfactual and delinked derivatives
+
+Content-matched relational-ablation experiments may require rewritten payloads.
+
+Such material is not alternate canon.
+
+It is a derived experimental dataset with:
+
+- derivative ID;
+- parent node IDs;
+- transformation objective;
+- removed or replaced edge classes;
+- semantic-equivalence review;
+- token-matching report;
+- authoring provenance;
+- known residual confounds.
+
+Derived payloads cannot be used to update canonical learner state.
+
+## 23. Migration from Design v2
+
+Design v2 records may migrate as follows:
+
+| Design v2 concept | Design v3 treatment |
+|---|---|
+| episode | one or more canonical nodes |
+| narrator knowledge | acquisition state |
+| person, place, machine | optional persistent entity |
+| memory | callback edge |
+| mistake | claim stance plus later conflict or correction |
+| project arc | project entity plus continuation edges |
+| reading event | source-encounter node plus acquisition delta |
+| concept arc | concept record plus evidence-bearing nodes and edges |
+| chronological episode list | canonical stream constrained by graph |
+
+Alex, Rookfield, ages, personality traits, and the proposed fictional cast do not migrate automatically.
+
+Migration requires explicit IDs, provenance, and review. Detail in a legacy document is not evidence of canonical validity.
+
+## 24. Minimal implementation boundary
+
+The first operational substrate needs:
+
+- registries for entities, claims, concepts, and sources;
+- canonical node records;
+- typed relation-edge records;
+- state-delta records;
+- reconstructable state snapshots;
+- stream-item records;
+- deterministic hash policy;
+- release and replacement records.
+
+It does not yet need:
+
+- a graph database;
+- a web interface;
+- model-generated prose;
+- a large source library;
+- a 100M-parameter training run.
+
+JSONL plus deterministic indexes is an acceptable initial storage model if it satisfies the required queries and integrity checks.
+
+## 25. Design completion criteria
+
+This architecture is ready for schema implementation when:
+
+- node and edge types are reflected in machine-readable schemas;
+- allowed edge endpoints are enumerable;
+- state transitions have a closed operation vocabulary;
+- example records reconstruct one valid state chain;
+- one invalid example exists for each hard invariant class;
+- the compiler can reference nodes without depending on prose genre;
+- no schema requires a fictional biography.
