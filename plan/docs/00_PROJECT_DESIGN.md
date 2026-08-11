@@ -22,6 +22,16 @@ The primary research artifact is the corpus, its relational metadata, its contro
 
 The project does not depend on a novel neural architecture.
 
+### 1.1 Glass-box objective
+
+TL100 is also an educational reconstruction of the language-model stack. The project must make consequential components, defaults, artifacts, and decisions inspectable enough that the project owner can explain and test them.
+
+TL100 will implement readable reference versions of the tokenizer, corpus compiler, masks and schedules, decoder-only Transformer, training loop, and evaluations while borrowing documented low-level primitives such as PyTorch tensor operations and automatic differentiation.
+
+It will not use pretrained weights or a pretrained tokenizer vocabulary for the primary models.
+
+See `18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md` for the build/borrow/verify policy and discussion gates.
+
 ## 2. Central research question
 
 Most language-model pretraining corpora contain useful local documents but weak global organization. Documents from unrelated authors, domains, times, and purposes are sampled into training contexts with little attempt to preserve causal or developmental relationships between them.
@@ -444,18 +454,21 @@ Smaller diagnostic models are scientific instruments, not merely prototypes.
 
 ## 17. Pipeline priority
 
-The first implementation program is a deterministic corpus substrate:
+The first implementation program is a deterministic, inspectable corpus and model substrate:
 
-1. validate and version schemas;
-2. implement graph nodes, typed edges, and acquisition-state records;
-3. implement source provenance and rights gates;
-4. implement immutable canonical stream storage;
-5. implement exact compilation and manifests;
-6. implement the four minimum experimental views;
+1. record consequential decisions and borrowed boundaries;
+2. validate and version schemas;
+3. implement the readable tokenizer workbench and provisional tokenizer;
+4. implement graph nodes, typed edges, and acquisition-state records;
+5. implement source provenance and rights gates;
+6. implement immutable canonical stream storage;
 7. implement deterministic validation and leakage checks;
-8. author and inspect the micro-life;
-9. implement a minimal training and evaluation harness;
-10. run small matched experiments.
+8. implement exact compilation, masks, schedules, and manifests;
+9. implement the four minimum experimental views;
+10. author and inspect the micro-life;
+11. run the tokenizer bakeoff and freeze the scientific tokenizer;
+12. implement and explain the minimal model, training loop, and evaluation harness;
+13. run small matched experiments.
 
 Model-assisted generation stages come only after the deterministic substrate can reject invalid output.
 

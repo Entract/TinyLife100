@@ -219,6 +219,8 @@ Apply the declared normalization policy once to each unique payload. Cache by ra
 
 Tokenize each unique normalized payload and each declared boundary token once with the frozen tokenizer. Store token IDs and offsets. Every primary-condition export reuses these exact tokenized units.
 
+The primary scientific tokenizer is a project-trained, byte-level BPE selected through `18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md`. Compiler development may use a clearly labeled provisional tokenizer, but no reported model may mix provisional and scientific tokenizer artifacts.
+
 ### Phase 6 — Construct atomic spans
 
 An atomic span identifies:

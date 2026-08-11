@@ -1,130 +1,23 @@
 {
   "tasks": [
     {
-      "id": "t-003",
-      "title": "Assess TL100 research value and define the minimum decisive experiment",
-      "description": "Evaluate whether interrelated chronological experiential pretraining poses a genuinely open and falsifiable research question, identify the strongest confounds and failure modes, and recommend the smallest experimental program that can answer it before redesigning the corpus pipeline.",
-      "status": "done",
-      "dependsOn": [],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [],
-      "canParallelize": false,
-      "planDoc": "17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md",
-      "completedCommit": "f06903af6409c186e901a0ebe07029d4a8edb5ef"
-    },
-    {
-      "id": "t-004",
-      "title": "Reset the TL100 foundation as a scientific Design v3",
-      "description": "Replace the fictional-life-first framing with a falsifiable situated-learner and relational-data design, specify matched experimental controls and scale gates, preserve the primary research evidence, and mark unmigrated Design v2 documents as non-canonical legacy inputs.",
-      "status": "done",
+      "id": "t-021",
+      "title": "Define glass-box engineering and the tokenizer protocol",
+      "description": "Make inspectability and pedagogical reconstruction explicit project requirements; classify which TL100 components are built, borrowed, or independently verified; and specify a from-scratch byte-level BPE reference tokenizer, vocabulary-size bakeoff, provenance artifacts, tests, freeze criteria, and discussion checkpoints before model training.",
+      "status": "in-progress",
       "dependsOn": [
-        "t-003"
+        "t-009"
       ],
       "assignee": "Codex",
       "category": "feature",
       "affectedPaths": [
         "plan/docs/00_PROJECT_DESIGN.md",
-        "plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md"
-      ],
-      "canParallelize": false,
-      "planDoc": "00_PROJECT_DESIGN.md",
-      "completedCommit": "060d52cdb3431148201b7500015fe1369c80d2b9"
-    },
-    {
-      "id": "t-005",
-      "title": "Normalize TinyLife100 naming and design-document paths",
-      "description": "Replace current-project LIFE100 naming with TinyLife100 or TL100, update repository documentation to reference plan/docs/, and clearly label retained Design v2 history without rewriting its historical meaning.",
-      "status": "done",
-      "dependsOn": [
-        "t-004"
-      ],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [
-        "README.md",
-        "PROJECT_HANDOFF.md",
-        "AGENTS.md",
-        "CHANGELOG_v2.md",
-        "config/corpus_targets.yaml",
-        "data/README.md",
-        "prompts/README.md",
-        "plan/docs/"
-      ],
-      "canParallelize": false,
-      "planDoc": "00_PROJECT_DESIGN.md",
-      "completedCommit": "9bf5c7b8541a1c63518eccd29f98168282950a1a"
-    },
-    {
-      "id": "t-006",
-      "title": "Specify the D3 canonical graph and acquisition state",
-      "description": "Replace the fictional world-and-continuity document with the Design v3 node, edge, entity, acquisition-state, belief-state, mutation, chronology, and canonicality specification.",
-      "status": "done",
-      "dependsOn": [
-        "t-005"
-      ],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [
-        "plan/docs/01_WORLD_AND_CONTINUITY.md"
-      ],
-      "canParallelize": false,
-      "planDoc": "01_WORLD_AND_CONTINUITY.md",
-      "completedCommit": "9690ad2e2bbc2b01eb7635c5990eacdee285ab5e"
-    },
-    {
-      "id": "t-007",
-      "title": "Redesign the D3 canonical schema suite and examples",
-      "description": "Define the Design v3 canonical record model for nodes, typed edges, acquisition state, sources, stream items, and export manifests; replace fiction-specific schema assumptions; and provide schema-valid examples.",
-      "status": "done",
-      "dependsOn": [
-        "t-006"
-      ],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [
-        "plan/docs/05_EPISODE_SPECIFICATION.md",
-        "schemas/",
-        "examples/"
-      ],
-      "canParallelize": false,
-      "planDoc": "05_EPISODE_SPECIFICATION.md",
-      "completedCommit": "907d0c4afe87939d80694a5c7ebcd8a5044c9e88"
-    },
-    {
-      "id": "t-008",
-      "title": "Specify D3 deterministic validation and rights gates",
-      "description": "Define deterministic schema, referential-integrity, chronology, acquisition, graph, source-rights, hash, duplication, and export acceptance checks with explicit error classes and phase gates.",
-      "status": "done",
-      "dependsOn": [
-        "t-007"
-      ],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [
-        "plan/docs/07_CURATION_AND_QA.md"
-      ],
-      "canParallelize": false,
-      "planDoc": "07_CURATION_AND_QA.md",
-      "completedCommit": "15748d7b92924578edfec61cc254f2d7d289cca4"
-    },
-    {
-      "id": "t-009",
-      "title": "Specify D3 compilation and derive the implementation backlog",
-      "description": "Define exact canonical-to-export compilation behavior, attention-boundary and update-order controls, reproducible manifests, and pipeline stage contracts, then create granular implementation tasks from the stabilized Design v3 specifications.",
-      "status": "in-progress",
-      "dependsOn": [
-        "t-008"
-      ],
-      "assignee": "Codex",
-      "category": "feature",
-      "affectedPaths": [
-        "plan/docs/06_GENERATION_PIPELINE.md",
         "plan/docs/08_CORPUS_FORMAT_AND_VERSIONING.md",
+        "plan/docs/18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md",
         "plan/tasks.json"
       ],
       "canParallelize": false,
-      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md"
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
     },
     {
       "id": "t-010",
@@ -132,7 +25,8 @@
       "description": "Add Design v3 schemas for artifacts, replacements, acceptance receipts, and release manifests; extend export manifests for exact packing, attention, position, loss-mask, batch, and schedule artifacts; and add positive and negative fixtures for the expanded contract.",
       "status": "pending",
       "dependsOn": [
-        "t-009"
+        "t-009",
+        "t-021"
       ],
       "assignee": "Codex",
       "category": "feature",
@@ -179,6 +73,26 @@
       ],
       "canParallelize": false,
       "planDoc": "07_CURATION_AND_QA.md"
+    },
+    {
+      "id": "t-022",
+      "title": "Implement the glass-box tokenizer workbench",
+      "description": "Implement the slow readable byte-level BPE trainer, encoder, byte decoder, serialization and inspection artifacts, byte-only and vocabulary-size bakeoff tooling, provisional tokenizer, property and adversarial tests, and an independently structured conformance encoder without borrowing a pretrained vocabulary.",
+      "status": "pending",
+      "dependsOn": [
+        "t-011",
+        "t-012"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/tokenizer/",
+        "tests/tokenizer/",
+        "config/tokenizers/",
+        "data/tokenizers/provisional/"
+      ],
+      "canParallelize": true,
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
     },
     {
       "id": "t-013",
@@ -242,7 +156,8 @@
       "status": "pending",
       "dependsOn": [
         "t-014",
-        "t-015"
+        "t-015",
+        "t-022"
       ],
       "assignee": "Codex",
       "category": "feature",
@@ -295,24 +210,82 @@
       "planDoc": "06_GENERATION_PIPELINE.md"
     },
     {
+      "id": "t-023",
+      "title": "Run the tokenizer bakeoff and freeze the scientific tokenizer",
+      "description": "Train the declared byte-only and BPE candidates on the content-addressed pilot training payloads, measure compression, context, vocabulary utilization, Unicode and technical-text behavior, throughput, and model parameter cost, review learned tokens, discuss the recommendation with the project owner, and freeze a reproducible scientific tokenizer artifact.",
+      "status": "pending",
+      "dependsOn": [
+        "t-018",
+        "t-022"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "data/tokenizers/scientific/",
+        "config/tokenizers/",
+        "reports/tokenizer/"
+      ],
+      "canParallelize": false,
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
+    },
+    {
       "id": "t-019",
-      "title": "Implement the very-small-model training and evaluation harness",
-      "description": "Implement a conventional decoder-only diagnostic training harness with exact manifest-driven loading, multi-seed configuration, checkpoint and deviation logging, relational and epistemic evaluations, external-language checks, and aggregate reporting.",
+      "title": "Implement and explain the decoder-only Transformer",
+      "description": "Implement a readable conventional decoder-only Transformer with explicit embeddings, position method, normalization, causal multi-head attention, feed-forward blocks, residual paths, output projection, parameter tying, initialization, parameter accounting, shape traces, hand-sized examples, and numerical tests against independent formulations.",
       "status": "pending",
       "dependsOn": [
         "t-011",
-        "t-016"
+        "t-016",
+        "t-022"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/model/",
+        "tests/model/",
+        "plan/docs/19_MODEL_ARCHITECTURE.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
+    },
+    {
+      "id": "t-024",
+      "title": "Implement and explain the manifest-driven training engine",
+      "description": "Implement next-token loss, AdamW updates, learning-rate scheduling, gradient accumulation and clipping, precision policy, exact schedule consumption, checkpoint and resume state, multi-seed configuration, deviation logging, and inspectable training traces without framework-level hidden shuffle or trainer abstractions.",
+      "status": "pending",
+      "dependsOn": [
+        "t-017",
+        "t-019"
       ],
       "assignee": "Codex",
       "category": "feature",
       "affectedPaths": [
         "src/tl100/training/",
-        "src/tl100/evaluation/",
         "tests/training/",
-        "config/experiments/"
+        "config/experiments/",
+        "plan/docs/20_TRAINING_ENGINE.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "18_GLASSBOX_ENGINEERING_AND_TOKENIZER.md"
+    },
+    {
+      "id": "t-025",
+      "title": "Implement the predeclared evaluation harness",
+      "description": "Implement leakage-checked relational, transfer, temporal, epistemic, retention, memorization, and external-language evaluations with per-item traces, deterministic aggregation, uncertainty across seeds, checkpoint comparisons, and machine-readable reports.",
+      "status": "pending",
+      "dependsOn": [
+        "t-011",
+        "t-019"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "src/tl100/evaluation/",
+        "tests/evaluation/",
+        "evals/"
       ],
       "canParallelize": true,
-      "planDoc": "00_PROJECT_DESIGN.md"
+      "planDoc": "09_EVALUATION_AND_EXPERIMENTS.md"
     },
     {
       "id": "t-020",
@@ -322,7 +295,9 @@
       "dependsOn": [
         "t-017",
         "t-018",
-        "t-019"
+        "t-023",
+        "t-024",
+        "t-025"
       ],
       "assignee": "Codex",
       "category": "feature",
@@ -336,5 +311,5 @@
       "planDoc": "00_PROJECT_DESIGN.md"
     }
   ],
-  "nextId": 21
+  "nextId": 26
 }

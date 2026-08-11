@@ -28,6 +28,133 @@
       "canParallelize": false,
       "planDoc": "00_PROJECT_DESIGN.md",
       "completedCommit": "80f9749cd4d1cdef0535b0ea0b3847a9d411c337"
+    },
+    {
+      "id": "t-003",
+      "title": "Assess TL100 research value and define the minimum decisive experiment",
+      "description": "Evaluate whether interrelated chronological experiential pretraining poses a genuinely open and falsifiable research question, identify the strongest confounds and failure modes, and recommend the smallest experimental program that can answer it before redesigning the corpus pipeline.",
+      "status": "done",
+      "dependsOn": [],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [],
+      "canParallelize": false,
+      "planDoc": "17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md",
+      "completedCommit": "f06903af6409c186e901a0ebe07029d4a8edb5ef"
+    },
+    {
+      "id": "t-004",
+      "title": "Reset the TL100 foundation as a scientific Design v3",
+      "description": "Replace the fictional-life-first framing with a falsifiable situated-learner and relational-data design, specify matched experimental controls and scale gates, preserve the primary research evidence, and mark unmigrated Design v2 documents as non-canonical legacy inputs.",
+      "status": "done",
+      "dependsOn": [
+        "t-003"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/00_PROJECT_DESIGN.md",
+        "plan/docs/17_RESEARCH_RATIONALE_AND_OPEN_QUESTIONS.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md",
+      "completedCommit": "060d52cdb3431148201b7500015fe1369c80d2b9"
+    },
+    {
+      "id": "t-005",
+      "title": "Normalize TinyLife100 naming and design-document paths",
+      "description": "Replace current-project LIFE100 naming with TinyLife100 or TL100, update repository documentation to reference plan/docs/, and clearly label retained Design v2 history without rewriting its historical meaning.",
+      "status": "done",
+      "dependsOn": [
+        "t-004"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "README.md",
+        "PROJECT_HANDOFF.md",
+        "AGENTS.md",
+        "CHANGELOG_v2.md",
+        "config/corpus_targets.yaml",
+        "data/README.md",
+        "prompts/README.md",
+        "plan/docs/"
+      ],
+      "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md",
+      "completedCommit": "9bf5c7b8541a1c63518eccd29f98168282950a1a"
+    },
+    {
+      "id": "t-006",
+      "title": "Specify the D3 canonical graph and acquisition state",
+      "description": "Replace the fictional world-and-continuity document with the Design v3 node, edge, entity, acquisition-state, belief-state, mutation, chronology, and canonicality specification.",
+      "status": "done",
+      "dependsOn": [
+        "t-005"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/01_WORLD_AND_CONTINUITY.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "01_WORLD_AND_CONTINUITY.md",
+      "completedCommit": "9690ad2e2bbc2b01eb7635c5990eacdee285ab5e"
+    },
+    {
+      "id": "t-007",
+      "title": "Redesign the D3 canonical schema suite and examples",
+      "description": "Define the Design v3 canonical record model for nodes, typed edges, acquisition state, sources, stream items, and export manifests; replace fiction-specific schema assumptions; and provide schema-valid examples.",
+      "status": "done",
+      "dependsOn": [
+        "t-006"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/05_EPISODE_SPECIFICATION.md",
+        "schemas/",
+        "examples/"
+      ],
+      "canParallelize": false,
+      "planDoc": "05_EPISODE_SPECIFICATION.md",
+      "completedCommit": "907d0c4afe87939d80694a5c7ebcd8a5044c9e88"
+    },
+    {
+      "id": "t-008",
+      "title": "Specify D3 deterministic validation and rights gates",
+      "description": "Define deterministic schema, referential-integrity, chronology, acquisition, graph, source-rights, hash, duplication, and export acceptance checks with explicit error classes and phase gates.",
+      "status": "done",
+      "dependsOn": [
+        "t-007"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/07_CURATION_AND_QA.md"
+      ],
+      "canParallelize": false,
+      "planDoc": "07_CURATION_AND_QA.md",
+      "completedCommit": "15748d7b92924578edfec61cc254f2d7d289cca4"
+    },
+    {
+      "id": "t-009",
+      "title": "Specify D3 compilation and derive the implementation backlog",
+      "description": "Define exact canonical-to-export compilation behavior, attention-boundary and update-order controls, reproducible manifests, and pipeline stage contracts, then create granular implementation tasks from the stabilized Design v3 specifications.",
+      "status": "done",
+      "dependsOn": [
+        "t-008"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [
+        "plan/docs/06_GENERATION_PIPELINE.md",
+        "plan/docs/08_CORPUS_FORMAT_AND_VERSIONING.md",
+        "plan/tasks.json"
+      ],
+      "canParallelize": false,
+      "planDoc": "08_CORPUS_FORMAT_AND_VERSIONING.md",
+      "completedCommit": "0fb87e86edfd5bf763c5e60d11aacd671c5f2255"
     }
   ]
 }
