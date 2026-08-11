@@ -1,0 +1,29 @@
+{
+  "schema_version": "3.0.0",
+  "concept_id": "concept_fixture_measurement_loading",
+  "name": "measurement loading",
+  "operational_description": "Recognize and test whether a measuring instrument materially changes the system being measured.",
+  "prerequisite_concept_ids": [],
+  "boundary_notes": ["Exposure to the term is not evidence of independent application."],
+  "competence_evidence": [
+    {
+      "competence_level": "applied_independently",
+      "observable_criterion": "Predicts a loading error and chooses or models an appropriate measurement method without a prompt."
+    }
+  ],
+  "transfer_target_concept_ids": [],
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Shape-only concept."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+}

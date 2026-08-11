@@ -1,0 +1,59 @@
+{
+  "schema_version": "3.0.0",
+  "source_id": "source_fixture_measurement_note",
+  "title": "TL100 Measurement Loading Fixture Note",
+  "creators": ["TL100 project"],
+  "source_type": "project_authored_fixture",
+  "origin": "project_authored",
+  "roles": ["explicit_encounter"],
+  "bibliographic_provenance": {
+    "identifier_or_locator": "tl100-fixture:measurement-loading-note-v1",
+    "publisher_or_organization": "TL100 project",
+    "version_or_date": "2026-08-11",
+    "acquired_at": "2026-08-11T08:00:00Z",
+    "acquisition_method": "Authored in-repository for schema testing.",
+    "source_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "rights": {
+    "rights_status": "project_authored",
+    "license_identifier": "project-fixture-only",
+    "license_evidence_locator": "plan/docs/05_EPISODE_SPECIFICATION.md",
+    "redistribution_status": "approved",
+    "training_use_status": "approved",
+    "reviewed_by": "TL100 fixture reviewer",
+    "reviewed_at": "2026-08-11T08:10:00Z",
+    "notes": "This record describes a synthetic project fixture and no third-party text."
+  },
+  "storage_mode": "repo_fulltext",
+  "concept_ids": ["concept_fixture_measurement_loading"],
+  "prerequisite_concept_ids": [],
+  "selection_rationale": "Exercise source provenance, encounter, state, and export references without third-party rights ambiguity.",
+  "segments": [
+    {
+      "segment_id": "segment_fixture_measurement_note_body",
+      "sequence_in_source": 0,
+      "start_locator": "fixture-note:start",
+      "end_locator": "fixture-note:end",
+      "payload_locator": "examples/payloads/measurement-loading-note.txt",
+      "raw_content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "normalized_payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "approx_tokens": 18,
+      "training_eligibility": "approved",
+      "redistribution_eligibility": "approved"
+    }
+  ],
+  "canonical_status": "accepted",
+  "record_provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Schema fixture."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+}

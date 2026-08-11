@@ -1,0 +1,30 @@
+{
+  "schema_version": "3.0.0",
+  "entity_id": "ent_instrument_fixture_meter",
+  "entity_class": "instrument",
+  "display_label": "fixture voltmeter",
+  "canonical_status": "accepted",
+  "stable_properties": {
+    "instrument_kind": "digital voltmeter",
+    "fixture_only": true
+  },
+  "stateful_property_names": ["selected_range"],
+  "aliases": [],
+  "first_appearance_node_id": "node_fixture_source_encounter",
+  "current_status": "active",
+  "forbidden_contradictions": ["must not be described as an ideal infinite-impedance instrument"],
+  "merged_into_entity_id": null,
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Synthetic fixture identity; not an empirical instrument record."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": ["Shape-only example."]
+  },
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+}

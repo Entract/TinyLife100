@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/common.schema.json",
+  "title": "TL100 Design v3 Common Definitions",
+  "$defs": {
+    "schema_version": {
+      "type": "string",
+      "const": "3.0.0"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "canonical_status": {
+      "type": "string",
+      "enum": ["draft", "under_review", "accepted", "rejected", "superseded", "withdrawn_before_release"]
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^node_[a-z0-9][a-z0-9_-]*$"
+    },
+    "edge_id": {
+      "type": "string",
+      "pattern": "^edge_[a-z0-9][a-z0-9_-]*$"
+    },
+    "entity_id": {
+      "type": "string",
+      "pattern": "^ent_[a-z0-9][a-z0-9_-]*$"
+    },
+    "claim_id": {
+      "type": "string",
+      "pattern": "^claim_[a-z0-9][a-z0-9_-]*$"
+    },
+    "concept_id": {
+      "type": "string",
+      "pattern": "^concept_[a-z0-9][a-z0-9_-]*$"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^source_[a-z0-9][a-z0-9_-]*$"
+    },
+    "segment_id": {
+      "type": "string",
+      "pattern": "^segment_[a-z0-9][a-z0-9_-]*$"
+    },
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^artifact_[a-z0-9][a-z0-9_-]*$"
+    },
+    "delta_id": {
+      "type": "string",
+      "pattern": "^delta_[a-z0-9][a-z0-9_-]*$"
+    },
+    "state_id": {
+      "type": "string",
+      "pattern": "^state_[a-z0-9][a-z0-9_-]*$"
+    },
+    "stream_item_id": {
+      "type": "string",
+      "pattern": "^stream_[a-z0-9][a-z0-9_-]*$"
+    },
+    "question_id": {
+      "type": "string",
+      "pattern": "^question_[a-z0-9][a-z0-9_-]*$"
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^release_[a-z0-9][a-z0-9._-]*$"
+    },
+    "export_id": {
+      "type": "string",
+      "pattern": "^export_[a-z0-9][a-z0-9._-]*$"
+    },
+    "record_kind": {
+      "type": "string",
+      "enum": ["node", "entity", "claim", "concept", "source", "source_segment", "artifact", "state_delta", "state_snapshot", "stream_item", "replacement"]
+    },
+    "acquisition_mode": {
+      "type": "string",
+      "enum": ["observation", "measurement", "conversation", "source_reading", "artifact_inspection", "experiment", "inference", "explanation_or_teaching", "prior_assumption", "correction"]
+    },
+    "claim_availability": {
+      "type": "string",
+      "enum": ["unavailable", "available_but_unattended", "encountered", "partially_processed", "available_through_reference"]
+    },
+    "claim_stance": {
+      "type": "string",
+      "enum": ["no_recorded_stance", "hypothesized", "uncertain", "tentatively_accepted", "accepted", "rejected", "superseded", "intentionally_unresolved"]
+    },
+    "confidence_category": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "not_recorded"]
+    },
+    "concept_exposure": {
+      "type": "string",
+      "enum": ["not_exposed", "exposed"]
+    },
+    "competence": {
+      "type": "string",
+      "enum": ["not_exposed", "exposed", "recognized_with_support", "applied_with_support", "applied_independently", "explained_accurately", "transferred", "contradicted_by_assessment"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created_at", "created_by", "origin"],
+      "properties": {
+        "created_at": {"$ref": "#/$defs/timestamp"},
+        "created_by": {"type": "string", "minLength": 1},
+        "origin": {
+          "type": "string",
+          "enum": ["project_human", "project_model_assisted", "project_generated", "external_human", "external_model", "mixed", "derived"]
+        },
+        "tool_name": {"type": ["string", "null"]},
+        "tool_version": {"type": ["string", "null"]},
+        "model_id": {"type": ["string", "null"]},
+        "prompt_hashes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/sha256"},
+          "uniqueItems": true
+        },
+        "grounding_record_ids": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "parent_record_ids": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "deterministic_seed": {"type": ["integer", "null"], "minimum": 0},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "reviewers", "decided_at", "notes"],
+      "properties": {
+        "decision": {"type": "string", "enum": ["pending", "accepted", "rejected"]},
+        "reviewers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "decided_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

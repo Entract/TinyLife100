@@ -1,0 +1,39 @@
+{
+  "schema_version": "3.0.0",
+  "node_id": "node_fixture_source_encounter",
+  "node_type": "source_encounter",
+  "canonical_status": "accepted",
+  "purpose": "Encounter a project-authored note that introduces measurement loading.",
+  "payload": {
+    "mode": "source_segment_reference",
+    "source_segments": [
+      {
+        "source_id": "source_fixture_measurement_note",
+        "segment_id": "segment_fixture_measurement_note_body"
+      }
+    ],
+    "normalized_payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+  },
+  "references": {
+    "entity_ids": ["ent_instrument_fixture_meter"],
+    "claim_ids": ["claim_fixture_meter_loads_divider"],
+    "concept_ids": ["concept_fixture_measurement_loading"],
+    "source_ids": ["source_fixture_measurement_note"],
+    "artifact_ids": []
+  },
+  "state_delta_id": "delta_fixture_source_encounter",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "grounding_record_ids": ["source_fixture_measurement_note"],
+    "notes": "Schema fixture."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+}

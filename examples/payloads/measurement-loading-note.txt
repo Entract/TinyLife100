@@ -1,0 +1,1 @@
+A voltmeter has finite input resistance. In a sufficiently high-resistance divider, connecting the meter changes the measured node voltage.

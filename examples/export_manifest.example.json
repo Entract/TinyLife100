@@ -1,0 +1,84 @@
+{
+  "schema_version": "3.0.0",
+  "export_id": "export_fixture_relational_ordered_v1",
+  "release_id": "release_fixture_v1",
+  "created_at": "2026-08-11T08:20:00Z",
+  "compiler": {
+    "name": "tl100-fixture-compiler",
+    "version": "0.0.0",
+    "git_commit": "0000000000000000000000000000000000000000",
+    "configuration_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "normalization_policy_version": "fixture-norm-1"
+  },
+  "tokenizer": {
+    "name": "fixture-tokenizer",
+    "version": "0.0.0",
+    "configuration_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "vocabulary_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "selection": {
+    "canonical_stream_id": "canonical_fixture_v1",
+    "selected_stream_item_ids": ["stream_fixture_000001"],
+    "derived_payload_ids": [],
+    "selection_hash": "sha256:1212121212121212121212121212121212121212121212121212121212121212"
+  },
+  "context_policy": {
+    "related_items_share_context": true,
+    "grouping_method": "canonical_node",
+    "max_context_tokens": 128,
+    "boundary_token_ids": [1],
+    "cross_group_attention": "isolated"
+  },
+  "update_order_policy": {
+    "mode": "canonical",
+    "seed": null,
+    "algorithm": "canonical-ordinal-ascending",
+    "preserves_within_context_order": true
+  },
+  "relationship_visibility": {
+    "exposed_edge_ids": ["edge_fixture_segment_acquisition"],
+    "withheld_edge_ids": []
+  },
+  "source_policy": {
+    "requires_training_approval": true,
+    "requires_redistribution_approval": true,
+    "included_source_ids": ["source_fixture_measurement_note"],
+    "decision_log_hash": "sha256:1313131313131313131313131313131313131313131313131313131313131313"
+  },
+  "items": [
+    {
+      "output_position": 0,
+      "optimizer_position": 0,
+      "context_group_id": "ctx_fixture_000001",
+      "stream_item_id": "stream_fixture_000001",
+      "node_id": "node_fixture_source_encounter",
+      "payload_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "material_class": "external_source",
+      "exposure_index": 0,
+      "derived_payload_id": null,
+      "token_start": 0,
+      "token_end": 18,
+      "token_count": 18
+    }
+  ],
+  "token_accounting": {
+    "unique_payload_tokens": 18,
+    "exposure_tokens": 18,
+    "emitted_tokens": 18,
+    "excluded_tokens": 0,
+    "by_material_class": {
+      "project_authored": 0,
+      "external_source": 18,
+      "artifact": 0,
+      "metadata_only": 0,
+      "derived": 0
+    }
+  },
+  "output": {
+    "format": "text",
+    "relative_path": "exports/fixture/relational-ordered.txt",
+    "byte_count": 128,
+    "content_hash": "sha256:1414141414141414141414141414141414141414141414141414141414141414"
+  },
+  "manifest_hash": "sha256:1515151515151515151515151515151515151515151515151515151515151515"
+}

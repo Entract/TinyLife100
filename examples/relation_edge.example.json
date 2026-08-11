@@ -1,0 +1,31 @@
+{
+  "schema_version": "3.0.0",
+  "edge_id": "edge_fixture_segment_acquisition",
+  "edge_type": "acquisition",
+  "source": {
+    "record_kind": "source_segment",
+    "record_id": "segment_fixture_measurement_note_body"
+  },
+  "target": {
+    "record_kind": "node",
+    "record_id": "node_fixture_source_encounter"
+  },
+  "rationale": "The exact registered source segment becomes available through this accepted encounter node.",
+  "ordering_constraint": "not_after",
+  "evidence_record_ids": ["source_fixture_measurement_note"],
+  "visibility": "metadata_only",
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Schema fixture."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "3.0.0",
+  "delta_id": "delta_fixture_source_encounter",
+  "triggering_node_id": "node_fixture_source_encounter",
+  "pre_state_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "operations": [
+    {
+      "operation_type": "record_source_segment_encounter",
+      "parameters": {
+        "source_id": "source_fixture_measurement_note",
+        "segment_ids": ["segment_fixture_measurement_note_body"],
+        "encounter_kind": "first_encounter"
+      },
+      "rationale": "The accepted node presents this exact registered segment."
+    },
+    {
+      "operation_type": "make_claim_available",
+      "parameters": {
+        "claim_id": "claim_fixture_meter_loads_divider",
+        "availability": "encountered",
+        "acquisition_modes": ["source_reading"],
+        "evidence_node_ids": ["node_fixture_source_encounter"]
+      },
+      "rationale": "The claim is explicitly stated in the encountered fixture note."
+    },
+    {
+      "operation_type": "record_claim_stance",
+      "parameters": {
+        "claim_id": "claim_fixture_meter_loads_divider",
+        "stance": "tentatively_accepted",
+        "confidence": "low",
+        "evidence_node_ids": ["node_fixture_source_encounter"]
+      },
+      "rationale": "One source encounter supports a tentative stance but is not competence evidence."
+    },
+    {
+      "operation_type": "expose_concept",
+      "parameters": {
+        "concept_id": "concept_fixture_measurement_loading",
+        "evidence_node_ids": ["node_fixture_source_encounter"]
+      },
+      "rationale": "The source encounter exposes the concept without asserting independent application."
+    }
+  ],
+  "expected_post_state_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "rationale": "Apply the acquisition effects of one rights-approved fixture source encounter.",
+  "validation": {
+    "result": "passed",
+    "validator_version": "fixture-validator-0",
+    "checked_at": "2026-08-11T08:10:00Z",
+    "error_codes": []
+  },
+  "human_review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": ["Exposure is kept separate from demonstrated competence."]
+  },
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Schema fixture; hashes are shape-only identities."
+  },
+  "content_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

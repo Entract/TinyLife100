@@ -1,29 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tl100.local/schemas/stream_item.schema.json",
-  "title": "TL100 Canonical Stream Item",
+  "title": "TL100 Design v3 Canonical Stream Item",
   "type": "object",
   "additionalProperties": false,
-  "required": ["stream_item_id", "ordinal", "item_type", "reference_id", "material_class", "content_hash"],
+  "required": ["schema_version", "stream_item_id", "canonical_stream_id", "ordinal", "simultaneous_group_id", "node_id", "state_before_hash", "state_after_hash", "emits_canonical_payload", "canonical_status", "content_hash"],
   "properties": {
-    "stream_item_id": {"type": "string", "pattern": "^stream_[0-9]{8}$"},
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "stream_item_id": {"$ref": "common.schema.json#/$defs/stream_item_id"},
+    "canonical_stream_id": {"type": "string", "pattern": "^canonical_[a-z0-9][a-z0-9._-]*$"},
     "ordinal": {"type": "integer", "minimum": 0},
-    "item_type": {
-      "type": "string",
-      "enum": ["LIFE_EPISODE", "READING_START", "SOURCE_SEGMENT", "READING_END", "TECH_ARTIFACT", "TRANSITION"]
-    },
-    "reference_id": {"type": "string"},
-    "subreference_id": {"type": ["string", "null"]},
-    "material_class": {
-      "type": "string",
-      "enum": ["LIFE_NATIVE", "HUMAN_READING", "TECHNICAL_ARTIFACT", "OTHER_DIALOGUE_OR_DOCUMENT", "METADATA_ONLY"]
-    },
-    "world_date": {"type": ["string", "null"]},
-    "era_id": {"type": ["string", "null"]},
-    "emits_training_text": {"type": "boolean", "default": true},
-    "content_hash": {"type": "string"},
-    "state_before_hash": {"type": ["string", "null"]},
-    "state_after_hash": {"type": ["string", "null"]},
-    "notes": {"type": ["string", "null"]}
+    "simultaneous_group_id": {"type": ["string", "null"], "pattern": "^group_[a-z0-9][a-z0-9_-]*$"},
+    "node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+    "state_before_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "state_after_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "emits_canonical_payload": {"type": "boolean"},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
   }
 }

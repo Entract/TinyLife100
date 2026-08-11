@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/concept.schema.json",
+  "title": "TL100 Design v3 Concept Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "concept_id", "name", "operational_description", "prerequisite_concept_ids", "boundary_notes", "competence_evidence", "transfer_target_concept_ids", "canonical_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "concept_id": {"$ref": "common.schema.json#/$defs/concept_id"},
+    "name": {"type": "string", "minLength": 1},
+    "operational_description": {"type": "string", "minLength": 1},
+    "prerequisite_concept_ids": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/concept_id"},
+      "uniqueItems": true
+    },
+    "boundary_notes": {"type": "array", "items": {"type": "string"}},
+    "competence_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["competence_level", "observable_criterion"],
+        "properties": {
+          "competence_level": {"$ref": "common.schema.json#/$defs/competence"},
+          "observable_criterion": {"type": "string", "minLength": 1}
+        }
+      },
+      "minItems": 1
+    },
+    "transfer_target_concept_ids": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/concept_id"},
+      "uniqueItems": true
+    },
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

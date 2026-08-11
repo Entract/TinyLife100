@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/state_snapshot.schema.json",
+  "title": "TL100 Design v3 Acquisition-State Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "state_id", "stream_position", "previous_snapshot_id", "included_delta_ids", "claims", "concepts", "sources", "entities", "questions", "state_hash", "canonical_status", "provenance"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "state_id": {"$ref": "common.schema.json#/$defs/state_id"},
+    "stream_position": {"type": "integer", "minimum": 0},
+    "previous_snapshot_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/state_id"},
+        {"type": "null"}
+      ]
+    },
+    "included_delta_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/delta_id"}, "uniqueItems": true},
+    "claims": {"type": "object", "propertyNames": {"pattern": "^claim_[a-z0-9][a-z0-9_-]*$"}, "additionalProperties": {"$ref": "#/$defs/claim_state"}},
+    "concepts": {"type": "object", "propertyNames": {"pattern": "^concept_[a-z0-9][a-z0-9_-]*$"}, "additionalProperties": {"$ref": "#/$defs/concept_state"}},
+    "sources": {"type": "object", "propertyNames": {"pattern": "^source_[a-z0-9][a-z0-9_-]*$"}, "additionalProperties": {"$ref": "#/$defs/source_state"}},
+    "entities": {"type": "object", "propertyNames": {"pattern": "^ent_[a-z0-9][a-z0-9_-]*$"}, "additionalProperties": {"$ref": "#/$defs/entity_state"}},
+    "questions": {"type": "object", "propertyNames": {"pattern": "^question_[a-z0-9][a-z0-9_-]*$"}, "additionalProperties": {"$ref": "#/$defs/question_state"}},
+    "state_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"}
+  },
+  "$defs": {
+    "claim_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["availability", "stance", "confidence", "acquisition_modes", "supporting_evidence_node_ids", "conflicting_evidence_node_ids", "superseded_by_claim_id", "last_changed_by_node_id"],
+      "properties": {
+        "availability": {"$ref": "common.schema.json#/$defs/claim_availability"},
+        "stance": {"$ref": "common.schema.json#/$defs/claim_stance"},
+        "confidence": {"$ref": "common.schema.json#/$defs/confidence_category"},
+        "acquisition_modes": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/acquisition_mode"}, "uniqueItems": true},
+        "supporting_evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true},
+        "conflicting_evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true},
+        "superseded_by_claim_id": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/claim_id"},
+            {"type": "null"}
+          ]
+        },
+        "last_changed_by_node_id": {"$ref": "common.schema.json#/$defs/node_id"}
+      }
+    },
+    "concept_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exposure", "competence", "evidence_node_ids", "transfer_evidence_node_ids", "last_changed_by_node_id"],
+      "properties": {
+        "exposure": {"$ref": "common.schema.json#/$defs/concept_exposure"},
+        "competence": {"$ref": "common.schema.json#/$defs/competence"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true},
+        "transfer_evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true},
+        "last_changed_by_node_id": {"$ref": "common.schema.json#/$defs/node_id"}
+      }
+    },
+    "source_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["encountered_segment_ids", "encounter_node_ids", "exposure_count", "question_ids", "last_changed_by_node_id"],
+      "properties": {
+        "encountered_segment_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/segment_id"}, "minItems": 1, "uniqueItems": true},
+        "encounter_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true},
+        "exposure_count": {"type": "integer", "minimum": 1},
+        "question_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/question_id"}, "uniqueItems": true},
+        "last_changed_by_node_id": {"$ref": "common.schema.json#/$defs/node_id"}
+      }
+    },
+    "entity_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["properties", "last_changed_by_node_id"],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "epistemic_status", "evidence_node_ids"],
+            "properties": {
+              "value": {},
+              "epistemic_status": {"type": "string", "enum": ["known", "uncertain", "observed"]},
+              "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+            }
+          }
+        },
+        "last_changed_by_node_id": {"$ref": "common.schema.json#/$defs/node_id"}
+      }
+    },
+    "question_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "originating_node_id", "candidate_claim_ids", "evidence_node_ids", "blocked_prerequisite_concept_ids", "status", "resolution_node_id", "last_changed_by_node_id"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "originating_node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+        "candidate_claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "uniqueItems": true},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true},
+        "blocked_prerequisite_concept_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/concept_id"}, "uniqueItems": true},
+        "status": {"type": "string", "enum": ["open", "reframed", "resolved", "abandoned"]},
+        "resolution_node_id": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/node_id"},
+            {"type": "null"}
+          ]
+        },
+        "last_changed_by_node_id": {"$ref": "common.schema.json#/$defs/node_id"}
+      }
+    }
+  }
+}

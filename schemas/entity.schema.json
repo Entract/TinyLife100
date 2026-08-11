@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/entity.schema.json",
+  "title": "TL100 Design v3 Entity Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "entity_id", "entity_class", "display_label", "canonical_status", "stable_properties", "stateful_property_names", "aliases", "first_appearance_node_id", "current_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "entity_id": {"$ref": "common.schema.json#/$defs/entity_id"},
+    "entity_class": {
+      "type": "string",
+      "enum": ["situated_learner", "participant", "physical_object", "instrument", "system_or_machine", "environment_or_location", "project_or_investigation", "organization", "dataset", "software_component", "model", "source_creator_or_publisher"]
+    },
+    "display_label": {"type": "string", "minLength": 1},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "stable_properties": {"type": "object"},
+    "stateful_property_names": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "aliases": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "first_appearance_node_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/node_id"},
+        {"type": "null"}
+      ]
+    },
+    "current_status": {"type": "string", "enum": ["active", "inactive", "retired", "superseded"]},
+    "forbidden_contradictions": {"type": "array", "items": {"type": "string"}},
+    "merged_into_entity_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/entity_id"},
+        {"type": "null"}
+      ]
+    },
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

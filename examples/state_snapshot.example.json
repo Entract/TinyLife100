@@ -1,0 +1,51 @@
+{
+  "schema_version": "3.0.0",
+  "state_id": "state_fixture_after_source_encounter",
+  "stream_position": 0,
+  "previous_snapshot_id": null,
+  "included_delta_ids": ["delta_fixture_source_encounter"],
+  "claims": {
+    "claim_fixture_meter_loads_divider": {
+      "availability": "encountered",
+      "stance": "tentatively_accepted",
+      "confidence": "low",
+      "acquisition_modes": ["source_reading"],
+      "supporting_evidence_node_ids": ["node_fixture_source_encounter"],
+      "conflicting_evidence_node_ids": [],
+      "superseded_by_claim_id": null,
+      "last_changed_by_node_id": "node_fixture_source_encounter"
+    }
+  },
+  "concepts": {
+    "concept_fixture_measurement_loading": {
+      "exposure": "exposed",
+      "competence": "exposed",
+      "evidence_node_ids": ["node_fixture_source_encounter"],
+      "transfer_evidence_node_ids": [],
+      "last_changed_by_node_id": "node_fixture_source_encounter"
+    }
+  },
+  "sources": {
+    "source_fixture_measurement_note": {
+      "encountered_segment_ids": ["segment_fixture_measurement_note_body"],
+      "encounter_node_ids": ["node_fixture_source_encounter"],
+      "exposure_count": 1,
+      "question_ids": [],
+      "last_changed_by_node_id": "node_fixture_source_encounter"
+    }
+  },
+  "entities": {},
+  "questions": {},
+  "state_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:10:00Z",
+    "created_by": "fixture-validator-0",
+    "origin": "derived",
+    "tool_name": "fixture-validator",
+    "tool_version": "0",
+    "parent_record_ids": ["delta_fixture_source_encounter"],
+    "deterministic_seed": 0,
+    "notes": "Schema fixture; state hash is not a production-computed identity."
+  }
+}

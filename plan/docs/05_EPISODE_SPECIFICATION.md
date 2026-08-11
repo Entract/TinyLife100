@@ -1,182 +1,264 @@
-# 05 — Episode and Encounter Specification (v2)
+---
+category: feature
+---
 
-## 1. Episode definition
+# TL100 Canonical Record and Schema Specification (Design v3)
 
-An **episode** is the smallest canonical unit of narrator-authored Life material that:
+> Status: binding Design v3 record contract.
+>
+> This document replaces the Design v2 episode-first specification.
 
-- has a coherent local purpose/event;
-- can update world or knowledge state;
-- can be reviewed independently;
-- occupies one exact place in chronology.
+## 1. Purpose
 
-An episode is **not** the only kind of canonical timeline item. External source segments and technical artifacts can also be encountered through `reading_event` / `stream_item` records.
+TL100 stores a reviewed relational learning history, not a fictional biography. The canonical unit is therefore a typed node, not an episode or prose genre.
 
-Episodes are not necessarily training chunks. Exporters may concatenate or split material while retaining source boundaries in manifests.
+This document maps the architecture in `01_WORLD_AND_CONTINUITY.md` to machine-readable records. It defines the first schema boundary, field ownership, record relationships, and example requirements. Compilation policy is specified separately.
 
-## 2. Recommended length
+## 2. Schema principles
 
-Suggested starting distribution for narrator episodes:
+All canonical schemas must:
 
-- short: 250–700 tokens;
-- typical: 700–1,800;
-- long: 1,800–4,000;
-- exceptional: up to ~8,000.
+- declare JSON Schema draft 2020-12;
+- use stable `https://tl100.local/schemas/...` identifiers;
+- reject undeclared properties;
+- include an explicit schema version;
+- use opaque, type-prefixed project identifiers;
+- use full `sha256:` content identities rather than placeholders in accepted records;
+- distinguish record metadata from training payloads;
+- preserve provenance and review state;
+- leave cross-record and temporal invariants to a deterministic validator where JSON Schema is insufficient.
 
-External reading units follow their natural coherent boundaries rather than these episode lengths.
+Schema validity is necessary but not sufficient for canonical acceptance.
 
-## 3. Episode classes
+## 3. Canonical record suite
 
-- `scene`
-- `project_work`
-- `conversation`
-- `lesson`
-- `experiment`
-- `debugging`
-- `reflection`
-- `postmortem`
-- `planning`
-- `documentation`
-- `reading_preparation`
-- `reading_response`
-- `practice`
-- `assessment`
-- `transition`
-- `mixed`
+| Schema | Record responsibility |
+|---|---|
+| `common.schema.json` | Shared identifiers, hashes, statuses, provenance, and review records |
+| `entity.schema.json` | Stable identity for recurring actors, objects, systems, environments, projects, datasets, and tools |
+| `claim.schema.json` | Stable propositions and controlled truth status |
+| `concept.schema.json` | Reusable abstractions, prerequisites, and competence criteria |
+| `source.schema.json` | External-source identity, provenance, rights, storage, and immutable segments |
+| `node.schema.json` | Independently reviewable information-bearing events or objects |
+| `relation_edge.schema.json` | Reviewed typed relations and ordering constraints |
+| `state_delta.schema.json` | Ordered, evidence-bearing acquisition-state transitions |
+| `state_snapshot.schema.json` | Reconstructable state checkpoints |
+| `stream_item.schema.json` | One exact canonical placement of an accepted node |
+| `export_manifest.schema.json` | Exact compiled view, policies, inputs, token accounting, and output identities |
 
-A prior `reading_and_response` class is split so the external source itself can exist independently from Alex's response.
+`common.schema.json` is a definition library and is not itself instantiated.
 
-## 4. Required episode-plan fields
+## 4. Record ownership
 
-Before prose exists, specify at minimum:
+### 4.1 Nodes own meaning-bearing events
 
-```yaml
-episode_id: ep_00001234
-era_id: era_2
-date_index: 213
-episode_class: debugging
-location_ids: [place_foundry]
-people_present: [person_narrator, person_mara]
-project_ids: [project_motor_controller_01]
-concept_targets: [concept_stall_current, concept_supply_droop]
-concept_prerequisites: [concept_voltage, concept_current]
-acquisition_modes: [experience, experiment, artifact, reading]
-memory_callbacks: [memory_cart_alignment_01]
-open_questions_before: [question_motor_driver_reset_01]
-objective: >
-  Discover that motor startup/stall current and supply droop explain the reset.
-narrator_belief_before: >
-  I think the controller reset is probably a firmware timing problem.
-planned_evidence:
-  - observe reset at motor start
-  - measure supply rail under load
-triggered_reading_event_ids:
-  - read_00000217
-source_ids:
-  - source_motor_datasheet_01
-state_changes_expected:
-  - misconception_motor_reset_software corrected
-  - question_motor_driver_reset_01 resolved
+A node owns:
+
+- event/object type;
+- purpose;
+- payload mode and payload identity;
+- semantic references to entities, claims, concepts, sources, and artifacts;
+- an optional proposed state delta;
+- creation and review provenance.
+
+A node does not own canonical ordinal, training-window placement, optimizer order, or export token offsets.
+
+### 4.2 Stream items own canonical placement
+
+A stream item owns:
+
+- canonical stream identity;
+- ordinal and optional simultaneous group;
+- referenced node;
+- state-before and state-after identities;
+- whether the node supplies a training payload in the canonical view.
+
+The same immutable source segment may be encountered in several nodes. Each encounter has its own node and stream item while retaining the segment's content identity.
+
+### 4.3 Export manifests own experimental transformations
+
+An export manifest owns:
+
+- selected release and records;
+- tokenizer and compiler identity;
+- attention-context policy;
+- optimizer/update-order policy;
+- deterministic seeds;
+- exact item order and token offsets;
+- unique-token and exposure-token accounting;
+- source eligibility decision record;
+- output and manifest hashes.
+
+Export operations never mutate canonical nodes or stream order.
+
+## 5. Node records
+
+### 5.1 Node types
+
+The initial closed vocabulary is:
+
+- `encounter`;
+- `observation`;
+- `action`;
+- `conversation`;
+- `source_encounter`;
+- `artifact`;
+- `reflection`;
+- `assessment`;
+- `transition`.
+
+This vocabulary describes epistemic function, not literary genre.
+
+### 5.2 Payload modes
+
+- `inline_text`: accepted project-authored text stored in the node;
+- `artifact_reference`: one registered artifact provides the payload;
+- `source_segment_reference`: ordered registered source segments provide external payloads;
+- `metadata_only`: the node changes structure or records a boundary without emitting text;
+- `composite_reference`: ordered immutable components provide the payload.
+
+The payload discriminated union prevents a metadata-only event from silently carrying text and prevents external prose from being embedded as project-authored text.
+
+### 5.3 References
+
+Node reference arrays are explicit and unique. Their existence and correct registry kind are validator responsibilities. Referencing a source does not by itself grant source-text inclusion rights.
+
+## 6. Entities, claims, and concepts
+
+Entities provide stable recurrence identity. Stable and stateful properties are structured values, but assertions important to the experiment should also have claim IDs so their evidence and truth status can be audited.
+
+Claims separate controlled truth from learner stance. Claim records contain truth status; snapshots contain what was available and what stance was recorded at a given stream point.
+
+Concepts identify abstractions or skills. Their records specify prerequisites and observable competence criteria. Exposure and competence belong to learner-state snapshots, not the concept definition.
+
+## 7. Source records
+
+A source record contains no implicit permission. It records:
+
+- bibliographic identity and acquisition provenance;
+- origin and intended role;
+- rights status, license evidence, redistribution decision, and training-use decision;
+- storage mode;
+- immutable segment locators and hashes;
+- segment-level eligibility decisions.
+
+The deterministic rights gate may be stricter than schema validity. In particular, `unknown`, `review_required`, and `not_approved` decisions cannot yield training text in a releasable export.
+
+Source segments identify coherent units. Segment records do not embed copyrighted prose. A payload locator points to approved repository or local storage where policy permits.
+
+## 8. Relation edges
+
+Each relation edge states endpoint kinds as well as IDs. The validator checks the allowed endpoint matrix from the architecture specification.
+
+Edge type, ordering constraint, and visibility are independent fields. A causal relationship is not inferred from adjacency, and a semantic edge may remain canonical while its textual bridge is removed from an experimental export.
+
+## 9. Acquisition-state deltas
+
+State changes use a closed operation vocabulary. Operations are ordered because later operations in one accepted delta may depend on earlier ones.
+
+Each operation records its target and evidence-bearing references. A `change_claim_stance` operation records both previous and new stance. A competence update cites at least one accepted evidence node. A source encounter identifies exact immutable segments.
+
+Every delta declares:
+
+- triggering node;
+- pre-state hash;
+- ordered operations;
+- expected post-state hash;
+- validation and review decisions.
+
+The validator applies the operations and rejects the delta unless its computed post-state hash matches.
+
+## 10. State snapshots
+
+Snapshots are deterministic projections, not psychological profiles. They track only registered, experiment-relevant state:
+
+- claim availability, stance, confidence category, acquisition modes, and evidence;
+- concept exposure and demonstrated competence;
+- source segment encounters and exposure counts;
+- known or uncertain entity properties;
+- open, resolved, reframed, or abandoned questions.
+
+Map keys are canonical IDs. The validator checks that each key resolves and that each `last_changed_by` node is at or before the snapshot position.
+
+## 11. Canonical stream
+
+Canonical stream ordinals are unique and contiguous within a release candidate. Hard relation constraints must be satisfied by their order.
+
+For a state-changing item:
+
+```text
+prior state_after_hash == current state_before_hash
+apply referenced node delta
+computed state hash == current state_after_hash
 ```
 
-The writer must not invent the curriculum/world/source structure while composing prose.
+For a non-mutating item, state-before equals state-after. A metadata-only boundary cannot mutate state without an explicit delta.
 
-## 5. Canonical record types
+## 12. Export manifests
 
-TL100 v2 uses separate records:
+Every training export is reproducible from one accepted release plus a manifest. The first manifest contract distinguishes:
 
-- `episode` — narrator-authored prose;
-- `source` — external source metadata and segments;
-- `reading_event` — why/when/how a source is encountered;
-- `stream_item` — exact canonical timeline placement;
-- `artifact` — optional structured document/code/log record.
+- canonical selection from derived payloads;
+- context grouping and attention isolation;
+- canonical, global-shuffle, or declared custom update order;
+- unique payload tokens from repeated token exposures;
+- requested policy from observed compiled result.
 
-See `schemas/`.
+The manifest item list is the audit trail. Every emitted span identifies its parent stream item and node, payload hash, exposure index, context group, optimizer position, and exact token range.
 
-## 6. Educational event types
+## 13. Cross-record invariants
 
-Annotate meaningful learning events:
+JSON Schema cannot establish all required properties. The deterministic validator must additionally enforce:
 
-- `first_exposure`
-- `term_introduction`
-- `intuitive_use`
-- `formalization`
-- `practice`
-- `misconception`
-- `correction`
-- `source_encounter`
-- `source_reconciliation`
-- `explanation_to_other`
-- `transfer`
-- `integration`
-- `assessment`
-- `spaced_recall`
-- `rereading`
+- every reference exists and has the declared record kind;
+- identifiers are globally unique and never reused;
+- accepted hard-order edges are acyclic;
+- stream ordinals satisfy hard constraints;
+- deltas form one valid state-hash chain;
+- acquisition precedes use unless explicitly marked as hypothesis or prior assumption;
+- competence changes cite accepted evidence;
+- source-segment hashes match stored payloads;
+- source inclusion satisfies rights and storage policy;
+- accepted and released payload hashes match normalized content;
+- released records are immutable;
+- export token offsets, counts, order, and hashes reproduce exactly.
 
-## 7. Acquisition provenance
+## 14. Example fixture
 
-For important concept changes, record one or more acquisition modes:
+The `examples/` directory contains one small, non-fictional measurement chain:
 
-- `experience`
-- `conversation`
-- `reading`
-- `artifact`
-- `experiment`
-- `inference`
-- `teaching`
+1. a registered instrument entity;
+2. a controlled claim about measurement loading;
+3. a concept with a prerequisite;
+4. a project-authored source record whose segment is rights-approved;
+5. a source-encounter node;
+6. an acquisition edge;
+7. a delta that makes the claim available and records the source encounter;
+8. the resulting state snapshot;
+9. a canonical stream item;
+10. an export manifest referencing that exact payload.
 
-This enables later tests of whether source type or learning context matters.
+The examples demonstrate shape, not scientific evidence. Their hashes are syntactically valid fixture identities and must never be mistaken for computed production hashes.
 
-## 8. Mistakes
+## 15. D2 migration
 
-Mistakes must be plausible, consequential enough to matter, and consistent with current knowledge.
+The former `episode` and `reading_event` schemas are withdrawn.
 
-Good examples:
+- An episode becomes one or more typed nodes.
+- A reading event becomes a `source_encounter` node plus explicit source segments, edges, and any justified state delta.
+- A narrator knowledge block becomes a state snapshot or delta.
+- Episode class and narrator voice are optional authoring concerns outside canonical identity.
 
-- wrong subsystem blamed first;
-- unit/reference-frame error;
-- misunderstanding a source;
-- overgeneralizing a textbook rule;
-- trusting unloaded voltage;
-- ignoring a requirement;
-- overfitting an ML model;
-- using retrieval without authority filtering.
+Migration is explicit; old records do not become D3-valid merely by renaming fields.
 
-Bad examples:
+## 16. Completion criteria
 
-- absurd errors inserted only to manufacture a correction;
-- dangerous negligence treated casually;
-- characters hiding obvious facts to prolong a lesson;
-- repetitive scripted mistakes.
+This schema layer is ready for implementation when:
 
-## 9. Completion criteria
-
-An episode can enter canon only if:
-
-- schema valid;
-- plan approved;
-- world preconditions valid;
-- knowledge state valid;
-- curriculum prerequisites valid or intentionally previewed;
-- triggered source/read events exist and are rights/provenance valid;
-- technical claims pass verification;
-- narrator perspective and voice pass;
-- duplication/copying checks pass;
-- state mutations are explicit;
-- provenance complete.
-
-A source segment can enter a training export only if its source record, selected segment, reading/encounter placement, and rights/training-use status all permit inclusion.
-
-## 10. Training boundaries
-
-Canonical metadata is not automatically training text.
-
-Exporters may experiment with:
-
-- episode separators;
-- source/work boundary markers;
-- natural chapter headings;
-- no explicit metadata;
-- reading boundaries that are metadata-only;
-- selected natural notebook/date headings when genuinely part of the Life.
-
-The flagship corpus should feel like encountered text, not serialized JSON.
+- every schema parses under draft 2020-12;
+- every example validates against its named schema;
+- all external references resolve locally without network access;
+- the example chain has internally resolvable IDs;
+- no schema requires a fictional person, setting, age, or narrator;
+- external source prose cannot be silently stored as inline project-authored text;
+- deterministic invariants not expressible in JSON Schema are enumerated for the validation layer.

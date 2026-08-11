@@ -1,0 +1,30 @@
+{
+  "schema_version": "3.0.0",
+  "claim_id": "claim_fixture_meter_loads_divider",
+  "canonical_statement": "In the defined fixture circuit, the finite input resistance of the voltmeter changes the divider output voltage.",
+  "scope_and_conditions": "Applies only to the registered fixture values and measurement configuration.",
+  "truth_status": "true_in_controlled_environment",
+  "truth_basis": {
+    "basis_type": "project_definition",
+    "record_ids": ["source_fixture_measurement_note"],
+    "rationale": "The fixture is constructed to demonstrate record linkage, not to establish a new empirical result."
+  },
+  "concept_ids": ["concept_fixture_measurement_loading"],
+  "supersedes_claim_ids": [],
+  "refines_claim_ids": [],
+  "version_sensitive": false,
+  "canonical_status": "accepted",
+  "provenance": {
+    "created_at": "2026-08-11T08:00:00Z",
+    "created_by": "TL100 fixture author",
+    "origin": "project_human",
+    "notes": "Shape-only claim."
+  },
+  "review": {
+    "decision": "accepted",
+    "reviewers": ["TL100 fixture reviewer"],
+    "decided_at": "2026-08-11T08:10:00Z",
+    "notes": []
+  },
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+}

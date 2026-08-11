@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/state_delta.schema.json",
+  "title": "TL100 Design v3 Acquisition-State Delta",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "delta_id", "triggering_node_id", "pre_state_hash", "operations", "expected_post_state_hash", "rationale", "validation", "human_review", "canonical_status", "provenance", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "delta_id": {"$ref": "common.schema.json#/$defs/delta_id"},
+    "triggering_node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+    "pre_state_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "operations": {"type": "array", "items": {"$ref": "#/$defs/operation"}, "minItems": 1},
+    "expected_post_state_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+    "rationale": {"type": "string", "minLength": 1},
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "validator_version", "checked_at", "error_codes"],
+      "properties": {
+        "result": {"type": "string", "enum": ["pending", "passed", "failed"]},
+        "validator_version": {"type": "string", "minLength": 1},
+        "checked_at": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "error_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "human_review": {"$ref": "common.schema.json#/$defs/review"},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  },
+  "$defs": {
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation_type", "parameters", "rationale"],
+      "properties": {
+        "operation_type": {
+          "type": "string",
+          "enum": ["make_claim_available", "record_claim_stance", "change_claim_stance", "add_supporting_evidence", "add_conflicting_evidence", "supersede_claim_stance", "expose_concept", "record_demonstrated_competence", "record_source_segment_encounter", "update_known_entity_property", "open_question", "update_question", "resolve_question", "add_unresolved_uncertainty"]
+        },
+        "parameters": {"type": "object"},
+        "rationale": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {"if": {"properties": {"operation_type": {"const": "make_claim_available"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/make_claim_available"}}}},
+        {"if": {"properties": {"operation_type": {"const": "record_claim_stance"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/record_claim_stance"}}}},
+        {"if": {"properties": {"operation_type": {"const": "change_claim_stance"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/change_claim_stance"}}}},
+        {"if": {"properties": {"operation_type": {"const": "add_supporting_evidence"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/claim_evidence"}}}},
+        {"if": {"properties": {"operation_type": {"const": "add_conflicting_evidence"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/claim_evidence"}}}},
+        {"if": {"properties": {"operation_type": {"const": "supersede_claim_stance"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/supersede_claim_stance"}}}},
+        {"if": {"properties": {"operation_type": {"const": "expose_concept"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/expose_concept"}}}},
+        {"if": {"properties": {"operation_type": {"const": "record_demonstrated_competence"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/record_competence"}}}},
+        {"if": {"properties": {"operation_type": {"const": "record_source_segment_encounter"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/source_encounter"}}}},
+        {"if": {"properties": {"operation_type": {"const": "update_known_entity_property"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/entity_property"}}}},
+        {"if": {"properties": {"operation_type": {"const": "open_question"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/open_question"}}}},
+        {"if": {"properties": {"operation_type": {"const": "update_question"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/update_question"}}}},
+        {"if": {"properties": {"operation_type": {"const": "resolve_question"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/resolve_question"}}}},
+        {"if": {"properties": {"operation_type": {"const": "add_unresolved_uncertainty"}}}, "then": {"properties": {"parameters": {"$ref": "#/$defs/unresolved_uncertainty"}}}}
+      ]
+    },
+    "make_claim_available": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "availability", "acquisition_modes", "evidence_node_ids"],
+      "properties": {
+        "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "availability": {"type": "string", "enum": ["available_but_unattended", "encountered", "partially_processed", "available_through_reference"]},
+        "acquisition_modes": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/acquisition_mode"}, "minItems": 1, "uniqueItems": true},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "record_claim_stance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "stance", "confidence", "evidence_node_ids"],
+      "properties": {
+        "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "stance": {"$ref": "common.schema.json#/$defs/claim_stance"},
+        "confidence": {"$ref": "common.schema.json#/$defs/confidence_category"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "change_claim_stance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "previous_stance", "new_stance", "confidence", "evidence_node_ids"],
+      "properties": {
+        "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "previous_stance": {"$ref": "common.schema.json#/$defs/claim_stance"},
+        "new_stance": {"$ref": "common.schema.json#/$defs/claim_stance"},
+        "confidence": {"$ref": "common.schema.json#/$defs/confidence_category"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "claim_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "evidence_node_ids"],
+      "properties": {
+        "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "supersede_claim_stance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "superseding_claim_id", "evidence_node_ids"],
+      "properties": {
+        "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "superseding_claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "expose_concept": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept_id", "evidence_node_ids"],
+      "properties": {
+        "concept_id": {"$ref": "common.schema.json#/$defs/concept_id"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "record_competence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept_id", "previous_competence", "new_competence", "evidence_node_ids"],
+      "properties": {
+        "concept_id": {"$ref": "common.schema.json#/$defs/concept_id"},
+        "previous_competence": {"$ref": "common.schema.json#/$defs/competence"},
+        "new_competence": {"$ref": "common.schema.json#/$defs/competence"},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "source_encounter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "segment_ids", "encounter_kind"],
+      "properties": {
+        "source_id": {"$ref": "common.schema.json#/$defs/source_id"},
+        "segment_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/segment_id"}, "minItems": 1, "uniqueItems": true},
+        "encounter_kind": {"type": "string", "enum": ["first_encounter", "reread", "reference"]}
+      }
+    },
+    "entity_property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_id", "property_name", "previous_value", "new_value", "epistemic_status", "evidence_node_ids"],
+      "properties": {
+        "entity_id": {"$ref": "common.schema.json#/$defs/entity_id"},
+        "property_name": {"type": "string", "minLength": 1},
+        "previous_value": {},
+        "new_value": {},
+        "epistemic_status": {"type": "string", "enum": ["known", "uncertain", "observed"]},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "open_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "question", "candidate_claim_ids"],
+      "properties": {
+        "question_id": {"$ref": "common.schema.json#/$defs/question_id"},
+        "question": {"type": "string", "minLength": 1},
+        "candidate_claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "uniqueItems": true}
+      }
+    },
+    "update_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "previous_status", "new_status", "candidate_claim_ids", "evidence_node_ids"],
+      "properties": {
+        "question_id": {"$ref": "common.schema.json#/$defs/question_id"},
+        "previous_status": {"type": "string", "enum": ["open", "reframed"]},
+        "new_status": {"type": "string", "enum": ["open", "reframed", "abandoned"]},
+        "candidate_claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "uniqueItems": true},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true}
+      }
+    },
+    "resolve_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "resolution_claim_ids", "evidence_node_ids"],
+      "properties": {
+        "question_id": {"$ref": "common.schema.json#/$defs/question_id"},
+        "resolution_claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "minItems": 1, "uniqueItems": true},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "unresolved_uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_record_kind", "target_record_id", "description", "evidence_node_ids"],
+      "properties": {
+        "target_record_kind": {"$ref": "common.schema.json#/$defs/record_kind"},
+        "target_record_id": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "evidence_node_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/node_id"}, "uniqueItems": true}
+      }
+    }
+  }
+}

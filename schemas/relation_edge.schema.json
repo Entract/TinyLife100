@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/relation_edge.schema.json",
+  "title": "TL100 Design v3 Relation Edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "edge_id", "edge_type", "source", "target", "rationale", "ordering_constraint", "evidence_record_ids", "visibility", "canonical_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "edge_id": {"$ref": "common.schema.json#/$defs/edge_id"},
+    "edge_type": {"type": "string", "enum": ["temporal", "causal", "prerequisite", "entity_recurrence", "project_continuation", "acquisition", "belief_support", "belief_conflict", "correction", "source_application", "memory_or_callback", "analogy_or_transfer"]},
+    "source": {"$ref": "#/$defs/endpoint"},
+    "target": {"$ref": "#/$defs/endpoint"},
+    "rationale": {"type": "string", "minLength": 1},
+    "ordering_constraint": {"type": "string", "enum": ["strict_before", "not_after", "same_stream_group", "unconstrained", "derived_from_hard_edge"]},
+    "evidence_record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "visibility": {"type": "string", "enum": ["explicit_in_payload", "inferable_from_adjacent_payloads", "metadata_only", "withheld_for_evaluation", "export_dependent"]},
+    "transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_structure", "target_structure", "surface_difference", "evaluation_intent"],
+      "properties": {
+        "source_structure": {"type": "string", "minLength": 1},
+        "target_structure": {"type": "string", "minLength": 1},
+        "surface_difference": {"type": "string", "minLength": 1},
+        "evaluation_intent": {"type": "string", "minLength": 1}
+      }
+    },
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"edge_type": {"const": "analogy_or_transfer"}}},
+      "then": {"required": ["transfer"]},
+      "else": {"not": {"required": ["transfer"]}}
+    }
+  ],
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_kind", "record_id"],
+      "properties": {
+        "record_kind": {"$ref": "common.schema.json#/$defs/record_kind"},
+        "record_id": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

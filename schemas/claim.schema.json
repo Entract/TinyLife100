@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/claim.schema.json",
+  "title": "TL100 Design v3 Claim Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "claim_id", "canonical_statement", "scope_and_conditions", "truth_status", "truth_basis", "concept_ids", "supersedes_claim_ids", "refines_claim_ids", "version_sensitive", "canonical_status", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "claim_id": {"$ref": "common.schema.json#/$defs/claim_id"},
+    "canonical_statement": {"type": "string", "minLength": 1},
+    "scope_and_conditions": {"type": "string", "minLength": 1},
+    "truth_status": {
+      "type": "string",
+      "enum": ["true_in_controlled_environment", "false_in_controlled_environment", "conditionally_true", "unresolved", "contested", "source_reported_only", "not_applicable"]
+    },
+    "truth_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis_type", "record_ids", "rationale"],
+      "properties": {
+        "basis_type": {"type": "string", "enum": ["controlled_measurement", "accepted_source", "formal_derivation", "project_definition", "reviewed_synthesis", "none"]},
+        "record_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "rationale": {"type": "string"}
+      }
+    },
+    "concept_ids": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/concept_id"},
+      "uniqueItems": true
+    },
+    "supersedes_claim_ids": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/claim_id"},
+      "uniqueItems": true
+    },
+    "refines_claim_ids": {
+      "type": "array",
+      "items": {"$ref": "common.schema.json#/$defs/claim_id"},
+      "uniqueItems": true
+    },
+    "version_sensitive": {"type": "boolean"},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

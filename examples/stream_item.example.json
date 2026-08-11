@@ -1,0 +1,13 @@
+{
+  "schema_version": "3.0.0",
+  "stream_item_id": "stream_fixture_000001",
+  "canonical_stream_id": "canonical_fixture_v1",
+  "ordinal": 0,
+  "simultaneous_group_id": null,
+  "node_id": "node_fixture_source_encounter",
+  "state_before_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "state_after_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "emits_canonical_payload": true,
+  "canonical_status": "accepted",
+  "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

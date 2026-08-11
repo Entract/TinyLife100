@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tl100.local/schemas/node.schema.json",
+  "title": "TL100 Design v3 Canonical Node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "node_id", "node_type", "canonical_status", "purpose", "payload", "references", "state_delta_id", "provenance", "review", "content_hash"],
+  "properties": {
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "node_id": {"$ref": "common.schema.json#/$defs/node_id"},
+    "node_type": {"type": "string", "enum": ["encounter", "observation", "action", "conversation", "source_encounter", "artifact", "reflection", "assessment", "transition"]},
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "purpose": {"type": "string", "minLength": 1},
+    "payload": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "inline_text", "raw_payload_hash", "normalized_payload_hash"],
+          "properties": {
+            "mode": {"const": "inline_text"},
+            "inline_text": {"type": "string", "minLength": 1},
+            "raw_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+            "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "artifact_id", "raw_payload_hash", "normalized_payload_hash"],
+          "properties": {
+            "mode": {"const": "artifact_reference"},
+            "artifact_id": {"$ref": "common.schema.json#/$defs/artifact_id"},
+            "raw_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+            "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "source_segments", "normalized_payload_hash"],
+          "properties": {
+            "mode": {"const": "source_segment_reference"},
+            "source_segments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["source_id", "segment_id"],
+                "properties": {
+                  "source_id": {"$ref": "common.schema.json#/$defs/source_id"},
+                  "segment_id": {"$ref": "common.schema.json#/$defs/segment_id"}
+                }
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {"mode": {"const": "metadata_only"}}
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "component_record_ids", "normalized_payload_hash"],
+          "properties": {
+            "mode": {"const": "composite_reference"},
+            "component_record_ids": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+            "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_ids", "claim_ids", "concept_ids", "source_ids", "artifact_ids"],
+      "properties": {
+        "entity_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/entity_id"}, "uniqueItems": true},
+        "claim_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/claim_id"}, "uniqueItems": true},
+        "concept_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/concept_id"}, "uniqueItems": true},
+        "source_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/source_id"}, "uniqueItems": true},
+        "artifact_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/artifact_id"}, "uniqueItems": true}
+      }
+    },
+    "state_delta_id": {
+      "oneOf": [
+        {"$ref": "common.schema.json#/$defs/delta_id"},
+        {"type": "null"}
+      ]
+    },
+    "provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
+  }
+}

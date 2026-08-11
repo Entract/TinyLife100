@@ -59,7 +59,7 @@
       "id": "t-006",
       "title": "Specify the D3 canonical graph and acquisition state",
       "description": "Replace the fictional world-and-continuity document with the Design v3 node, edge, entity, acquisition-state, belief-state, mutation, chronology, and canonicality specification.",
-      "status": "in-progress",
+      "status": "done",
       "dependsOn": [
         "t-005"
       ],
@@ -69,13 +69,14 @@
         "plan/docs/01_WORLD_AND_CONTINUITY.md"
       ],
       "canParallelize": false,
-      "planDoc": "01_WORLD_AND_CONTINUITY.md"
+      "planDoc": "01_WORLD_AND_CONTINUITY.md",
+      "completedCommit": "9690ad2e2bbc2b01eb7635c5990eacdee285ab5e"
     },
     {
       "id": "t-007",
       "title": "Redesign the D3 canonical schema suite and examples",
       "description": "Define the Design v3 canonical record model for nodes, typed edges, acquisition state, sources, stream items, and export manifests; replace fiction-specific schema assumptions; and provide schema-valid examples.",
-      "status": "pending",
+      "status": "in-progress",
       "dependsOn": [
         "t-006"
       ],

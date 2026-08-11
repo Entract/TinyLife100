@@ -1,84 +1,100 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tl100.local/schemas/source.schema.json",
-  "title": "TL100 External Source Record",
+  "title": "TL100 Design v3 External Source Record",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "source_id", "title", "source_type", "origin", "roles", "provenance",
-    "rights", "storage_mode", "concept_ids", "segments"
-  ],
+  "required": ["schema_version", "source_id", "title", "creators", "source_type", "origin", "roles", "bibliographic_provenance", "rights", "storage_mode", "concept_ids", "segments", "canonical_status", "record_provenance", "review", "content_hash"],
   "properties": {
-    "source_id": {"type": "string", "pattern": "^source_[A-Za-z0-9_-]+$"},
+    "schema_version": {"$ref": "common.schema.json#/$defs/schema_version"},
+    "source_id": {"$ref": "common.schema.json#/$defs/source_id"},
     "title": {"type": "string", "minLength": 1},
-    "creators": {"type": "array", "items": {"type": "string"}},
+    "creators": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
     "source_type": {
       "type": "string",
-      "enum": [
-        "textbook", "technical_book", "manual", "datasheet", "standard_or_specification",
-        "research_paper", "technical_article", "documentation", "code_repository_or_excerpt",
-        "essay", "literature", "reference_work", "course_material", "historical_primary_source", "other"
-      ]
+      "enum": ["textbook", "technical_book", "manual", "datasheet", "standard_or_specification", "research_paper", "technical_article", "documentation", "code_repository_or_excerpt", "essay", "literature", "reference_work", "course_material", "historical_primary_source", "project_authored_fixture", "other"]
     },
     "origin": {
       "type": "string",
-      "enum": [
-        "human_original", "human_public_domain", "human_open_licensed",
-        "model_generated", "model_rephrased_from_source", "mixed_or_edited"
-      ]
+      "enum": ["human_original", "human_public_domain", "human_open_licensed", "project_authored", "model_generated", "model_rephrased_from_source", "mixed_or_edited"]
     },
     "roles": {
       "type": "array",
-      "items": {"type": "string", "enum": ["grounding_only", "explicit_reading"]},
+      "items": {"type": "string", "enum": ["grounding_only", "explicit_encounter"]},
       "minItems": 1,
       "uniqueItems": true
     },
-    "provenance": {
+    "bibliographic_provenance": {
       "type": "object",
-      "required": ["identifier_or_locator", "version_or_date"],
+      "additionalProperties": false,
+      "required": ["identifier_or_locator", "publisher_or_organization", "version_or_date", "acquired_at", "acquisition_method", "source_hash"],
       "properties": {
-        "identifier_or_locator": {"type": "string"},
+        "identifier_or_locator": {"type": "string", "minLength": 1},
         "publisher_or_organization": {"type": ["string", "null"]},
         "version_or_date": {"type": ["string", "null"]},
-        "acquired_at": {"type": ["string", "null"]},
-        "source_hash": {"type": ["string", "null"]}
+        "acquired_at": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "acquisition_method": {"type": "string", "minLength": 1},
+        "source_hash": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        }
       }
     },
     "rights": {
       "type": "object",
-      "required": ["rights_status", "redistribution_status", "training_use_status"],
+      "additionalProperties": false,
+      "required": ["rights_status", "license_identifier", "license_evidence_locator", "redistribution_status", "training_use_status", "reviewed_by", "reviewed_at", "notes"],
       "properties": {
-        "rights_status": {"type": "string"},
+        "rights_status": {"type": "string", "enum": ["public_domain", "open_license", "permission_granted", "project_authored", "review_required", "restricted", "unknown"]},
         "license_identifier": {"type": ["string", "null"]},
-        "redistribution_status": {"type": "string", "enum": ["approved", "not_approved", "unknown"]},
-        "training_use_status": {"type": "string", "enum": ["approved", "not_approved", "unknown"]},
-        "rights_notes": {"type": ["string", "null"]}
+        "license_evidence_locator": {"type": ["string", "null"]},
+        "redistribution_status": {"type": "string", "enum": ["approved", "conditional", "not_approved", "unknown"]},
+        "training_use_status": {"type": "string", "enum": ["approved", "conditional", "not_approved", "unknown"]},
+        "reviewed_by": {"type": ["string", "null"]},
+        "reviewed_at": {
+          "oneOf": [
+            {"$ref": "common.schema.json#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "notes": {"type": "string"}
       }
     },
-    "storage_mode": {
-      "type": "string",
-      "enum": ["repo_fulltext", "local_fulltext", "metadata_only", "grounding_excerpt_only", "blocked"]
-    },
-    "concept_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "prerequisite_concept_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "difficulty_band": {"type": ["string", "null"]},
-    "selection_notes": {"type": ["string", "null"]},
+    "storage_mode": {"type": "string", "enum": ["repo_fulltext", "local_fulltext", "metadata_only", "grounding_excerpt_only", "blocked"]},
+    "concept_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/concept_id"}, "uniqueItems": true},
+    "prerequisite_concept_ids": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/concept_id"}, "uniqueItems": true},
+    "selection_rationale": {"type": "string"},
     "segments": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["segment_id", "sequence_in_source", "content_hash", "training_eligible"],
+        "required": ["segment_id", "sequence_in_source", "start_locator", "end_locator", "payload_locator", "raw_content_hash", "normalized_payload_hash", "approx_tokens", "training_eligibility", "redistribution_eligibility"],
         "properties": {
-          "segment_id": {"type": "string"},
+          "segment_id": {"$ref": "common.schema.json#/$defs/segment_id"},
           "sequence_in_source": {"type": "integer", "minimum": 0},
-          "start_locator": {"type": ["string", "null"]},
-          "end_locator": {"type": ["string", "null"]},
-          "content_hash": {"type": "string"},
+          "start_locator": {"type": "string", "minLength": 1},
+          "end_locator": {"type": "string", "minLength": 1},
+          "payload_locator": {"type": ["string", "null"]},
+          "raw_content_hash": {"$ref": "common.schema.json#/$defs/sha256"},
+          "normalized_payload_hash": {"$ref": "common.schema.json#/$defs/sha256"},
           "approx_tokens": {"type": ["integer", "null"], "minimum": 0},
-          "training_eligible": {"type": "boolean"}
+          "training_eligibility": {"type": "string", "enum": ["approved", "conditional", "not_approved", "review_required"]},
+          "redistribution_eligibility": {"type": "string", "enum": ["approved", "conditional", "not_approved", "review_required"]}
         }
-      }
-    }
+      },
+      "uniqueItems": true
+    },
+    "canonical_status": {"$ref": "common.schema.json#/$defs/canonical_status"},
+    "record_provenance": {"$ref": "common.schema.json#/$defs/provenance"},
+    "review": {"$ref": "common.schema.json#/$defs/review"},
+    "content_hash": {"$ref": "common.schema.json#/$defs/sha256"}
   }
 }
