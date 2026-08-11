@@ -1,0 +1,33 @@
+{
+  "tasks": [
+    {
+      "id": "t-001",
+      "title": "Connect the local project to its GitHub repository",
+      "description": "Initialize the local Git repository, configure https://github.com/Entract/TinyLife100 as origin, create the task-linked initial commit, and verify the remote configuration and connectivity.",
+      "status": "done",
+      "dependsOn": [],
+      "assignee": "Codex",
+      "category": "git",
+      "affectedPaths": [
+        ".git/"
+      ],
+      "canParallelize": false,
+      "completedCommit": "404162d4d6742c8ab87ee44293012aeffda3cf66"
+    },
+    {
+      "id": "t-002",
+      "title": "Review and synthesize the TinyLife100 design",
+      "description": "Read the required project design documents and summarize the project's purpose, architecture, invariants, intended workflow, present maturity, and most important next implementation steps.",
+      "status": "done",
+      "dependsOn": [
+        "t-001"
+      ],
+      "assignee": "Codex",
+      "category": "feature",
+      "affectedPaths": [],
+      "canParallelize": false,
+      "planDoc": "00_PROJECT_DESIGN.md",
+      "completedCommit": "80f9749cd4d1cdef0535b0ea0b3847a9d411c337"
+    }
+  ]
+}
